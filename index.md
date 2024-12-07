@@ -12,11 +12,11 @@ title: "首页"
 
 ## 最新文章
 
-以下是我最新发布的一些文章，欢迎阅读：
+以下是我最新学习的内容，欢迎浏览，敬请斧正：
 
 {% for post in site.posts limit:3 %}
   <article>
-    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+    <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
     <p>{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
     <a href="{{ post.url }}">阅读全文</a>
   </article>
