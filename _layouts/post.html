@@ -8,113 +8,155 @@
 
     {% seo %}
 
+    <!-- 引入 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
     <style>
-        /* 确保 body 和 html 的高度为100% */
-        html, body {
-            height: 100%; /* 让整个页面高度占满屏幕 */
+        /* 基础样式 */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
             margin: 0;
             padding: 0;
-        }
-
-        /* 通用样式 */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
+            line-height: 1.8;
             display: flex;
             flex-direction: column;
+            height: 100%;
         }
 
-        /* 页面容器：确保内容居中并具有最大宽度 */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-            flex-grow: 1; /* 使容器的高度可以自动扩展填充可用空间 */
+        html, body {
+            height: 100%;
         }
 
+        /* 头部 */
         header {
-            text-align: center;
-            padding: 20px 0;
-            background-color: #343a40;
+            background: linear-gradient(to right, #2c3e50, #34495e);
             color: #fff;
+            text-align: center;
+            padding: 50px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         header h1 {
-            font-size: 2.5em;
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
             margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         header p {
-            font-size: 1.1em;
-            margin-top: 5px;
+            font-size: 1.2em;
+            margin-top: 10px;
         }
 
+        /* 导航样式 */
         nav ul {
             list-style-type: none;
             padding: 0;
+            margin-top: 20px;
             text-align: center;
         }
 
         nav ul li {
-            display: inline;
-            margin: 0 15px;
+            display: inline-block;
+            margin: 0 20px;
         }
 
         nav ul li a {
             text-decoration: none;
             color: #fff;
             font-size: 1.2em;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+            border-radius: 5px;
         }
 
         nav ul li a:hover {
-            color: #ffdd57;
+            background-color: #f39c12; /* 橙色 */
+            color: #fff;
+            transform: translateY(-2px); /* 增加悬停效果 */
         }
 
+        /* 主容器 */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* 文章区域 */
         main {
             margin-top: 40px;
         }
 
         article h2 {
-            font-size: 2em;
-            color: #343a40;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
         }
 
         article p small {
-            font-size: 0.9em;
+            font-size: 1em;
             color: #888;
         }
 
-        /* 文章内容 */
         article div {
             margin-top: 20px;
             font-size: 1.2em;
             line-height: 1.8;
+            color: #555;
+            padding-bottom: 40px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 文章卡片阴影效果 */
         }
 
+        /* 页脚样式 */
         footer {
-            background-color: #343a40;
+            background-color: #34495e;
             color: #fff;
             text-align: center;
             padding: 20px;
+            font-size: 0.9em;
         }
 
         footer a {
-            color: #ffdd57;
+            color: #f39c12;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         footer a:hover {
+            color: #fff;
             text-decoration: underline;
         }
 
-        /* 自适应布局 */
+        /* 按钮样式 */
+        .button {
+            padding: 12px 24px;
+            background-color: #f39c12;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #e67e22;
+            transform: translateY(-3px); /* 增加点击效果 */
+        }
+
+        /* 响应式设计 */
         @media (max-width: 768px) {
             header h1 {
-                font-size: 2em;
+                font-size: 2.5em;
             }
 
             nav ul li {
@@ -122,12 +164,8 @@
                 margin: 10px 0;
             }
 
-            nav ul li a {
-                font-size: 1.1em;
-            }
-
             article h2 {
-                font-size: 1.8em;
+                font-size: 2.2em;
             }
 
             article div {
@@ -157,6 +195,7 @@
             <p><small>发布于 {{ page.date | date: '%Y-%m-%d' }}</small></p>
             <div>
                 {{ content }}
+                <a href="/blog/" class="button">返回博客列表</a> <!-- 按钮示例 -->
             </div>
         </article>
     </main>
