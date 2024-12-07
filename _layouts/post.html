@@ -17,15 +17,19 @@
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;  /* 使页面高度占满屏幕 */
         }
 
-        /* 页面容器：使内容居中并且具有一定的最大宽度 */
+        /* 页面容器：确保内容居中并具有最大宽度 */
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             box-sizing: border-box;
+            flex-grow: 1;  /* 使容器的高度可以自动扩展填充可用空间 */
         }
 
         header {
@@ -92,7 +96,6 @@
             color: #fff;
             text-align: center;
             padding: 20px;
-            margin-top: 40px;
         }
 
         footer a {
