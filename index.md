@@ -1,8 +1,7 @@
-# 关于计算机科学与技术的学习之路
-
-## 一、[操作系统](https://leochame.github.io/os/mit-6s081-introduction)
-
-操作系统
+---
+layout: page
+title: "关于我"
+---
 
 > About me
 >

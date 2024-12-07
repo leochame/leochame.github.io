@@ -30,8 +30,6 @@ social_links:
   twitter: https://twitter.com/username
   linkedin: https://linkedin.com/in/username
 
-# 站点配置，是否显示分页等
-paginate: 10  # 每一页显示的文章数量
 
 # 站点语言
 locale: zh-CN  # 可以设置为中文
