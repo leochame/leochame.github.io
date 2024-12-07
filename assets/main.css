@@ -33,6 +33,7 @@ header h1 {
     font-family: 'Playfair Display', serif;
     text-transform: uppercase;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    color: #003366; /* 深蓝色 */
 }
 
 header p {
@@ -46,6 +47,7 @@ header nav ul {
     padding: 0;
     margin-top: 20px;
 }
+
 
 header nav ul li {
     display: inline-block;
