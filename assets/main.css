@@ -112,11 +112,11 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* 按钮样式 */
+/* 按钮基础样式 */
 button, .button {
-    background-color: #f39c12;
-    color: white;
-    padding: 12px 24px;
+    background-color: #f39c12;  /* 按钮的初始背景色 */
+    color: white;               /* 文字颜色 */
+    padding: 12px 24px;         /* 内边距 */
     border: none;
     border-radius: 5px;
     font-size: 1.1em;
@@ -124,10 +124,25 @@ button, .button {
     transition: all 0.3s ease;
 }
 
+/* 按钮悬停效果 */
 button:hover, .button:hover {
-    background-color: #e67e22;
-    transform: translateY(-2px); /* 按钮悬停效果 */
+    background-color: #e67e22; /* 悬停时颜色变化 */
+    transform: translateY(-2px); /* 按钮悬停时的效果 */
 }
+
+/* 按钮获得焦点时（点击或Tab键切换焦点） */
+button:focus, .button:focus {
+    outline: none;               /* 去掉浏览器默认的焦点轮廓 */
+    background-color: #e67e22;   /* 焦点时背景色，保持一致 */
+    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5); /* 可以给按钮添加一个自定义的外边框颜色 */
+}
+
+/* 按钮被按下时（active状态） */
+button:active, .button:active {
+    background-color: #d35400;   /* 按下时按钮背景色变为稍微深一点的橙色 */
+    transform: translateY(2px);   /* 按下时，按钮向下偏移 */
+}
+
 
 /* 响应式设计 */
 @media (max-width: 768px) {
