@@ -1,5 +1,5 @@
 # 网站名称
-title: 我的个人博客
+title: Leochame的个人博客
 
 # 网站描述
 description: 这是我的博客网站，分享技术和生活
@@ -20,7 +20,6 @@ defaults:
     values:
       layout: "default"
 
-# 你的站点作者信息
 author:
   name: "Leo cham"
   email: "liulch.cn@gmail.com"
