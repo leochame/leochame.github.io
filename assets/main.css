@@ -26,19 +26,32 @@ header {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* 网站标题样式 */
 header h1 {
     font-size: 3em;
     margin: 0;
     letter-spacing: 2px;
+    text-align: center;
     font-family: 'Playfair Display', serif;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    color: #003366; /* 深蓝色 */
 }
 
+/* 标题中的链接（a标签）颜色 */
+header h1 a {
+    color: #003366; /* 深蓝色 */
+    text-decoration: none; /* 去除链接下划线 */
+}
+
+/* 鼠标悬停时，修改链接颜色 */
+header h1 a:hover {
+    color: #1e90ff; /* 浅蓝色 */
+    text-decoration: underline; /* 悬停时加下划线 */
+}
+
+/* 网站描述的样式 */
 header p {
     font-size: 1.2em;
-    margin-top: 10px;
+    color: #555; /* 描述文字颜色 */
+    text-align: center;
     opacity: 0.8;
 }
 
