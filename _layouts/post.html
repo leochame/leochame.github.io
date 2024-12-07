@@ -7,33 +7,156 @@
     <title>{{ page.title }} | {{ site.title }}</title>
 
     {% seo %}
+
+    <style>
+        /* 通用样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 页面容器：使内容居中并且具有一定的最大宽度 */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        nav ul li a:hover {
+            color: #ffdd57;
+        }
+
+        main {
+            margin-top: 40px;
+        }
+
+        article h2 {
+            font-size: 2em;
+            color: #343a40;
+        }
+
+        article p small {
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        /* 文章内容 */
+        article div {
+            margin-top: 20px;
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #ffdd57;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 自适应布局 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+
+            nav ul li a {
+                font-size: 1.1em;
+            }
+
+            article h2 {
+                font-size: 1.8em;
+            }
+
+            article div {
+                font-size: 1.1em;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-    <h1><a href="{{ site.url | default: 'https://leochame.github.io' }}">{{ site.title }}</a></h1>
-    <p>{{ site.description }}</p>
-    <nav>
-        <ul>
-            <li><a href="{{ '/' | relative_url }}">首页</a></li>
-            <li><a href="{{ '/about/' | relative_url }}">关于</a></li>
-            <li><a href="{{ '/blog/' | relative_url }}">博客</a></li>
-            <li><a href="{{ '/contact/' | relative_url }}">联系</a></li>
-        </ul>
-    </nav>
-</header>
+<div class="container">
+    <header>
+        <h1><a href="{{ site.url | default: 'https://leochame.github.io' }}">{{ site.title }}</a></h1>
+        <p>{{ site.description }}</p>
+        <nav>
+            <ul>
+                <li><a href="{{ '/' | relative_url }}">首页</a></li>
+                <li><a href="{{ '/about/' | relative_url }}">关于</a></li>
+                <li><a href="{{ '/blog/' | relative_url }}">博客</a></li>
+                <li><a href="{{ '/contact/' | relative_url }}">联系</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<main>
-    <article>
-        <h2>{{ page.title }}</h2>
-        <p><small>发布于 {{ page.date | date: '%Y-%m-%d' }}</small></p>
-        <div>
-            {{ content }}
-        </div>
-    </article>
-</main>
+    <main>
+        <article>
+            <h2>{{ page.title }}</h2>
+            <p><small>发布于 {{ page.date | date: '%Y-%m-%d' }}</small></p>
+            <div>
+                {{ content }}
+            </div>
+        </article>
+    </main>
 
-<footer>
-    <p>© {{ site.author.name }}  |  <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></p>
-</footer>
+    <footer>
+        <p>© {{ site.author.name }}  |  <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></p>
+    </footer>
+</div>
 </body>
 </html>
