@@ -9,17 +9,21 @@
     {% seo %}
 
     <style>
+        /* 确保 body 和 html 的高度为100% */
+        html, body {
+            height: 100%; /* 让整个页面高度占满屏幕 */
+            margin: 0;
+            padding: 0;
+        }
+
         /* 通用样式 */
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
             display: flex;
             flex-direction: column;
-            height: 100vh;  /* 使页面高度占满屏幕 */
         }
 
         /* 页面容器：确保内容居中并具有最大宽度 */
@@ -29,7 +33,7 @@
             margin: 0 auto;
             padding: 20px;
             box-sizing: border-box;
-            flex-grow: 1;  /* 使容器的高度可以自动扩展填充可用空间 */
+            flex-grow: 1; /* 使容器的高度可以自动扩展填充可用空间 */
         }
 
         header {
