@@ -1,0 +1,158 @@
+/* 全局样式 */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+/* 容器 */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 头部样式 */
+header {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 50px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 3em;
+    margin: 0;
+    letter-spacing: 2px;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header p {
+    font-size: 1.2em;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+header nav ul li {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+header nav ul li a:hover {
+    background-color: #f39c12; /* 橙色 */
+    color: #fff;
+    transform: translateY(-2px); /* 悬停时的上升效果 */
+}
+
+/* 主内容区 */
+main {
+    background-color: #fff;
+    padding: 40px 20px;
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+main h2 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+main p {
+    font-size: 1.2em;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* 页脚样式 */
+footer {
+    background-color: #34495e;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+footer a {
+    color: #f39c12;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* 按钮样式 */
+button, .button {
+    background-color: #f39c12;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover, .button:hover {
+    background-color: #e67e22;
+    transform: translateY(-2px); /* 按钮悬停效果 */
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.5em;
+    }
+
+    header nav ul {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    header nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    main {
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    main h2 {
+        font-size: 2.2em;
+    }
+
+    footer {
+        font-size: 0.9em;
+    }
+}

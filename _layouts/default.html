@@ -6,31 +6,37 @@
     <meta name="description" content="{{ site.description }}">
     <title>{{ site.title }}</title>
 
-    <!-- 你可以添加其他元数据 -->
+    <!-- 引入样式文件 -->
     <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
 
     {% seo %}
 </head>
 <body>
 <header>
-    <h1><a href="{{ site.url | default: 'https://leochame.github.io' }}">{{ site.title }}</a></h1>
-    <p>{{ site.description }}</p>
-    <nav>
-        <ul>
-            <li><a href="{{ '/' | relative_url }}">首页</a></li>
-            <li><a href="{{ '/about/' | relative_url }}">关于</a></li>
-            <li><a href="{{ '/blog/' | relative_url }}">博客</a></li>
-            <li><a href="{{ '/contact/' | relative_url }}">联系</a></li>
-        </ul>
-    </nav>
+    <div class="container">
+        <h1><a href="{{ site.url | default: 'https://leochame.github.io' }}">{{ site.title }}</a></h1>
+        <p>{{ site.description }}</p>
+        <nav>
+            <ul>
+                <li><a href="{{ '/' | relative_url }}">首页</a></li>
+                <li><a href="{{ '/about/' | relative_url }}">关于</a></li>
+                <li><a href="{{ '/blog/' | relative_url }}">博客</a></li>
+                <li><a href="{{ '/contact/' | relative_url }}">联系</a></li>
+            </ul>
+        </nav>
+    </div>
 </header>
 
 <main>
-    {{ content }}
+    <div class="container">
+        {{ content }}
+    </div>
 </main>
 
 <footer>
-    <p>© {{ site.author.name }}  |  <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></p>
+    <div class="container">
+        <p>© {{ site.author.name }} | <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></p>
+    </div>
 </footer>
 </body>
 </html>
