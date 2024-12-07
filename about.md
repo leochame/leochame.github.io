@@ -14,15 +14,11 @@ permalink: /about/
 
 ![我的头像](/assets/images/avatar.jpg)
 
-## 我的技能
+###  我的技能
 - 后端开发（Java）
 - 数据库设计和管理（MySQL, MongoDB, Es, Redis）
 
-## 我的兴趣
+###  我的兴趣
 - 编程与开源
 - 电影
-
-## 联系我
-如果你有任何问题，请随时通过以下方式联系我：
-- **Email**: [liulch.cn@gmail.com](mailto:liulch.cn@gmail.com)
-- **GitHub**: [github.com/leochame](https://github.com/leochame)
+- 足球
