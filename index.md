@@ -12,12 +12,8 @@ title: "首页"
 --- 
 |   
 |  
+|  
 |
-
-
-
-
-# 最新文章
 
 ## 以下是我的最新学习内容：
 
@@ -25,7 +21,6 @@ title: "首页"
   <article>
     <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
     <p>{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
-    <a href="{{ post.url }}">阅读全文</a>
   </article>
 {% endfor %}
 
