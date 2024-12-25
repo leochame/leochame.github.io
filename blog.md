@@ -1,14 +1,13 @@
 ---
 layout: default
-title: 博客目录
+title: 博客专栏
 permalink: /blog/
 ---
 
-# 博客目录
+# 博客专栏目录
+> 欢迎来到我的博客专栏目录。下面是我的所有的博客专栏
 
-欢迎来到我的博客目录。下面是所有的博客文章：
-
-<ul>
+<ul style="font-size: 18px;">
   {% for post in site.posts %}
     <li><a href="{{ post.url }}">{{ post.title }}</a> - <small>{{ post.date | date: "%Y-%m-%d" }}</small></li>
   {% endfor %}
