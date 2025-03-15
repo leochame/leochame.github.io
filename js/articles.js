@@ -1,6 +1,15 @@
 // 文章数据
 const articlesData = [
     {
+        id: 18,
+        title: "有了MESI缓存一致性协议为什么还需要volatile？",
+        summary: "本篇文章先从 CPU 的三级缓存讲起，再讲解三级缓存带来的缓存不一致的挑战，最后去讲解 Java 中的volatile...",
+        link: "https://juejin.cn/post/7481604667589623847",
+        platform: "掘金",
+        date: "2025-03-15",
+        category: "Java"
+    },
+    {
         id: 1,
         title: "从NTP时钟同步优化角度出发 - 大学知识不再是空中楼阁（一）",
         summary: "本系列基于数学，操作系统，计算机网络及网络编程角度出发去探寻 NTP 时钟同步的优化。将大学所学应用在这个优化上。",
