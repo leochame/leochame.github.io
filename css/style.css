@@ -178,10 +178,14 @@ a:hover {
 /* 页脚 */
 .footer {
     background-color: #fff;
-    padding: 20px 0;
-    text-align: center;
+    padding: 30px 0;
     border-top: 1px solid #eee;
 }
+
+.footer-social a {
+    display: inline-block;
+    margin-left: 15px;
+    font-size: 1.2rem;
 
 /* 关于页面 */
 .about-page {
