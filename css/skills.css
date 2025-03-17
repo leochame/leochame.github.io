@@ -1,0 +1,69 @@
+/* 技能条样式 */
+.skills-container {
+    margin: 20px 0;
+}
+
+.skill-item {
+    margin-bottom: 15px;
+}
+
+.skill-name {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.skill-bar {
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+    border-radius: 5px;
+    width: 0; /* 初始宽度为0，通过动画填充 */
+}
+
+body.dark-mode .skill-bar {
+    background-color: #333;
+}
+
+/* 平台列表和联系列表样式 */
+.platform-list, .contact-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.platform-list li, .contact-list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.platform-list i, .contact-list i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    color: #6366f1;
+}
+
+body.dark-mode .platform-list i, 
+body.dark-mode .contact-list i {
+    color: #64b5f6;
+}
+
+/* 关于页面标题样式 */
+.about-page h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+body.dark-mode .about-page h3 {
+    color: #e0e0e0;
+    border-bottom: 1px solid #333;
+}
