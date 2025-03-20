@@ -46,6 +46,24 @@ const articlesData = [
         category: "操作系统"
     },
     {
+        id: 19,
+        title: "MIT6.1810 - Sleep And Wake Up（1）",
+        summary: "",
+        link: "https://mp.weixin.qq.com/s/NeaYy0R4gXtEDpz0nVYU1w",
+        platform: "微信公众号",
+        date: "2024-12-29",
+        category: "MIT 6.1810【笔记】"
+    },
+    {
+        id: 20,
+        title: "MIT6.1810 - Sleep And Wake Up（2）",
+        summary: "",
+        link: "https://mp.weixin.qq.com/s/Ksen60Ki0wwrSFtdMnVBaw",
+        platform: "微信公众号",
+        date: "2024-12-29",
+        category: "MIT 6.1810【笔记】"
+    },
+    {
         id: 5,
         title: "操作系统 - 结构与组织",
         summary: "这篇文章主要介绍了操作系统的结构与组织，包括操作系统的经典组织结构，如硬件资源、内核空间和用户空间的关系，内核中的重要模块...",
