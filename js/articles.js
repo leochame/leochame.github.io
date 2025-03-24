@@ -101,6 +101,15 @@ const articlesData = [
     },
     {
         id: 5,
+        title: "操作系统 - 中断与系统驱动",
+        summary: "网卡收到 pack page,网卡就会产生中断，按下键盘也会产生中断。如果受到一个中断，sw save its work, process interupt, resume its work。它和page fault,syscall都使用了相同的机制。",
+        link: "https://juejin.cn/spost/7485188648485601280",
+        platform: "掘金",
+        date: "2025-03-24",
+        category: "操作系统"
+    },
+    {
+        id: 5,
         title: "操作系统 - 结构与组织",
         summary: "这篇文章主要介绍了操作系统的结构与组织，包括操作系统的经典组织结构，如硬件资源、内核空间和用户空间的关系，内核中的重要模块...",
         link: "https://juejin.cn/post/7474427694630142002",
