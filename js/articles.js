@@ -100,6 +100,17 @@ const articlesData = [
         category: "MIT 6.1810【笔记】"
     },
     {
+        id: 25,
+        title: "拥塞控制原理与TCP拥塞",
+        summary: "",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/kkmagdynt183fyvo",
+        platform: "语雀",
+        date: "2025-04-01",
+        category: "计算机网络"
+    },
+
+
+    {
         id: 5,
         title: "操作系统 - 中断与系统驱动",
         summary: "网卡收到 pack page,网卡就会产生中断，按下键盘也会产生中断。如果受到一个中断，sw save its work, process interupt, resume its work。它和page fault,syscall都使用了相同的机制。",
