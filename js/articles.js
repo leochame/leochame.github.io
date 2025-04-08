@@ -108,8 +108,16 @@ const articlesData = [
         date: "2025-04-01",
         category: "计算机网络"
     },
+    {
+        id: 26,
+        title: "Java线程池如何保证线程安全？",
+        summary: "在Java并发编程中，ThreadPoolExecutor类堪称线程池的\"大脑\"，Java线程池的线程安全设计展示了并发编程的终极艺术：在保证正确性的前提下追求最大性能。每个看似简单的API背后，都凝结着无数次的JVM调优经验与并发难题的解决方案。",
+        link: "https://juejin.cn/post/7490497276738486322",
+        platform: "掘金",
+        date: "2025-04-01",
+        category: "Java"
 
-
+    },
     {
         id: 5,
         title: "操作系统 - 中断与系统驱动",
