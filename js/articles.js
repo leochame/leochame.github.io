@@ -7,7 +7,8 @@ const articlesData = [
         link: "https://mp.weixin.qq.com/s/50wt85WcCmdmIQY--sVVBw",
         platform: "微信公众号",
         date: "2025-04-25",
-        category: "Java"
+        mainCategory: "Java",
+        subCategory: "Java并发"
     },
     {
         id: 1,
@@ -16,7 +17,8 @@ const articlesData = [
         link: "https://juejin.cn/post/7480441580059852835",
         platform: "掘金",
         date: "2025-03-12",
-        category: "计算机基础"
+        mainCategory: "计算机基础",
+        subCategory: "NTP"
     },
     {
         id: 2,
@@ -25,7 +27,8 @@ const articlesData = [
         link: "https://juejin.cn/post/7480777354932109349",
         platform: "掘金",
         date: "2025-03-12",
-        category: "计算机基础"
+        mainCategory: "计算机网络",
+        subCategory: "NTP"
     },
     {
         id: 3,
@@ -34,7 +37,8 @@ const articlesData = [
         link: "https://juejin.cn/post/7480441580059852835",
         platform: "掘金",
         date: "2025-03-12",
-        category: "计算机基础"
+        mainCategory: "计算机基础",
+        subCategory: "NTP"
     },
     {
         id: 4,
@@ -43,80 +47,88 @@ const articlesData = [
         link: "https://juejin.cn/post/7477228933638373391",
         platform: "掘金",
         date: "2025-03-03",
-        category: "操作系统"
+        mainCategory: "操作系统",
+        subCategory: "内存管理"
     },
     {
         id: 19,
         title: "MIT6.1810 - Sleep And Wake Up（1）",
-        summary: "",
+        summary: "介绍 xv6 操作系统中进程睡眠与唤醒机制的基本原理和实现。",
         link: "https://mp.weixin.qq.com/s/NeaYy0R4gXtEDpz0nVYU1w",
         platform: "微信公众号",
         date: "2024-12-29",
-        category: "MIT 6.1810【笔记】"
+        mainCategory: "操作系统",
+        subCategory: "进程管理"
     },
     {
         id: 20,
         title: "MIT6.1810 - Sleep And Wake Up（2）",
-        summary: "",
+        summary: "深入探讨 xv6 中睡眠与唤醒的锁机制和 lost wake-up 问题。",
         link: "https://mp.weixin.qq.com/s/Ksen60Ki0wwrSFtdMnVBaw",
         platform: "微信公众号",
         date: "2024-12-29",
-        category: "MIT 6.1810【笔记】"
+        mainCategory: "操作系统",
+        subCategory: "进程管理"
     },
     {
         id: 21,
         title: "MIT6.1810 - Scheduler And Thread Switch",
-        summary: "",
+        summary: "讲解 xv6 的调度器实现以及线程切换的过程。",
         link: "https://mp.weixin.qq.com/s/28YhnpgXE_vD3dOTiYYNQg",
         platform: "微信公众号",
         date: "2024-12-28",
-        category: "MIT 6.1810【笔记】"
+        mainCategory: "操作系统",
+        subCategory: "进程调度"
     },
     {
         id: 22,
         title: "MIT6.1810 - Copy On Write",
-        summary: "",
+        summary: "介绍写时复制（Copy On Write）技术在 xv6 中的应用。",
         link: "https://mp.weixin.qq.com/s/SgW_RtLbvu0UjHX_hTsFBg",
         platform: "微信公众号",
         date: "2024-12-28",
-        category: "MIT 6.1810【笔记】"
+        mainCategory: "操作系统",
+        subCategory: "内存管理"
     },
     {
         id: 23,
         title: "MIT6.1810 - Copy On Write",
-        summary: "",
+        summary: "介绍写时复制（Copy On Write）技术在 xv6 中的应用。",
         link: "https://mp.weixin.qq.com/s/SgW_RtLbvu0UjHX_hTsFBg",
         platform: "微信公众号",
         date: "2024-12-28",
-        category: "MIT 6.1810【笔记】"
+        mainCategory: "操作系统",
+        subCategory: "内存管理"
     },
     {
         id: 24,
         title: "MIT6.1810 - Operation System Organization",
-        summary: "",
+        summary: "概述操作系统的基本组织结构和 xv6 的设计。",
         link: "https://mp.weixin.qq.com/s/sCAaLyMUnBGC4rKOBN90mA",
         platform: "微信公众号",
         date: "2024-12-28",
-        category: "MIT 6.1810【笔记】"
+        mainCategory: "操作系统",
+        subCategory: "OS基础"
     },
     {
         id: 25,
         title: "拥塞控制原理与TCP拥塞",
-        summary: "",
+        summary: "探讨网络拥塞控制的基本原理以及 TCP 协议如何实现拥塞控制。",
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/kkmagdynt183fyvo",
         platform: "语雀",
         date: "2025-04-01",
-        category: "计算机网络"
+        mainCategory: "计算机网络",
+        subCategory: "TCP"
     },
     {
         id: 26,
         title: "Java线程池如何保证线程安全？",
-        summary: "在Java并发编程中，ThreadPoolExecutor类堪称线程池的\"大脑\"，Java线程池的线程安全设计展示了并发编程的终极艺术：在保证正确性的前提下追求最大性能。每个看似简单的API背后，都凝结着无数次的JVM调优经验与并发难题的解决方案。",
+        summary: "在Java并发编程中，ThreadPoolExecutor类号称线程池的\"大脑\"，Java线程池的线程安全设计展示了并发编程的终极艺术：在保证正确性的前提下追求最大性能。每个看似简单的API背后，都凝结着无数次的JVM调优经验与并发难题的解决方案。",
         link: "https://juejin.cn/post/7490497276738486322",
         platform: "掘金",
         date: "2025-04-08",
-        category: "Java"
-
+        mainCategory: "Java",
+        subCategory: "Java并发"
     },
     {
         id: 27,
@@ -125,7 +137,8 @@ const articlesData = [
         link: "https://juejin.cn/spost/7485188648485601280",
         platform: "掘金",
         date: "2025-03-24",
-        category: "操作系统"
+        mainCategory: "操作系统",
+        subCategory: "中断与驱动"
     },
     {
         id: 5,
@@ -134,7 +147,8 @@ const articlesData = [
         link: "https://juejin.cn/post/7474427694630142002",
         platform: "掘金",
         date: "2025-02-23",
-        category: "操作系统"
+        mainCategory: "操作系统",
+        subCategory: "OS基础"
     },
     {
         id: 6,
@@ -143,7 +157,8 @@ const articlesData = [
         link: "https://juejin.cn/post/7473721599248744485",
         platform: "掘金",
         date: "2025-02-21",
-        category: "操作系统"
+        mainCategory: "计算机网络",
+        subCategory: "网络基础"
     },
     {
         id: 7,
@@ -152,7 +167,8 @@ const articlesData = [
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/yxqxpt0858ngqpe9?singleDoc# 《存储引擎篇》",
         platform: "语雀",
         date: "2025-02-10",
-        category: "MySQL"
+        mainCategory: "数据库",
+        subCategory: "MySQL"
     },
     {
         id: 8,
@@ -161,87 +177,7 @@ const articlesData = [
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/cwcgubokz1hblvw5?singleDoc# 《查询篇》",
         platform: "语雀",
         date: "2025-02-11",
-        category: "MySQL"
-    },
-    {
-        id: 9,
-        title: "MySQL - 缓存篇",
-        summary: "文章聚焦于 MySQL 中的缓存篇，详细介绍缓存机制、缓存策略以及如何有效利用缓存提升性能...",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/yxqxpt0858ngqpe9?singleDoc# 《缓存篇》",
-        platform: "语雀",
-        date: "2025-02-12",
-        category: "MySQL"
-    },
-    {
-        id: 10,
-        title: "MySQL - 日志篇",
-        summary: "此文章围绕 MySQL 中的日志篇，全面阐述日志类型、日志记录原理以及日志在故障排查和数据恢复中的作用...",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/xbdexw8q18ugtll8?singleDoc# 《日志篇》",
-        platform: "语雀",
-        date: "2024-09-13",
-        category: "MySQL"
-    },
-    {
-        id: 11,
-        title: "MySQL - 索引篇",
-        summary: "文章着重介绍 MySQL 中的索引篇，包括索引的类型、创建和使用索引的注意事项以及索引对查询性能的影响...",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/ttq528fb1bza7o34?singleDoc# 《索引篇》",
-        platform: "语雀",
-        date: "2025-02-14",
-        category: "MySQL"
-    },
-    {
-        id: 12,
-        title: "MySQL-MVCC 篇",
-        summary: "该文章深入剖析 MySQL 中的 MVCC 篇，详细讲解 MVCC 的工作原理、实现机制以及在并发控制中的应用...",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/egmggw9ld3fmoiin?singleDoc# 《MVCC篇》",
-        platform: "语雀",
-        date: "2025-02-15",
-        category: "MySQL"
-    },
-    {
-        id: 13,
-        title: "MySQL - 锁篇",
-        summary: "文章主要针对 MySQL 中的锁篇，全面介绍锁的类型、锁的粒度以及如何避免死锁等问题...",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/frd4zmhhvz6mzmqz?singleDoc# 《锁篇》",
-        platform: "语雀",
-        date: "2025-02-16",
-        category: "MySQL"
-    },
-    {
-        id: 14,
-        title: "MySQL - 实践开发篇",
-        summary: "此文章围绕 MySQL 在实践开发中的应用展开，分享实际项目中使用 MySQL 的经验、技巧以及常见问题的解决方案...",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/gihgg9agt8nhe2bu?singleDoc# 《实践开发篇》",
-        platform: "语雀",
-        date: "2025-02-17",
-        category: "MySQL"
-    },
-    {
-        id: 15,
-        title: "MySQL - 架构篇",
-        summary: "文章聚焦于 MySQL 的架构篇，详细解读 MySQL 的体系架构、各个组件的功能以及架构设计的要点...",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/zgkvm3dydayfgf7q?singleDoc# 《架构篇》",
-        platform: "语雀",
-        date: "2024-10-18",
-        category: "MySQL"
-    },
-    {
-        id: 16,
-        title: "MySQL - 优化篇",
-        summary: "该文章围绕 MySQL 的优化篇，从多个方面介绍优化策略，包括查询优化、存储优化、服务器参数优化等...",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/mqzyghdezlgkkmh7?singleDoc# 《优化篇》",
-        platform: "语雀",
-        date: "2025-02-19",
-        category: "MySQL"
-    },
-    {
-        id: 17,
-        title: "MySQL - 问答篇",
-        summary: "文章以问答形式呈现，涵盖 MySQL 使用过程中的常见问题及详细解答，为读者提供实用的参考...",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/tqi51k3apvv80b71?singleDoc# 《问答篇》",
-        platform: "语雀",
-        date: "2025-02-20",
-        category: "MySQL"
+        mainCategory: "数据库",
+        subCategory: "MySQL"
     }
 ];

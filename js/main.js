@@ -3,49 +3,165 @@ document.addEventListener('DOMContentLoaded', function() {
     const categoryList = document.getElementById('category-list');
     const articlesContainer = document.getElementById('articles-container');
     const currentCategoryTitle = document.getElementById('current-category');
+    const subCategoriesScroll = document.getElementById('sub-categories-scroll');
 
     // 从URL获取当前分类
     const urlParams = new URLSearchParams(window.location.search);
-    let currentCategory = urlParams.get('category') || 'all';
+    let currentMainCategory = urlParams.get('mainCategory') || 'all';
+    let currentSubCategory = urlParams.get('subCategory');
 
-    // 获取所有不重复的分类
-    const categories = ['all', ...new Set(articlesData.map(article => article.category))];
+    // 构建层级分类数据结构
+    const allowedMainCategories = ["Java", "操作系统", "计算机网络", "计算机基础", "数据库", "大数据", "人工智能"];
+    const categories = articlesData.reduce((acc, article) => {
+        const { mainCategory, subCategory } = article;
+        if (allowedMainCategories.includes(mainCategory)) {
+            if (!acc[mainCategory]) {
+                acc[mainCategory] = new Set();
+            }
+            if (subCategory) {
+                acc[mainCategory].add(subCategory);
+            }
+        }
+        return acc;
+    }, {});
 
-    // 渲染分类列表
-    renderCategories();
+    // 初始化页面
+    initializePage();
 
-    // 渲染文章列表
-    renderArticles();
+    function initializePage() {
+        // 默认选中第一个主分类
+        if (!currentMainCategory || currentMainCategory === 'all') {
+            const firstMainCategory = Object.keys(categories)[0];
+            if (firstMainCategory) {
+                currentMainCategory = firstMainCategory;
+                // 更新URL，但不触发页面刷新
+                window.history.replaceState({}, '', `index.html?mainCategory=${encodeURIComponent(currentMainCategory)}`);
+            }
+        }
+        renderCategories();
+        renderSubCategories(currentMainCategory);
+        renderArticles();
+    }
 
     // 渲染分类列表函数
     function renderCategories() {
         categoryList.innerHTML = '';
 
-        categories.forEach(category => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = category === 'all' ? 'index.html' : `index.html?category=${encodeURIComponent(category)}`;
-            a.textContent = category === 'all' ? '全部文章' : category;
+        // 创建主分类容器
+        const mainCategoriesContainer = document.createElement('div');
+        mainCategoriesContainer.className = 'main-categories-container';
 
-            if (category === currentCategory) {
-                a.classList.add('active');
+        // 添加"全部文章"
+        const allLink = document.createElement('a');
+        allLink.href = 'index.html';
+        allLink.textContent = '全部文章';
+        if (currentMainCategory === 'all') {
+            allLink.classList.add('active');
+        }
+        allLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            currentMainCategory = 'all';
+            currentSubCategory = null;
+            window.history.pushState({}, '', 'index.html');
+            renderCategories();
+            renderSubCategories();
+            renderArticles();
+        });
+        mainCategoriesContainer.appendChild(allLink);
+
+        // 渲染主分类
+        for (const mainCategory in categories) {
+            const categoryLink = document.createElement('a');
+            categoryLink.href = `index.html?mainCategory=${encodeURIComponent(mainCategory)}`;
+            categoryLink.textContent = mainCategory;
+            if (mainCategory === currentMainCategory) {
+                categoryLink.classList.add('active');
             }
 
-            li.appendChild(a);
-            categoryList.appendChild(li);
+            categoryLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentMainCategory = mainCategory;
+                currentSubCategory = null;
+                window.history.pushState({}, '', `index.html?mainCategory=${encodeURIComponent(mainCategory)}`);
+                renderCategories();
+                renderSubCategories();
+                renderArticles();
+            });
+
+            mainCategoriesContainer.appendChild(categoryLink);
+        }
+
+        categoryList.appendChild(mainCategoriesContainer);
+    }
+
+    // 渲染子分类列表
+    function renderSubCategories() {
+        subCategoriesScroll.innerHTML = '';
+        
+        if (currentMainCategory === 'all') {
+            subCategoriesScroll.style.display = 'none';
+            return;
+        }
+
+        const currentSubCategories = Array.from(categories[currentMainCategory] || []);
+        if (currentSubCategories.length === 0) {
+            subCategoriesScroll.style.display = 'none';
+            return;
+        }
+
+        subCategoriesScroll.style.display = 'block';
+        const subCategoriesList = document.createElement('ul');
+        subCategoriesList.className = 'sub-categories-list';
+
+        currentSubCategories.sort().forEach(subCategory => {
+            const subCategoryItem = document.createElement('li');
+            const subCategoryLink = document.createElement('a');
+            subCategoryLink.href = `index.html?mainCategory=${encodeURIComponent(currentMainCategory)}&subCategory=${encodeURIComponent(subCategory)}`;
+            subCategoryLink.textContent = subCategory;
+
+            if (subCategory === currentSubCategory) {
+                subCategoryLink.classList.add('active');
+            }
+
+            subCategoryLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentSubCategory = subCategory;
+                window.history.pushState({}, '', `index.html?mainCategory=${encodeURIComponent(currentMainCategory)}&subCategory=${encodeURIComponent(subCategory)}`);
+                renderCategories();
+                renderSubCategories();
+                renderArticles();
+            });
+
+            subCategoryItem.appendChild(subCategoryLink);
+            subCategoriesList.appendChild(subCategoryItem);
         });
+
+        subCategoriesScroll.appendChild(subCategoriesList);
     }
 
     // 渲染文章列表函数
     function renderArticles() {
         articlesContainer.innerHTML = '';
+        currentCategoryTitle.textContent = '全部文章'; // Default title
 
         // 根据当前分类筛选文章
         let filteredArticles = articlesData;
-        if (currentCategory !== 'all') {
-            filteredArticles = articlesData.filter(article => article.category === currentCategory);
-            currentCategoryTitle.textContent = currentCategory;
-        }
+
+        if (currentMainCategory !== 'all') {
+            if (currentSubCategory) {
+                // Filter by specific subcategory
+                filteredArticles = articlesData.filter(article => 
+                    article.mainCategory === currentMainCategory && article.subCategory === currentSubCategory
+                );
+                currentCategoryTitle.textContent = `${currentMainCategory} / ${currentSubCategory}`;
+            } else {
+                // Filter by main category (all its subcategories)
+                filteredArticles = articlesData.filter(article => 
+                    article.mainCategory === currentMainCategory
+                );
+                currentCategoryTitle.textContent = currentMainCategory;
+            }
+        } 
 
         // 按日期排序（最新的在前面）
         filteredArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -54,6 +170,11 @@ document.addEventListener('DOMContentLoaded', function() {
         filteredArticles.forEach(article => {
             const articleCard = document.createElement('div');
             articleCard.className = 'article-card';
+
+            // Display both main and subcategory if available
+            const categoryDisplay = article.subCategory 
+                ? `${article.mainCategory} / ${article.subCategory}` 
+                : article.mainCategory;
 
             articleCard.innerHTML = `
                 <h2 class="article-title">
@@ -67,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <i class="bi bi-calendar3"></i> ${article.date}
                     </span>
                     <span class="category">
-                        ${article.category}
+                        ${categoryDisplay} 
                     </span>
                 </div>
                 <p class="article-summary">${article.summary}</p>
