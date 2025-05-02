@@ -3,7 +3,7 @@ const articlesData = [
     {
         id: 19,
         title: "GFS（1）- 大数据的三驾马车",
-        summary: "的volatile...",
+        summary: "GFS 也就是 Google 文件系统。目前的大部分分布式系统都或多或少的依赖于底层的文件系统。",
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/gx2szi2mss9pkbps?singleDoc# 《GFS（1）- 大数据的三驾马车》",
         platform: "语雀",
         date: "2025-05-01",
