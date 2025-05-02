@@ -27,7 +27,7 @@ const articlesData = [
         link: "https://juejin.cn/post/7480777354932109349",
         platform: "掘金",
         date: "2025-03-12",
-        mainCategory: "计算机网络",
+        mainCategory: "计算机基础",
         subCategory: "NTP"
     },
     {
@@ -48,7 +48,7 @@ const articlesData = [
         platform: "掘金",
         date: "2025-03-03",
         mainCategory: "操作系统",
-        subCategory: "内存管理"
+        subCategory: "MIT6.1810【笔记】"
     },
     {
         id: 19,
