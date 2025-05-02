@@ -58,7 +58,7 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-29",
         mainCategory: "操作系统",
-        subCategory: "进程管理"
+        subCategory: "MIT6.1810【笔记】"
     },
     {
         id: 20,
@@ -68,7 +68,7 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-29",
         mainCategory: "操作系统",
-        subCategory: "进程管理"
+        subCategory: "MIT6.1810【笔记】"
     },
     {
         id: 21,
@@ -78,7 +78,7 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-28",
         mainCategory: "操作系统",
-        subCategory: "进程调度"
+        subCategory: "MIT6.1810【笔记】"
     },
     {
         id: 22,
@@ -88,7 +88,7 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-28",
         mainCategory: "操作系统",
-        subCategory: "内存管理"
+        subCategory: "MIT6.1810【笔记】"
     },
     {
         id: 23,
@@ -98,7 +98,7 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-28",
         mainCategory: "操作系统",
-        subCategory: "内存管理"
+        subCategory: "MIT6.1810【笔记】"
     },
     {
         id: 24,
@@ -108,7 +108,7 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-28",
         mainCategory: "操作系统",
-        subCategory: "OS基础"
+        subCategory: "MIT6.1810【笔记】"
     },
     {
         id: 25,
@@ -138,7 +138,7 @@ const articlesData = [
         platform: "掘金",
         date: "2025-03-24",
         mainCategory: "操作系统",
-        subCategory: "中断与驱动"
+        subCategory: "MIT6.1810【笔记】"
     },
     {
         id: 5,
@@ -148,7 +148,7 @@ const articlesData = [
         platform: "掘金",
         date: "2025-02-23",
         mainCategory: "操作系统",
-        subCategory: "OS基础"
+        subCategory: "MIT6.1810【笔记】"
     },
     {
         id: 6,
