@@ -1,6 +1,16 @@
 // 文章数据
 const articlesData = [
     {
+        id: 19,
+        title: "GFS（1）- 大数据的三驾马车",
+        summary: "的volatile...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/gx2szi2mss9pkbps?singleDoc# 《GFS（1）- 大数据的三驾马车》",
+        platform: "语雀",
+        date: "2025-05-01",
+        mainCategory: "大数据",
+        subCategory: "经典论文"
+    },
+    {
         id: 18,
         title: "有了MESI缓存一致性协议为什么还需要volatile？",
         summary: "本篇文章先从 CPU 的三级缓存讲起，再讲解三级缓存带来的缓存不一致的挑战，最后去讲解 Java 中的volatile...",
@@ -11,7 +21,7 @@ const articlesData = [
         subCategory: "Java并发"
     },
     {
-        id: 1,
+        id: 17,
         title: "从NTP时钟同步优化角度出发 - 大学知识不再是空中楼阁（一）",
         summary: "本系列基于数学，操作系统，计算机网络及网络编程角度出发去探寻 NTP 时钟同步的优化。将大学所学应用在这个优化上。",
         link: "https://juejin.cn/post/7480441580059852835",
@@ -21,7 +31,7 @@ const articlesData = [
         subCategory: "NTP"
     },
     {
-        id: 2,
+        id: 16,
         title: "从NTP时钟同步优化角度出发 - 大学知识不再是空中楼阁（二）",
         summary: "文章主要从网络角度探讨NTP时钟同步的优化，先指出原始方法性能差的原因，包括客户端实例重复创建等，然后介绍使用NIO的优化方式，如连接复用、非阻塞实现、使用Selector等，还对比了原方案和NIO优化方案，最后讨论了为何使用NIO而非Netty优化及Linux下的Epoll Bug和Netty的解决办法，并在附录中介绍了ByteBuffer的相关知识。",
         link: "https://juejin.cn/post/7480777354932109349",
@@ -31,7 +41,7 @@ const articlesData = [
         subCategory: "NTP"
     },
     {
-        id: 3,
+        id: 15,
         title: "从NTP时钟同步优化角度出发 - 大学知识不再是空中楼阁（一）",
         summary: "本系列基于数学，操作系统，计算机网络及网络编程角度出发去探寻 NTP 时钟同步的优化。将大学所学应用在这个优化上。",
         link: "https://juejin.cn/post/7480441580059852835",
@@ -41,7 +51,7 @@ const articlesData = [
         subCategory: "NTP"
     },
     {
-        id: 4,
+        id: 14,
         title: "操作系统 - PageTable（一）",
         summary: "这篇文章主要探讨了操作系统中的页表相关内容，包括页表如何为进程提供专用空间和地址，实现地址转换与隔离，以 Sv39 RISC-V 架构为例介绍虚拟地址到物理地址的转换过程，还涉及内核地址空间、相关代码的创建与执行，如初始化过程、exec 系统调用加载应用程序的过程等。",
         link: "https://juejin.cn/post/7477228933638373391",
@@ -51,7 +61,7 @@ const articlesData = [
         subCategory: "MIT6.1810【笔记】"
     },
     {
-        id: 19,
+        id: 13,
         title: "MIT6.1810 - Sleep And Wake Up（1）",
         summary: "介绍 xv6 操作系统中进程睡眠与唤醒机制的基本原理和实现。",
         link: "https://mp.weixin.qq.com/s/NeaYy0R4gXtEDpz0nVYU1w",
@@ -61,7 +71,7 @@ const articlesData = [
         subCategory: "MIT6.1810【笔记】"
     },
     {
-        id: 20,
+        id: 12,
         title: "MIT6.1810 - Sleep And Wake Up（2）",
         summary: "深入探讨 xv6 中睡眠与唤醒的锁机制和 lost wake-up 问题。",
         link: "https://mp.weixin.qq.com/s/Ksen60Ki0wwrSFtdMnVBaw",
@@ -71,7 +81,7 @@ const articlesData = [
         subCategory: "MIT6.1810【笔记】"
     },
     {
-        id: 21,
+        id: 11,
         title: "MIT6.1810 - Scheduler And Thread Switch",
         summary: "讲解 xv6 的调度器实现以及线程切换的过程。",
         link: "https://mp.weixin.qq.com/s/28YhnpgXE_vD3dOTiYYNQg",
@@ -81,7 +91,7 @@ const articlesData = [
         subCategory: "MIT6.1810【笔记】"
     },
     {
-        id: 22,
+        id: 10,
         title: "MIT6.1810 - Copy On Write",
         summary: "介绍写时复制（Copy On Write）技术在 xv6 中的应用。",
         link: "https://mp.weixin.qq.com/s/SgW_RtLbvu0UjHX_hTsFBg",
@@ -91,7 +101,7 @@ const articlesData = [
         subCategory: "MIT6.1810【笔记】"
     },
     {
-        id: 23,
+        id: 9,
         title: "MIT6.1810 - Copy On Write",
         summary: "介绍写时复制（Copy On Write）技术在 xv6 中的应用。",
         link: "https://mp.weixin.qq.com/s/SgW_RtLbvu0UjHX_hTsFBg",
@@ -101,7 +111,7 @@ const articlesData = [
         subCategory: "MIT6.1810【笔记】"
     },
     {
-        id: 24,
+        id: 8,
         title: "MIT6.1810 - Operation System Organization",
         summary: "概述操作系统的基本组织结构和 xv6 的设计。",
         link: "https://mp.weixin.qq.com/s/sCAaLyMUnBGC4rKOBN90mA",
@@ -111,7 +121,7 @@ const articlesData = [
         subCategory: "MIT6.1810【笔记】"
     },
     {
-        id: 25,
+        id: 7,
         title: "拥塞控制原理与TCP拥塞",
         summary: "探讨网络拥塞控制的基本原理以及 TCP 协议如何实现拥塞控制。",
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/kkmagdynt183fyvo",
@@ -121,7 +131,7 @@ const articlesData = [
         subCategory: "TCP"
     },
     {
-        id: 26,
+        id: 6,
         title: "Java线程池如何保证线程安全？",
         summary: "在Java并发编程中，ThreadPoolExecutor类号称线程池的\"大脑\"，Java线程池的线程安全设计展示了并发编程的终极艺术：在保证正确性的前提下追求最大性能。每个看似简单的API背后，都凝结着无数次的JVM调优经验与并发难题的解决方案。",
         link: "https://juejin.cn/post/7490497276738486322",
@@ -131,7 +141,7 @@ const articlesData = [
         subCategory: "Java并发"
     },
     {
-        id: 27,
+        id: 5,
         title: "操作系统 - 中断与系统驱动",
         summary: "网卡收到 pack page,网卡就会产生中断，按下键盘也会产生中断。如果受到一个中断，sw save its work, process interupt, resume its work。它和page fault,syscall都使用了相同的机制。",
         link: "https://juejin.cn/spost/7485188648485601280",
@@ -141,7 +151,7 @@ const articlesData = [
         subCategory: "MIT6.1810【笔记】"
     },
     {
-        id: 5,
+        id: 4,
         title: "操作系统 - 结构与组织",
         summary: "这篇文章主要介绍了操作系统的结构与组织，包括操作系统的经典组织结构，如硬件资源、内核空间和用户空间的关系，内核中的重要模块...",
         link: "https://juejin.cn/post/7474427694630142002",
@@ -151,7 +161,7 @@ const articlesData = [
         subCategory: "MIT6.1810【笔记】"
     },
     {
-        id: 6,
+        id: 3,
         title: "操作系统-NetWorking",
         summary: "文章主要围绕操作系统中的网络功能展开，包括网络分类及通信方式、重要协议（以太网、ARP、IP、UDP）、数据包传输过程（接收与发送、DMA 技术）、Livelock 现象（出现原因、丢包情况）及解决办法（轮询模式）等内容。",
         link: "https://juejin.cn/post/7473721599248744485",
@@ -161,7 +171,7 @@ const articlesData = [
         subCategory: "网络基础"
     },
     {
-        id: 7,
+        id: 2,
         title: "MySQL-存储引擎篇",
         summary: "文章主要围绕MySQL中的存储引擎篇展开...",
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/yxqxpt0858ngqpe9?singleDoc# 《存储引擎篇》",
@@ -171,7 +181,7 @@ const articlesData = [
         subCategory: "MySQL"
     },
     {
-        id: 8,
+        id: 1,
         title: "MySQL - 查询篇",
         summary: "文章主要围绕 MySQL 中的查询篇展开，深入讲解查询语句的使用技巧、优化方法等...",
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/cwcgubokz1hblvw5?singleDoc# 《查询篇》",
