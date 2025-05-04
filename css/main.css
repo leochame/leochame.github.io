@@ -45,6 +45,81 @@ body.dark-mode .sub-categories-list a.active {
     border-color: #444; /* 暗黑模式 hover/active 边框色 */
     box-shadow: none; /* 移除阴影 */
 }body.dark-mode .content-area{background-color:#1e1e1e;box-shadow:0 2px 10px rgba(0,0,0,.2)}body.dark-mode .category-heading{border-bottom:1px solid #333}body.dark-mode .article-card{border-bottom:1px solid #333}body.dark-mode .article-meta{color:#b0b0b0}body.dark-mode .article-meta .category{background-color:#333;color:#64b5f6}body.dark-mode .article-summary{color:#b0b0b0}body.dark-mode .footer{background-color:#1e1e1e;border-top:1px solid #333}body.dark-mode .about-page{background-color:#1e1e1e}body.dark-mode .about-page h1{border-bottom:1px solid #333}.theme-switch{position:relative;display:inline-block;width:60px;height:30px;margin-left:15px}.theme-switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:.4s;border-radius:30px}.slider:before{position:absolute;content:"";height:22px;width:22px;left:4px;bottom:4px;background-color:#fff;transition:.4s;border-radius:50%}input:checked+.slider{background-color:#64b5f6}input:checked+.slider:before{transform:translateX(30px)}.theme-icon{margin-right:5px;vertical-align:middle}.skills-container{margin:20px 0}.skill-item{margin-bottom:15px}.skill-name{font-weight:500;margin-bottom:5px}.skill-bar{height:10px;background-color:#e9ecef;border-radius:5px;overflow:hidden}.skill-bar-fill{height:100%;background:linear-gradient(to right,#6366f1,#8b5cf6);border-radius:5px;width:0}body.dark-mode .skill-bar{background-color:#333}.platform-list,.contact-list{list-style:none;padding-left:0}.platform-list li,.contact-list li{margin-bottom:10px;display:flex;align-items:center}.platform-list i,.contact-list i{margin-right:10px;font-size:1.2rem;color:#6366f1}body.dark-mode .platform-list i,body.dark-mode .contact-list i{color:#64b5f6}.about-page h3{font-size:1.3rem;font-weight:600;margin-bottom:15px;color:#333;border-bottom:1px solid #eee;padding-bottom:8px}body.dark-mode .about-page h3{color:#e0e0e0;border-bottom:1px solid #333}
+
+/* Article Toggle Switch Styles */
+.title-and-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px; /* Adjust as needed */
+}
+
+.article-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.article-toggle .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px; /* Adjust size */
+    height: 24px; /* Adjust size */
+    margin-right: 8px;
+}
+
+.article-toggle .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.article-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.article-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; /* Adjust size */
+    width: 18px; /* Adjust size */
+    left: 3px; /* Adjust position */
+    bottom: 3px; /* Adjust position */
+    background-color: white;
+    transition: .4s;
+}
+
+.article-toggle input:checked + .slider {
+    background-color: var(--link-color); /* Use theme color */
+}
+
+.article-toggle input:focus + .slider {
+    box-shadow: 0 0 1px var(--link-color);
+}
+
+.article-toggle input:checked + .slider:before {
+    transform: translateX(26px); /* Adjust based on width */
+}
+
+/* Rounded sliders */
+.article-toggle .slider.round {
+    border-radius: 24px; /* Adjust based on height */
+}
+
+.article-toggle .slider.round:before {
+    border-radius: 50%;
+}
+
+#toggle-label {
+    font-size: 0.9em;
+    color: var(--text-color-secondary);
+}
 .category-filter{margin-bottom:25px;padding:20px;background-color:#fff;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
 .category-filter h3{font-size:1.3rem;margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #eee;color:#333;font-weight:600;}
 .main-categories-container{margin-top:15px;}
@@ -130,3 +205,78 @@ body.dark-mode .sub-categories-list a.active {
     border-color: #444; /* 暗黑模式 hover/active 边框色 */
     box-shadow: none; /* 移除阴影 */
 }body.dark-mode .content-area{background-color:#1e1e1e;box-shadow:0 2px 10px rgba(0,0,0,.2)}body.dark-mode .category-heading{border-bottom:1px solid #333}body.dark-mode .article-card{border-bottom:1px solid #333}body.dark-mode .article-meta{color:#b0b0b0}body.dark-mode .article-meta .category{background-color:#333;color:#64b5f6}body.dark-mode .article-summary{color:#b0b0b0}body.dark-mode .footer{background-color:#1e1e1e;border-top:1px solid #333}body.dark-mode .about-page{background-color:#1e1e1e}body.dark-mode .about-page h1{border-bottom:1px solid #333}.theme-switch{position:relative;display:inline-block;width:60px;height:30px;margin-left:15px}.theme-switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:.4s;border-radius:30px}.slider:before{position:absolute;content:"";height:22px;width:22px;left:4px;bottom:4px;background-color:#fff;transition:.4s;border-radius:50%}input:checked+.slider{background-color:#64b5f6}input:checked+.slider:before{transform:translateX(30px)}.theme-icon{margin-right:5px;vertical-align:middle}.skills-container{margin:20px 0}.skill-item{margin-bottom:15px}.skill-name{font-weight:500;margin-bottom:5px}.skill-bar{height:10px;background-color:#e9ecef;border-radius:5px;overflow:hidden}.skill-bar-fill{height:100%;background:linear-gradient(to right,#6366f1,#8b5cf6);border-radius:5px;width:0}body.dark-mode .skill-bar{background-color:#333}.platform-list,.contact-list{list-style:none;padding-left:0}.platform-list li,.contact-list li{margin-bottom:10px;display:flex;align-items:center}.platform-list i,.contact-list i{margin-right:10px;font-size:1.2rem;color:#6366f1}body.dark-mode .platform-list i,body.dark-mode .contact-list i{color:#64b5f6}.about-page h3{font-size:1.3rem;font-weight:600;margin-bottom:15px;color:#333;border-bottom:1px solid #eee;padding-bottom:8px}body.dark-mode .about-page h3{color:#e0e0e0;border-bottom:1px solid #333}
+
+/* Article Toggle Switch Styles */
+.title-and-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px; /* Adjust as needed */
+}
+
+.article-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.article-toggle .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px; /* Adjust size */
+    height: 24px; /* Adjust size */
+    margin-right: 8px;
+}
+
+.article-toggle .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.article-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.article-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; /* Adjust size */
+    width: 18px; /* Adjust size */
+    left: 3px; /* Adjust position */
+    bottom: 3px; /* Adjust position */
+    background-color: white;
+    transition: .4s;
+}
+
+.article-toggle input:checked + .slider {
+    background-color: var(--link-color); /* Use theme color */
+}
+
+.article-toggle input:focus + .slider {
+    box-shadow: 0 0 1px var(--link-color);
+}
+
+.article-toggle input:checked + .slider:before {
+    transform: translateX(26px); /* Adjust based on width */
+}
+
+/* Rounded sliders */
+.article-toggle .slider.round {
+    border-radius: 24px; /* Adjust based on height */
+}
+
+.article-toggle .slider.round:before {
+    border-radius: 50%;
+}
+
+#toggle-label {
+    font-size: 0.9em;
+    color: var(--text-color-secondary);
+}

@@ -69,7 +69,16 @@
             <div class="col-md-9">
                 <div class="content-area">
                     <div class="category-heading">
-                        <h1 id="current-category">全部文章</h1>
+                        <div class="title-and-toggle">
+                            <h1 id="current-category">推荐阅读</h1>
+                            <div class="article-toggle">
+                                <label class="switch">
+                                    <input type="checkbox" id="article-toggle-checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                                <span id="toggle-label">显示全部</span>
+                            </div>
+                        </div>
                         <div class="sub-categories-scroll" id="sub-categories-scroll">
                             <!-- 子分类将通过JS动态生成 -->
                         </div>
