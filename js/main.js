@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 构建层级分类数据结构
-    const allowedMainCategories = ["Java", "操作系统", "计算机网络", "计算机基础", "数据库", "大数据", "人工智能"];
+    const allowedMainCategories = ["Java", "操作系统", "计算机网络", "计算机基础", "数据库", "经典论文阅读"];
     const categories = articlesData.reduce((acc, article) => {
         const { mainCategory, subCategory } = article;
         if (allowedMainCategories.includes(mainCategory)) {
