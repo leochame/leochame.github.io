@@ -74,7 +74,7 @@ const articlesData = [
             "从我们（例如后端开发者）的视角来看，主要关注的是论文揭示的大模型思维过程的结论。因此，本文将不侧重于详细介绍追踪神经元的具体技术方法。",
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/qgwoqmmqrinck1i0?singleDoc# 《Tracing the thoughts of a large language model》",
         platform: "语雀",
-        date: "2025-05-06",
+        date: "2025-04-01",
         mainCategory: "经典论文阅读",
         subCategory: "人工智能"
     },
