@@ -4,8 +4,8 @@ const articlesData = [
         featured: true,
         id: 22,
         title: "Tracing the thoughts of a large language model",
-        summary: "这篇论文其实就是讲述了 Anthropic 科学家追踪大模型的思考过程。也就是一个提示词，它内部的神经元是怎么运作的。\n" +
-            "我们作为后端的角度主要去关注这个文章给出的结果，也就是大模型的思维过程。所以，在这里，我们就不侧重去讲述怎么追踪神经元的方法。",
+        summary: "这篇论文主要阐述了 Anthropic 科学家如何追踪大语言模型（LLM）的思考过程。具体来说，就是当模型接收到一个提示词后，其内部神经元是如何运作的。\n" +
+            "从我们（例如后端开发者）的视角来看，主要关注的是论文揭示的大模型思维过程的结论。因此，本文将不侧重于详细介绍追踪神经元的具体技术方法。",
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/qgwoqmmqrinck1i0?singleDoc# 《Tracing the thoughts of a large language model》",
         platform: "语雀",
         date: "2025-05-05",
