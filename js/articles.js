@@ -1,18 +1,6 @@
 // 文章数据
 const articlesData = [
     {
-        featured: true,
-        id: 22,
-        title: "Tracing the thoughts of a large language model",
-        summary: "这篇论文主要阐述了 Anthropic 科学家如何追踪大语言模型（LLM）的思考过程。具体来说，就是当模型接收到一个提示词后，其内部神经元是如何运作的。\n" +
-            "从我们（例如后端开发者）的视角来看，主要关注的是论文揭示的大模型思维过程的结论。因此，本文将不侧重于详细介绍追踪神经元的具体技术方法。",
-        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/qgwoqmmqrinck1i0?singleDoc# 《Tracing the thoughts of a large language model》",
-        platform: "语雀",
-        date: "2025-05-05",
-        mainCategory: "经典论文阅读",
-        subCategory: "人工智能"
-    },
-    {
         featured: false,
         id: 21,
         title: "GFS（3）- 大数据的三驾马车",
@@ -79,15 +67,16 @@ const articlesData = [
         subCategory: "NTP"
     },
     {
-        featured: false,
+        featured: true,
         id: 15,
-        title: "从NTP时钟同步优化角度出发 - 大学知识不再是空中楼阁（一）",
-        summary: "本系列基于数学，操作系统，计算机网络及网络编程角度出发去探寻 NTP 时钟同步的优化。将大学所学应用在这个优化上。",
-        link: "https://juejin.cn/post/7480441580059852835",
-        platform: "掘金",
-        date: "2025-03-12",
-        mainCategory: "计算机基础",
-        subCategory: "NTP"
+        title: "Tracing the thoughts of a large language model",
+        summary: "这篇论文主要阐述了 Anthropic 科学家如何追踪大语言模型（LLM）的思考过程。具体来说，就是当模型接收到一个提示词后，其内部神经元是如何运作的。\n" +
+            "从我们（例如后端开发者）的视角来看，主要关注的是论文揭示的大模型思维过程的结论。因此，本文将不侧重于详细介绍追踪神经元的具体技术方法。",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/qgwoqmmqrinck1i0?singleDoc# 《Tracing the thoughts of a large language model》",
+        platform: "语雀",
+        date: "2025-05-06",
+        mainCategory: "经典论文阅读",
+        subCategory: "人工智能"
     },
     {
         featured: true,
