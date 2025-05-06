@@ -10,7 +10,7 @@ const articlesData = [
         platform: "语雀",
         date: "2025-05-05",
         mainCategory: "经典论文阅读",
-        subCategory: "大数据"
+        subCategory: "人工智能"
     },
     {
         featured: false,
