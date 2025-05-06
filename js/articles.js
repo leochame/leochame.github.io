@@ -1,6 +1,18 @@
 // 文章数据
 const articlesData = [
     {
+        featured: true,
+        id: 22,
+        title: "Tracing the thoughts of a large language model",
+        summary: "这篇论文其实就是讲述了 Anthropic 科学家追踪大模型的思考过程。也就是一个提示词，它内部的神经元是怎么运作的。\n" +
+            "我们作为后端的角度主要去关注这个文章给出的结果，也就是大模型的思维过程。所以，在这里，我们就不侧重去讲述怎么追踪神经元的方法。",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/qgwoqmmqrinck1i0?singleDoc# 《Tracing the thoughts of a large language model》",
+        platform: "语雀",
+        date: "2025-05-05",
+        mainCategory: "经典论文阅读",
+        subCategory: "大数据"
+    },
+    {
         featured: false,
         id: 21,
         title: "GFS（3）- 大数据的三驾马车",
@@ -8,7 +20,7 @@ const articlesData = [
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/cg6disr86tugih9p?singleDoc# 《GFS（3）- 大数据的三驾马车》",
         platform: "语雀",
         date: "2025-05-05",
-        mainCategory: "经典论文",
+        mainCategory: "经典论文阅读",
         subCategory: "大数据"
     },
     {
@@ -19,7 +31,7 @@ const articlesData = [
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/ggru1bz14yr7vzw6?singleDoc# 《GFS（2）- 大数据的三驾马车》",
         platform: "语雀",
         date: "2025-05-03",
-        mainCategory: "经典论文",
+        mainCategory: "经典论文阅读",
         subCategory: "大数据"
     },
     {
@@ -30,7 +42,7 @@ const articlesData = [
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/gx2szi2mss9pkbps?singleDoc# 《GFS（1）- 大数据的三驾马车》",
         platform: "语雀",
         date: "2025-05-01",
-        mainCategory: "经典论文",
+        mainCategory: "经典论文阅读",
         subCategory: "大数据"
     },
     {
