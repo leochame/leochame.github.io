@@ -1,5 +1,16 @@
 // 文章数据
 const articlesData = [
+   {
+        featured: true,
+        id: 22,
+        title: "AI 工程专业术语扫盲",
+        summary: "作为开发者，我们主要将目光聚焦于 Agent、MCP，Function call、RAG等概念，我们对这些概念进行扫盲，让在开发沟通中减少阻碍",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/srhewvsgvcswyds8?singleDoc# 《AI 工程专业术语扫盲【未完待续】》",
+        platform: "语雀",
+        date: "2025-05-07",
+        mainCategory: "人工智能",
+        subCategory: "工程开发"
+    },
     {
         featured: false,
         id: 21,
