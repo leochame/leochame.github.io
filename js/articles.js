@@ -8,8 +8,8 @@ const articlesData = [
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/cg6disr86tugih9p?singleDoc# 《GFS（3）- 大数据的三驾马车》",
         platform: "语雀",
         date: "2025-05-05",
-        mainCategory: "经典论文阅读",
-        subCategory: "大数据"
+        mainCategory: "大数据",
+        subCategory: "经典论文"
     },
     {
         featured: false,
@@ -19,8 +19,8 @@ const articlesData = [
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/ggru1bz14yr7vzw6?singleDoc# 《GFS（2）- 大数据的三驾马车》",
         platform: "语雀",
         date: "2025-05-03",
-        mainCategory: "经典论文阅读",
-        subCategory: "大数据"
+        mainCategory: "大数据",
+        subCategory: "经典论文"
     },
     {
         featured: false,
@@ -30,8 +30,8 @@ const articlesData = [
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/gx2szi2mss9pkbps?singleDoc# 《GFS（1）- 大数据的三驾马车》",
         platform: "语雀",
         date: "2025-05-01",
-        mainCategory: "经典论文阅读",
-        subCategory: "大数据"
+        mainCategory: "大数据",
+        subCategory: "经典论文"
     },
     {
         featured: true,
@@ -75,8 +75,8 @@ const articlesData = [
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/qgwoqmmqrinck1i0?singleDoc# 《Tracing the thoughts of a large language model》",
         platform: "语雀",
         date: "2025-04-01",
-        mainCategory: "经典论文阅读",
-        subCategory: "人工智能"
+        mainCategory: "人工智能",
+        subCategory: "经典论文"
     },
     {
         featured: true,
