@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/zongzi.css">
+    <link rel="stylesheet" href="css/zongzi-jump-game.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
@@ -37,6 +38,55 @@
             </div>
         </div>
     </nav>
+
+    <!-- 粽子游戏区域 -->
+    <div class="container">
+        <div class="zongzi-game-container fade-in-up">
+            <div class="zongzi-game-header">
+                <h2 class="zongzi-game-title">粽子跳一跳</h2>
+                <p class="zongzi-game-description">按住屏幕蓄力，松开跳跃！左右两侧决定跳跃方向，跳到金色平台可以获得更多分数！</p>
+                <div class="zongzi-game-stats">
+                    <div class="zongzi-game-stat">
+                        <span class="stat-value" id="score-value">0</span>
+                        <span class="stat-label">分数</span>
+                    </div>
+                    <div class="zongzi-game-stat">
+                        <span class="stat-value" id="level-value">1</span>
+                        <span class="stat-label">等级</span>
+                    </div>
+                    <div class="zongzi-game-stat">
+                        <span class="stat-value" id="time-value">60</span>
+                        <span class="stat-label">时间</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="zongzi-game-canvas-container">
+                <canvas id="zongzi-game-canvas"></canvas>
+            </div>
+            
+            <div class="zongzi-game-controls">
+                <button id="start-button" class="zongzi-game-button">
+                    <i class="bi bi-play-fill"></i> 开始游戏
+                </button>
+                <button id="pause-button" class="zongzi-game-button secondary">
+                    <i class="bi bi-pause-fill"></i> 暂停游戏
+                </button>
+            </div>
+            
+            <!-- 游戏结束模态框 -->
+            <div id="game-modal" class="zongzi-game-modal">
+                <div class="modal-content">
+                    <h3 class="modal-title">游戏结束</h3>
+                    <div class="modal-score" id="modal-score">0</div>
+                    <p class="modal-message" id="modal-message">继续努力，相信你可以做得更好！</p>
+                    <button id="restart-button" class="zongzi-game-button">
+                        <i class="bi bi-arrow-repeat"></i> 再来一次
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <div class="zongzi-hero fade-in">
@@ -256,8 +306,8 @@
             </div>
         </div>
     </div>
-    
-    <footer class="footer mt-5 py-3 bg-light">
+     
+     <footer class="footer mt-5 py-3 bg-light">
         <div class="container text-center">
             <p>© 2025 腾讯粽子 | 刘龙昌嘿嘿嘿嘿</p>
             <div class="social-links">
@@ -270,5 +320,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/theme-switcher.js"></script>
+    <script src="js/zongzi-jump-game.js"></script>
 </body>
 </html>
