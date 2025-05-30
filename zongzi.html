@@ -3,51 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>粽子 - Leochame</title>
+    <title>粽子 - 中国传统美食的艺术</title>
+    <meta name="description" content="探索中国传统美食粽子的艺术与文化，了解不同种类的粽子及其制作工艺。">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/zongzi.css">
-    <link rel="icon" href="images/favicon.ico">
-    <meta name="description" content="展示中国传统美食粽子的艺术页面">
-    <meta name="keywords" content="粽子, 中国传统美食, 端午节">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-<header class="header">
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">Leochame</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">首页</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="zongzi.html">粽子</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html">关于我</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <i class="bi bi-sun-fill theme-icon"></i>
-                            <label class="theme-switch">
-                                <input type="checkbox" id="theme-switch">
-                                <span class="slider"></span>
-                            </label>
-                            <i class="bi bi-moon-fill theme-icon"></i>
-                        </li>
-                    </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Leo's Blog</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="zongzi.html">粽子专题</a>
+                    </li>
+                </ul>
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="checkbox">
+                        <input type="checkbox" id="checkbox" />
+                        <div class="slider round"></div>
+                    </label>
+                    <span class="theme-label">暗色模式</span>
                 </div>
             </div>
-        </nav>
-    </div>
-</header>
+        </div>
+    </nav>
 
-<main class="main-content">
     <div class="container">
         <div class="zongzi-hero fade-in">
             <h1>粽 子</h1>
@@ -65,15 +55,60 @@
                 <div class="col-md-6">
                     <div class="zongzi-image-container">
                         <svg class="zongzi-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <!-- 粽叶 -->
-                            <path d="M100,20 L40,120 L100,180 L160,120 Z" fill="#4CAF50" />
-                            <!-- 粽子主体 -->
-                            <path d="M90,40 L60,110 L100,160 L140,110 Z" fill="#8D6E63" />
-                            <!-- 粽叶纹理 -->
-                            <path d="M100,20 L70,70 M100,20 L130,70 M40,120 L80,120 M160,120 L120,120" stroke="#388E3C" stroke-width="2" stroke-linecap="round" />
-                            <!-- 粽绳 -->
+                            <!-- 粽叶背景 - 增加渐变效果 -->
+                            <defs>
+                                <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#388E3C" />
+                                    <stop offset="100%" stop-color="#2E7D32" />
+                                </linearGradient>
+                                <linearGradient id="riceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#A1887F" />
+                                    <stop offset="100%" stop-color="#8D6E63" />
+                                </linearGradient>
+                                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feDropShadow dx="2" dy="4" stdDeviation="4" flood-opacity="0.3" />
+                                </filter>
+                            </defs>
+                            
+                            <!-- 粽叶背景 - 多层次 -->
+                            <path d="M100,20 L40,120 L100,180 L160,120 Z" fill="url(#leafGradient)" filter="url(#shadow)" />
+                            <path d="M105,25 L50,115 L105,170 L155,115 Z" fill="#43A047" opacity="0.7" />
+                            
+                            <!-- 粽叶纹理 - 更丰富的纹理线条 -->
+                            <path d="M100,20 L70,70 M100,20 L130,70" stroke="#388E3C" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M40,120 L80,120 M160,120 L120,120" stroke="#388E3C" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M60,80 L140,80 M70,100 L130,100 M80,140 L120,140" stroke="#2E7D32" stroke-width="1" stroke-linecap="round" opacity="0.6" />
+                            
+                            <!-- 粽子主体 - 添加纹理和层次 -->
+                            <path d="M90,40 L60,110 L100,160 L140,110 Z" fill="url(#riceGradient)" />
+                            
+                            <!-- 粽子内部纹理 - 模拟糯米质感 -->
+                            <path d="M85,60 L75,100 M95,60 L85,100 M105,60 L95,100 M115,60 L105,100" 
+                                stroke="#BDBDBD" stroke-width="0.8" stroke-linecap="round" opacity="0.3" />
+                            <path d="M80,110 L100,140 M100,140 L120,110" 
+                                stroke="#BDBDBD" stroke-width="0.8" stroke-linecap="round" opacity="0.3" />
+                            
+                            <!-- 粽绳 - 更精细的绳子 -->
                             <path d="M100,20 C80,60 60,80 40,120" stroke="#D7CCC8" stroke-width="3" stroke-linecap="round" />
                             <path d="M100,20 C120,60 140,80 160,120" stroke="#D7CCC8" stroke-width="3" stroke-linecap="round" />
+                            
+                            <!-- 绳子纹理 - 增加绳子的细节 -->
+                            <path d="M100,20 C83,55 65,77 48,113" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round" />
+                            <path d="M100,20 C117,55 135,77 152,113" stroke="#BCAAA4" stroke-width="1" stroke-linecap="round" />
+                            
+                            <!-- 绳结 -->
+                            <circle cx="100" cy="20" r="5" fill="#A1887F" />
+                            <path d="M97,17 L103,23 M97,23 L103,17" stroke="#8D6E63" stroke-width="1" />
+                            
+                            <!-- 高光效果 - 增强立体感 -->
+                            <path d="M90,40 L100,60 L110,40" fill="#BCAAA4" opacity="0.7" />
+                            <path d="M75,70 L100,100 L125,70" fill="#D7CCC8" opacity="0.4" />
+                            
+                            <!-- 阴影效果 - 增强立体感 -->
+                            <path d="M60,110 L100,160 L140,110" fill="#5D4037" opacity="0.3" />
+                            
+                            <!-- 装饰元素 - 粽叶尖角 -->
+                            <path d="M100,180 L95,190 M100,180 L105,190" stroke="#388E3C" stroke-width="2" stroke-linecap="round" />
                         </svg>
                     </div>
                 </div>
@@ -87,9 +122,21 @@
                     <div class="zongzi-card">
                         <div class="zongzi-card-icon">
                             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <!-- 甜粽子图标 -->
-                                <path d="M50,10 L20,60 L50,90 L80,60 Z" fill="#A5D6A7" />
-                                <circle cx="50" cy="50" r="15" fill="#EF9A9A" />
+                                <!-- 甜粽子图标 - 美化版本 -->
+                                <defs>
+                                    <linearGradient id="sweetLeafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#66BB6A" />
+                                        <stop offset="100%" stop-color="#43A047" />
+                                    </linearGradient>
+                                    <radialGradient id="fillingGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                        <stop offset="0%" stop-color="#FFCDD2" />
+                                        <stop offset="100%" stop-color="#EF9A9A" />
+                                    </radialGradient>
+                                </defs>
+                                <path d="M50,10 L20,60 L50,90 L80,60 Z" fill="url(#sweetLeafGradient)" />
+                                <path d="M55,15 L30,55 L55,80 L75,55 Z" fill="#81C784" opacity="0.5" />
+                                <circle cx="50" cy="50" r="15" fill="url(#fillingGradient)" />
+                                <path d="M45,45 L55,55 M45,55 L55,45" stroke="#E57373" stroke-width="1" />
                             </svg>
                         </div>
                         <h3>甜粽子</h3>
@@ -100,9 +147,21 @@
                     <div class="zongzi-card">
                         <div class="zongzi-card-icon">
                             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <!-- 咸粽子图标 -->
-                                <path d="M50,10 L20,60 L50,90 L80,60 Z" fill="#81C784" />
-                                <rect x="35" y="40" width="30" height="20" fill="#BCAAA4" />
+                                <!-- 咸粽子图标 - 美化版本 -->
+                                <defs>
+                                    <linearGradient id="saltyLeafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#81C784" />
+                                        <stop offset="100%" stop-color="#4CAF50" />
+                                    </linearGradient>
+                                    <linearGradient id="meatGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#D7CCC8" />
+                                        <stop offset="100%" stop-color="#BCAAA4" />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M50,10 L20,60 L50,90 L80,60 Z" fill="url(#saltyLeafGradient)" />
+                                <path d="M55,15 L30,55 L55,80 L75,55 Z" fill="#66BB6A" opacity="0.5" />
+                                <rect x="35" y="40" width="30" height="20" rx="2" ry="2" fill="url(#meatGradient)" />
+                                <path d="M40,45 L60,45 M40,50 L60,50 M40,55 L60,55" stroke="#A1887F" stroke-width="1" />
                             </svg>
                         </div>
                         <h3>咸粽子</h3>
@@ -113,10 +172,27 @@
                     <div class="zongzi-card">
                         <div class="zongzi-card-icon">
                             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <!-- 特色粽子图标 -->
-                                <path d="M50,10 L20,60 L50,90 L80,60 Z" fill="#66BB6A" />
-                                <circle cx="40" cy="50" r="10" fill="#FFD54F" />
-                                <circle cx="60" cy="50" r="10" fill="#7986CB" />
+                                <!-- 特色粽子图标 - 美化版本 -->
+                                <defs>
+                                    <linearGradient id="specialLeafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#66BB6A" />
+                                        <stop offset="100%" stop-color="#388E3C" />
+                                    </linearGradient>
+                                    <radialGradient id="yellowFillingGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                        <stop offset="0%" stop-color="#FFF9C4" />
+                                        <stop offset="100%" stop-color="#FFD54F" />
+                                    </radialGradient>
+                                    <radialGradient id="blueFillingGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                        <stop offset="0%" stop-color="#C5CAE9" />
+                                        <stop offset="100%" stop-color="#7986CB" />
+                                    </radialGradient>
+                                </defs>
+                                <path d="M50,10 L20,60 L50,90 L80,60 Z" fill="url(#specialLeafGradient)" />
+                                <path d="M55,15 L30,55 L55,80 L75,55 Z" fill="#66BB6A" opacity="0.5" />
+                                <circle cx="40" cy="50" r="10" fill="url(#yellowFillingGradient)" />
+                                <circle cx="60" cy="50" r="10" fill="url(#blueFillingGradient)" />
+                                <path d="M37,47 L43,53 M37,53 L43,47" stroke="#FBC02D" stroke-width="1" />
+                                <path d="M57,47 L63,53 M57,53 L63,47" stroke="#5C6BC0" stroke-width="1" />
                             </svg>
                         </div>
                         <h3>特色粽子</h3>
@@ -148,7 +224,7 @@
                         <i class="bi bi-globe"></i>
                     </div>
                     <h3>世界影响</h3>
-                    <p>粽子文化已传播至东南亚等地区，成为中华文化的重要代表之一。</p>
+                    <p>粽子文化已传播至东南亚多国，各地区发展出具有当地特色的粽子变种。</p>
                 </div>
             </div>
         </div>
@@ -160,53 +236,39 @@
                     <div class="step-number">1</div>
                     <div class="step-content">
                         <h3>准备材料</h3>
-                        <p>糯米、粽叶、馅料（如红枣、豆沙、肉类等）、绳子</p>
+                        <p>准备糯米、粽叶、馅料和绳子。糯米需提前浸泡4-6小时，粽叶需清洗并浸泡至柔软。</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3>浸泡处理</h3>
-                        <p>糯米提前浸泡4-6小时，粽叶洗净后浸泡至软</p>
+                        <h3>包裹成型</h3>
+                        <p>将粽叶折成漏斗状，放入适量糯米和馅料，再加入糯米封口，折叠粽叶并用绳子扎紧。</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-content">
-                        <h3>包裹成型</h3>
-                        <p>用粽叶包裹糯米和馅料，折叠成三角形或其他形状</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>系紧煮熟</h3>
-                        <p>用绳子系紧粽子，放入锅中煮2-3小时至熟透</p>
+                        <h3>煮熟享用</h3>
+                        <p>将包好的粽子放入锅中，加水没过粽子，大火煮沸后转小火煮2-3小时，直至粽子熟透。</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</main>
-
-<footer class="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <p>&copy; 2023-2025 Leochame 的技术博客。使用 <a href="https://pages.github.com/">GitHub Pages</a> 构建。</p>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <div class="footer-social">
-                    <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
-                    <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
-                    <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i></a>
-                </div>
+    
+    <footer class="footer mt-5 py-3 bg-light">
+        <div class="container text-center">
+            <p>© 2023 粽子文化专题 | 设计与开发</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="bi bi-github"></i></a>
+                <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-<script src="js/theme-switcher.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/theme-switcher.js"></script>
 </body>
 </html>
