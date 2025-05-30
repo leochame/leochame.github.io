@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- 粽叶背景 -->
+    <path d="M100,20 L40,120 L100,180 L160,120 Z" fill="#4CAF50" />
+    
+    <!-- 粽子主体 -->
+    <path d="M90,40 L60,110 L100,160 L140,110 Z" fill="#8D6E63" />
+    
+    <!-- 粽叶纹理 -->
+    <path d="M100,20 L70,70 M100,20 L130,70 M40,120 L80,120 M160,120 L120,120" stroke="#388E3C" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- 粽绳 -->
+    <path d="M100,20 C80,60 60,80 40,120" stroke="#D7CCC8" stroke-width="3" stroke-linecap="round" />
+    <path d="M100,20 C120,60 140,80 160,120" stroke="#D7CCC8" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- 高光效果 -->
+    <path d="M90,40 L100,60 L110,40" fill="#A1887F" opacity="0.7" />
+    
+    <!-- 阴影效果 -->
+    <path d="M60,110 L100,160 L140,110" fill="#5D4037" opacity="0.3" />
+</svg>
