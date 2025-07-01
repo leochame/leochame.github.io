@@ -1,6 +1,23 @@
 // 文章数据
 const articlesData = [
-
+    {
+        id: 30,
+        title: "GC怎么保证不 STW 的？（一）",
+        summary: "本章节我们主要去阐述，ZGC 的并发整理是怎么实现的，这里主要解决的问题是怎么实现一个对象被移动后（标记-复制），移动到一个新的 Region，我们还能正常的访问的到。",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/qek9isq1r7grec5f",
+        platform: "语雀",
+        date: "2025-07-01",
+        category: "JVM"
+    },
+    {
+        id: 29,
+        title: "GC怎么保证不 STW 的？（一）",
+        summary: "保证不 STW，本质是个并发问题，怎么保证用户线程和垃圾回收线程互不干扰的运行",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/usonozcyfeump37p",
+        platform: "语雀",
+        date: "2025-06-15",
+        category: "JVM"
+    },
     {
         id: 28,
         title: "GFS（1）- 大数据的三驾马车",
