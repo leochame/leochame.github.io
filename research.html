@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>研究札记 - Leochame</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="images/favicon.ico">
+    <meta name="description" content="Leochame的研究札记，记录技术探索与深度研究">
+    <meta name="keywords" content="Leochame, 研究札记, 经典论文, 技术研究, 学术探索">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">Leochame</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#featured-articles">推荐文章</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                技术专栏
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                <li><a class="dropdown-item" href="tech.html">全部文章</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="tech.html?category=Java">Java开发</a></li>
+                                <li><a class="dropdown-item" href="tech.html?category=数据库">数据库</a></li>
+                                <li><a class="dropdown-item" href="tech.html?category=计算机网络">计算机网络</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                研究札记
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                <li><a class="dropdown-item" href="research.html">全部札记</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="research.html?category=操作系统">操作系统</a></li>
+                                <li><a class="dropdown-item" href="research.html?category=经典论文">经典论文</a></li>
+                                <li><a class="dropdown-item" href="research.html?category=计算机基础">计算机基础</a></li>
+                                <li><a class="dropdown-item" href="research.html?category=人工智能">人工智能</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="projects.html">项目展示</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">关于我</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <i class="bi bi-sun-fill theme-icon"></i>
+                            <label class="theme-switch">
+                                <input type="checkbox" id="theme-switch">
+                                <span class="slider"></span>
+                            </label>
+                            <i class="bi bi-moon-fill theme-icon"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="container">
+        <div class="content-area">
+            <div class="category-heading">
+                <h1>研究札记</h1>
+                <p class="text-muted">深入探究技术原理与学术前沿，记录我的研究思考与系统分析</p>
+                
+                <div class="category-filters mt-4">
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-outline-primary active" data-category="all">全部研究</button>
+                        <button class="btn btn-outline-primary" data-category="经典论文">经典论文</button>
+                        <button class="btn btn-outline-primary" data-category="MIT6.1810">系统课程</button>
+                        <button class="btn btn-outline-primary" data-category="操作系统">操作系统</button>
+                        <button class="btn btn-outline-primary" data-category="计算机基础">计算机基础</button>
+                        <button class="btn btn-outline-primary" data-category="人工智能">人工智能</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="notes-container">
+                <!-- 研究札记将通过JavaScript动态生成 -->
+            </div>
+            
+            <div class="mt-4 d-flex justify-content-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <p>&copy; 2023-2025 Leochame 的技术博客。使用 <a href="https://pages.github.com/">GitHub Pages</a> 构建。</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="footer-social">
+                    <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
+                    <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
+                    <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+<script src="js/theme-switcher.js" defer></script>
+<script src="js/articles.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notesContainer = document.getElementById('notes-container');
+        const categoryButtons = document.querySelectorAll('.category-filters button');
+        const pagination = document.querySelector('.pagination');
+        let currentCategory = 'all';
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 4; // 每页显示4篇研究内容
+        
+        // 检查URL参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        if (categoryParam) {
+            currentCategory = categoryParam;
+            // 更新按钮状态
+            categoryButtons.forEach(button => {
+                if (button.getAttribute('data-category') === categoryParam) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+        
+        // 获取研究札记类型的文章
+        function getResearchArticles() {
+            // 根据isResearch字段过滤，只获取研究类文章
+            return articlesData.filter(article => article.isResearch)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+        
+        // 渲染研究札记列表
+        function renderResearch(category, page = 1) {
+            notesContainer.innerHTML = '';
+            
+            const researchArticles = getResearchArticles();
+            
+            // 过滤分类
+            const filteredResearch = category === 'all' 
+                ? researchArticles 
+                : researchArticles.filter(article => 
+                    article.subCategory === category || 
+                    article.mainCategory === category || 
+                    (category === 'MIT6.1810' && article.subCategory.includes('MIT6.1810')));
+            
+            if (filteredResearch.length === 0) {
+                notesContainer.innerHTML = '<div class="no-articles">该分类下暂无研究内容</div>';
+                renderPagination(1, 1);
+                return;
+            }
+            
+            // 计算分页数据
+            const totalPages = Math.ceil(filteredResearch.length / ITEMS_PER_PAGE);
+            currentPage = page > totalPages ? 1 : page; // 确保页码有效
+            
+            // 获取当前页的研究内容
+            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredResearch.length);
+            const currentPageResearch = filteredResearch.slice(startIndex, endIndex);
+            
+            // 渲染当前页研究内容
+            currentPageResearch.forEach(article => {
+                const noteCard = document.createElement('div');
+                noteCard.className = 'notes-card';
+                
+                const notesHeader = document.createElement('div');
+                notesHeader.className = 'notes-header';
+                notesHeader.innerHTML = `
+                    <h2 class="notes-title">${article.title}</h2>
+                    <span class="notes-date">${article.date}</span>
+                `;
+                
+                const notesContent = document.createElement('div');
+                notesContent.className = 'notes-content';
+                notesContent.innerHTML = `<p>${article.summary}</p>`;
+                
+                const notesFooter = document.createElement('div');
+                notesFooter.className = 'notes-footer';
+                
+                const notesTags = document.createElement('div');
+                notesTags.className = 'notes-tags';
+                
+                // 添加主分类和子分类作为标签
+                notesTags.innerHTML = `
+                    <span>${article.mainCategory}</span>
+                    ${article.subCategory ? `<span>${article.subCategory}</span>` : ''}
+                    <span>${article.platform}</span>
+                `;
+                
+                const notesReadMore = document.createElement('a');
+                notesReadMore.className = 'notes-read-more';
+                notesReadMore.href = article.link;
+                notesReadMore.target = '_blank';
+                notesReadMore.textContent = '研读全文';
+                
+                notesFooter.appendChild(notesTags);
+                notesFooter.appendChild(notesReadMore);
+                
+                noteCard.appendChild(notesHeader);
+                noteCard.appendChild(notesContent);
+                noteCard.appendChild(notesFooter);
+                
+                notesContainer.appendChild(noteCard);
+            });
+            
+            // 更新分页
+            renderPagination(currentPage, totalPages);
+        }
+        
+        // 渲染分页组件
+        function renderPagination(currentPage, totalPages) {
+            pagination.innerHTML = '';
+            
+            // 前一页按钮
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            
+            const prevLink = document.createElement('a');
+            prevLink.className = 'page-link';
+            prevLink.href = '#';
+            prevLink.setAttribute('aria-label', 'Previous');
+            prevLink.innerHTML = '<span aria-hidden="true">&laquo;</span>';
+            
+            if (currentPage > 1) {
+                prevLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    renderResearch(currentCategory, currentPage - 1);
+                });
+            }
+            
+            prevLi.appendChild(prevLink);
+            pagination.appendChild(prevLi);
+            
+            // 页码按钮
+            const maxPageButtons = 5; // 最多显示的页码按钮数
+            let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+            let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
+            
+            // 调整startPage，确保显示足够的页码按钮
+            if (endPage - startPage + 1 < maxPageButtons && startPage > 1) {
+                startPage = Math.max(1, endPage - maxPageButtons + 1);
+            }
+            
+            // 第一页按钮（如果当前不是第一页且起始页不是第一页）
+            if (startPage > 1) {
+                const firstLi = document.createElement('li');
+                firstLi.className = 'page-item';
+                
+                const firstLink = document.createElement('a');
+                firstLink.className = 'page-link';
+                firstLink.href = '#';
+                firstLink.textContent = '1';
+                
+                firstLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    renderResearch(currentCategory, 1);
+                });
+                
+                firstLi.appendChild(firstLink);
+                pagination.appendChild(firstLi);
+                
+                // 如果第一页和起始页之间有间隔，添加省略号
+                if (startPage > 2) {
+                    const ellipsisLi = document.createElement('li');
+                    ellipsisLi.className = 'page-item disabled';
+                    
+                    const ellipsisSpan = document.createElement('a');
+                    ellipsisSpan.className = 'page-link';
+                    ellipsisSpan.innerHTML = '&hellip;';
+                    
+                    ellipsisLi.appendChild(ellipsisSpan);
+                    pagination.appendChild(ellipsisLi);
+                }
+            }
+            
+            // 页码按钮
+            for (let i = startPage; i <= endPage; i++) {
+                const pageLi = document.createElement('li');
+                pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                
+                const pageLink = document.createElement('a');
+                pageLink.className = 'page-link';
+                pageLink.href = '#';
+                pageLink.textContent = i;
+                
+                if (i !== currentPage) {
+                    pageLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        renderResearch(currentCategory, i);
+                    });
+                }
+                
+                pageLi.appendChild(pageLink);
+                pagination.appendChild(pageLi);
+            }
+            
+            // 如果结束页和最后一页之间有间隔，添加省略号
+            if (endPage < totalPages - 1) {
+                const ellipsisLi = document.createElement('li');
+                ellipsisLi.className = 'page-item disabled';
+                
+                const ellipsisSpan = document.createElement('a');
+                ellipsisSpan.className = 'page-link';
+                ellipsisSpan.innerHTML = '&hellip;';
+                
+                ellipsisLi.appendChild(ellipsisSpan);
+                pagination.appendChild(ellipsisLi);
+            }
+            
+            // 最后一页按钮（如果当前不是最后一页且结束页不是最后一页）
+            if (endPage < totalPages) {
+                const lastLi = document.createElement('li');
+                lastLi.className = 'page-item';
+                
+                const lastLink = document.createElement('a');
+                lastLink.className = 'page-link';
+                lastLink.href = '#';
+                lastLink.textContent = totalPages;
+                
+                lastLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    renderResearch(currentCategory, totalPages);
+                });
+                
+                lastLi.appendChild(lastLink);
+                pagination.appendChild(lastLi);
+            }
+            
+            // 下一页按钮
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            
+            const nextLink = document.createElement('a');
+            nextLink.className = 'page-link';
+            nextLink.href = '#';
+            nextLink.setAttribute('aria-label', 'Next');
+            nextLink.innerHTML = '<span aria-hidden="true">&raquo;</span>';
+            
+            if (currentPage < totalPages) {
+                nextLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    renderResearch(currentCategory, currentPage + 1);
+                });
+            }
+            
+            nextLi.appendChild(nextLink);
+            pagination.appendChild(nextLi);
+            
+            // 如果总页数小于等于1，隐藏分页组件
+            const paginationContainer = pagination.parentElement.parentElement;
+            paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
+        }
+        
+        // 初始化渲染
+        renderResearch(currentCategory, currentPage);
+        
+        // 事件监听
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.getAttribute('data-category');
+                renderResearch(currentCategory, 1);
+                
+                // 更新URL参数，但不刷新页面
+                const url = new URL(window.location);
+                if (currentCategory === 'all') {
+                    url.searchParams.delete('category');
+                } else {
+                    url.searchParams.set('category', currentCategory);
+                }
+                window.history.pushState({}, '', url);
+            });
+        });
+    });
+</script>
+</body>
+</html> 

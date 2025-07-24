@@ -9,7 +9,8 @@ const articlesData = [
         platform: "语雀",
         date: "2025-05-07",
         mainCategory: "人工智能",
-        subCategory: "工程开发"
+        subCategory: "工程开发",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -20,7 +21,8 @@ const articlesData = [
         platform: "语雀",
         date: "2025-05-05",
         mainCategory: "大数据",
-        subCategory: "经典论文"
+        subCategory: "经典论文",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -31,7 +33,8 @@ const articlesData = [
         platform: "语雀",
         date: "2025-05-03",
         mainCategory: "大数据",
-        subCategory: "经典论文"
+        subCategory: "经典论文",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -42,7 +45,8 @@ const articlesData = [
         platform: "语雀",
         date: "2025-05-01",
         mainCategory: "大数据",
-        subCategory: "经典论文"
+        subCategory: "经典论文",
+        isResearch: true // 研究札记
     },
     {
         featured: true,
@@ -53,7 +57,8 @@ const articlesData = [
         platform: "微信公众号",
         date: "2025-04-25",
         mainCategory: "Java",
-        subCategory: "Java并发"
+        subCategory: "Java并发",
+        isResearch: true // 研究札记 - 由于讲解底层原理
     },
     {
         featured: false,
@@ -64,7 +69,8 @@ const articlesData = [
         platform: "掘金",
         date: "2025-03-12",
         mainCategory: "计算机基础",
-        subCategory: "NTP"
+        subCategory: "NTP",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -75,7 +81,8 @@ const articlesData = [
         platform: "掘金",
         date: "2025-03-12",
         mainCategory: "计算机基础",
-        subCategory: "NTP"
+        subCategory: "NTP",
+        isResearch: false // 技术专栏 - 更侧重于实践优化
     },
     {
         featured: true,
@@ -87,7 +94,8 @@ const articlesData = [
         platform: "语雀",
         date: "2025-04-01",
         mainCategory: "人工智能",
-        subCategory: "经典论文"
+        subCategory: "经典论文",
+        isResearch: true // 研究札记
     },
     {
         featured: true,
@@ -98,7 +106,8 @@ const articlesData = [
         platform: "掘金",
         date: "2025-03-03",
         mainCategory: "操作系统",
-        subCategory: "MIT6.1810【笔记】"
+        subCategory: "MIT6.1810【笔记】",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -109,7 +118,8 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-29",
         mainCategory: "操作系统",
-        subCategory: "MIT6.1810【笔记】"
+        subCategory: "MIT6.1810【笔记】",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -120,7 +130,8 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-29",
         mainCategory: "操作系统",
-        subCategory: "MIT6.1810【笔记】"
+        subCategory: "MIT6.1810【笔记】",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -131,7 +142,8 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-28",
         mainCategory: "操作系统",
-        subCategory: "MIT6.1810【笔记】"
+        subCategory: "MIT6.1810【笔记】",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -142,7 +154,8 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-28",
         mainCategory: "操作系统",
-        subCategory: "MIT6.1810【笔记】"
+        subCategory: "MIT6.1810【笔记】",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -153,7 +166,8 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-28",
         mainCategory: "操作系统",
-        subCategory: "MIT6.1810【笔记】"
+        subCategory: "MIT6.1810【笔记】",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -164,7 +178,8 @@ const articlesData = [
         platform: "微信公众号",
         date: "2024-12-28",
         mainCategory: "操作系统",
-        subCategory: "MIT6.1810【笔记】"
+        subCategory: "MIT6.1810【笔记】",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -175,7 +190,8 @@ const articlesData = [
         platform: "语雀",
         date: "2025-04-01",
         mainCategory: "计算机网络",
-        subCategory: "TCP"
+        subCategory: "TCP",
+        isResearch: true // 研究札记 - 关注底层协议原理
     },
     {
         featured: false,
@@ -186,7 +202,8 @@ const articlesData = [
         platform: "掘金",
         date: "2025-04-08",
         mainCategory: "Java",
-        subCategory: "Java并发"
+        subCategory: "Java并发",
+        isResearch: false // 技术专栏 - 偏向实践应用
     },
     {
         featured: true,
@@ -197,7 +214,8 @@ const articlesData = [
         platform: "掘金",
         date: "2025-03-24",
         mainCategory: "操作系统",
-        subCategory: "MIT6.1810【笔记】"
+        subCategory: "MIT6.1810【笔记】",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -208,7 +226,8 @@ const articlesData = [
         platform: "掘金",
         date: "2025-02-23",
         mainCategory: "操作系统",
-        subCategory: "MIT6.1810【笔记】"
+        subCategory: "MIT6.1810【笔记】",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -219,7 +238,8 @@ const articlesData = [
         platform: "掘金",
         date: "2025-02-21",
         mainCategory: "计算机网络",
-        subCategory: "网络基础"
+        subCategory: "网络基础",
+        isResearch: true // 研究札记
     },
     {
         featured: false,
@@ -230,7 +250,8 @@ const articlesData = [
         platform: "语雀",
         date: "2025-02-10",
         mainCategory: "数据库",
-        subCategory: "MySQL"
+        subCategory: "MySQL",
+        isResearch: false // 技术专栏
     },
     {
         featured: false,
@@ -241,6 +262,7 @@ const articlesData = [
         platform: "语雀",
         date: "2025-02-11",
         mainCategory: "数据库",
-        subCategory: "MySQL"
+        subCategory: "MySQL",
+        isResearch: false // 技术专栏
     }
 ];

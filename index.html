@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leochame</title>
+    <title>Leochame - 技术博客</title>
+    <!-- 预连接常用域名 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="images/avatar.svg" as="image">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="icon" href="images/favicon.ico">
     <meta name="description" content="Leochame的个人博客，分享技术文章和学习心得">
     <meta name="keywords" content="Leochame, 博客, 技术文章, 后端开发, Java, MySQL, 操作系统">
+    <!-- Open Graph 标记 -->
+    <meta property="og:title" content="Leochame - 技术博客">
+    <meta property="og:description" content="探索后端技术的奥秘，记录我的技术成长之路">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="images/avatar.svg">
 </head>
 <body>
 <header class="header">
@@ -24,6 +34,37 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link active" href="index.html">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link scroll-link" href="#featured-articles">推荐文章</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                技术专栏
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                <li><a class="dropdown-item" href="tech.html">全部文章</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="tech.html?category=Java">Java开发</a></li>
+                                <li><a class="dropdown-item" href="tech.html?category=数据库">数据库</a></li>
+                                <li><a class="dropdown-item" href="tech.html?category=计算机网络">计算机网络</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                研究札记
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                <li><a class="dropdown-item" href="research.html">全部札记</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="research.html?category=操作系统">操作系统</a></li>
+                                <li><a class="dropdown-item" href="research.html?category=经典论文">经典论文</a></li>
+                                <li><a class="dropdown-item" href="research.html?category=计算机基础">计算机基础</a></li>
+                                <li><a class="dropdown-item" href="research.html?category=人工智能">人工智能</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="projects.html">项目展示</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="about.html">关于我</a>
@@ -43,74 +84,272 @@
     </div>
 </header>
 
-<main class="main-content">
+<!-- 简化的主页横幅 -->
+<section class="hero-section hero-compact fade-in-up">
     <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="sidebar">
-                    <div class="profile-card fade-in">
-                        <img src="images/avatar.svg" alt="头像" class="avatar">
-                        <h2 class="name">Leo chame</h2>
-                        <p class="bio">后端开发实习生</p>
-                        <div class="social-links">
-                            <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
-                            <a href="https://weibo.com/yourusername" target="_blank"><i class="bi bi-sina-weibo"></i></a>
-                            <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
-                        </div>
-                    </div>
-                    <div class="category-filter">
-                        <h3>专栏分类</h3>
-                        <ul id="category-list">
-                            <!-- 分类将通过JS动态生成 -->
-                        </ul>
-                    </div>
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <div class="hero-content">
+                    <h1>Leochame的技术博客</h1>
+                    <p class="lead">探索技术的奥秘，记录成长之路</p>
                 </div>
             </div>
-            <div class="col-md-9">
-                <div class="content-area">
-                    <div class="category-heading">
-                        <div class="title-and-toggle">
-                            <h1 id="current-category">推荐阅读</h1>
-                            <div class="article-toggle">
-                                <label class="switch">
-                                    <input type="checkbox" id="article-toggle-checkbox">
-                                    <span class="slider round"></span>
-                                </label>
-                                <span id="toggle-label">显示全部</span>
-                            </div>
-                        </div>
-                        <div class="sub-categories-scroll" id="sub-categories-scroll">
-                            <!-- 子分类将通过JS动态生成 -->
-                        </div>
-                    </div>
-                    <div class="articles-container" id="articles-container">
-                        <!-- 文章卡片将通过JS动态生成 -->
-                    </div>
+            <div class="col-lg-5">
+                <div class="hero-image text-center">
+                    <img src="images/avatar.svg" alt="头像" class="img-fluid rounded-circle avatar-large">
                 </div>
             </div>
         </div>
     </div>
-</main>
+</section>
+
+<!-- 个人介绍 -->
+<section class="bio-section fade-in-up">
+    <div class="container">
+        <div class="bio-card">
+            <div class="bio-tabs">
+                <button class="bio-tab active" data-lang="zh">中文</button>
+                <button class="bio-tab" data-lang="en">English</button>
+            </div>
+            
+            <!-- 中文介绍 -->
+            <div class="bio-content active" id="bio-zh">
+                <h2>关于我</h2>
+                <p>一个<span class="highlight">「看似精通实则入门」</span>的技术爱好者</p>
+                <ul class="bio-list">
+                    <li>
+                        <i class="bi bi-braces"></i> <strong>大模型专家？</strong> 
+                        精通Transformer、注意力机制、DropOut等技术
+                        <small>（其实只是照着书从零手搓过大模型而已...）</small>
+                    </li>
+                    <li>
+                        <i class="bi bi-cpu"></i> <strong>系统内核大师？</strong> 
+                        精通Trap、COW、惰性加载、页表、系统调用、线程切换等核心概念
+                        <small>（不过说白了就是做过MIT 6.S081课程...）</small>
+                    </li>
+                    <li>
+                        <i class="bi bi-cup-hot"></i> <strong>Java领域高手</strong> 
+                        <small>（至少自我感觉是这样）</small>
+                    </li>
+                    <li>
+                        <i class="bi bi-robot"></i> <strong>AI Agent实战派</strong> 
+                        熟悉COT、ReAct、MCP、A2A、TAP等框架和协议，拥有落地实战和各种各样的踩坑经验
+                        <small>（在填坑的路上越走越远...）</small>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 英文介绍 -->
+            <div class="bio-content" id="bio-en">
+                <h2>About Me</h2>
+                <p>A tech enthusiast with <span class="highlight">"seemingly expert-level but actually beginner-level"</span> skills</p>
+                <ul class="bio-list">
+                    <li>
+                        <i class="bi bi-braces"></i> <strong>LLM Expert?</strong> 
+                        Proficient in Transformer architecture, attention mechanisms, and DropOut techniques
+                        <small>(actually just followed tutorials to build models from scratch...)</small>
+                    </li>
+                    <li>
+                        <i class="bi bi-cpu"></i> <strong>OS Kernel Master?</strong> 
+                        Well-versed in Trap, Copy-on-Write, lazy loading, page tables, system calls, and thread switching
+                        <small>(basically just completed MIT's 6.S081 course...)</small>
+                    </li>
+                    <li>
+                        <i class="bi bi-cup-hot"></i> <strong>Java Developer</strong> 
+                        <small>(at least I think I am)</small>
+                    </li>
+                    <li>
+                        <i class="bi bi-robot"></i> <strong>AI Agent Practitioner</strong> 
+                        Familiar with COT, ReAct, MCP, A2A, TAP frameworks and protocols, with hands-on experience and an impressive collection of lessons learned the hard way
+                        <small>(still finding new pitfalls every day...)</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 博客内容导航 -->
+<section id="blog-sections" class="blog-sections section-compact fade-in-up">
+    <div class="container">
+        <h2 class="section-title">博客内容</h2>
+        <div class="row mt-3 g-4">
+            <div class="col-md-4">
+                <div class="content-card">
+                    <div class="content-icon">
+                        <i class="bi bi-gear"></i>
+                    </div>
+                    <h3>技术专栏</h3>
+                    <p>我的技术输出天地，在这里写代码不会报错，分享经验不会被打脸...大概吧</p>
+                    <a href="tech.html" class="btn btn-outline-primary btn-sm stretched-link">浏览专栏</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="content-card">
+                    <div class="content-icon">
+                        <i class="bi bi-journal-text"></i>
+                    </div>
+                    <h3>研究札记</h3>
+                    <p>纯学习笔记和论文解读，对晦涩难懂的论文做出更晦涩难懂的解释</p>
+                    <a href="research.html" class="btn btn-outline-primary btn-sm stretched-link">查看札记</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="content-card">
+                    <div class="content-icon">
+                        <i class="bi bi-laptop"></i>
+                    </div>
+                    <h3>项目展示</h3>
+                    <p>证明我真的会写代码的地方，虽然大部分还在"计划开发中"</p>
+                    <a href="projects.html" class="btn btn-outline-primary btn-sm stretched-link">项目作品</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 专业领域 -->
+<section class="expertise-section section-compact fade-in-up">
+    <div class="container">
+        <h2 class="section-title">专业领域</h2>
+        <div class="row mt-3 g-4">
+            <div class="col-md-3">
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <i class="bi bi-code-slash"></i>
+                    </div>
+                    <h3>后端开发</h3>
+                    <p>Java生态系统开发</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <i class="bi bi-database"></i>
+                    </div>
+                    <h3>数据库技术</h3>
+                    <p>MySQL优化与索引设计</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+                    <h3>系统与架构</h3>
+                    <p>操作系统原理与网络协议</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <h3>AI应用</h3>
+                    <p>Agent框架与大模型应用</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 推荐文章部分 -->
+<section id="featured-articles" class="featured-articles section-compact fade-in-up">
+    <div class="container">
+        <h2 class="section-title">推荐文章<span class="featured-note">（标记为featured=true的精选文章）</span></h2>
+        <div class="articles-container" id="articles-container">
+            <!-- 文章卡片将通过JS动态生成 -->
+        </div>
+        <div class="text-center mt-3">
+            <a href="tech.html" class="btn btn-primary btn-sm">查看更多文章</a>
+        </div>
+    </div>
+</section>
 
 <footer class="footer">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <p>&copy; 2023-2025 Leochame 的技术博客。使用 <a href="https://pages.github.com/">GitHub Pages</a> 构建。</p>
+                <div class="d-flex align-items-center mb-3">
+                    <h5 class="me-3 mb-0">Leochame</h5>
+                    <div class="footer-social">
+                        <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
+                        <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
+                        <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <p class="small">后端开发工程师，专注于Java生态系统、系统架构设计与性能优化</p>
             </div>
-            <div class="col-md-6 text-md-end">
-                <div class="footer-social">
-                    <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
-                    <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
-                    <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i></a>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-6">
+                        <h6>导航</h6>
+                        <ul class="footer-links small">
+                            <li><a href="tech.html">技术专栏</a></li>
+                            <li><a href="research.html">研究札记</a></li>
+                            <li><a href="projects.html">项目展示</a></li>
+                            <li><a href="about.html">关于我</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <h6>热门分类</h6>
+                        <ul class="footer-links small">
+                            <li><a href="tech.html?category=Java">Java开发</a></li>
+                            <li><a href="tech.html?category=数据库">数据库</a></li>
+                            <li><a href="research.html?category=操作系统">操作系统</a></li>
+                            <li><a href="research.html?category=计算机基础">计算机基础</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="footer-bottom text-center mt-3">
+            <p class="small mb-0">&copy; 2023-2025 Leochame 的技术博客。使用 <a href="https://pages.github.com/">GitHub Pages</a> 构建。</p>
         </div>
     </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+<script src="js/theme-switcher.js" defer></script>
 <script src="js/articles.js" defer></script>
 <script src="js/main.js" defer></script>
+<script>
+    // 处理个人介绍的语言切换
+    document.addEventListener('DOMContentLoaded', function() {
+        const bioTabs = document.querySelectorAll('.bio-tab');
+        const bioContents = document.querySelectorAll('.bio-content');
+        
+        bioTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                
+                // 激活当前标签
+                bioTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 显示对应内容
+                bioContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `bio-${lang}`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // 页面加载完成后移除加载指示器
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+            
+            // 延迟加载非关键资源
+            setTimeout(() => {
+                const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+                lazyImages.forEach(img => {
+                    img.src = img.dataset.src;
+                });
+            }, 200);
+        });
+    });
+</script>
 </body>
 </html>

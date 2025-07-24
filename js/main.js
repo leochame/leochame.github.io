@@ -1,4 +1,65 @@
+// 页面交互增强功能
+function enhancePageInteraction() {
+    // 为所有外部链接添加安全属性
+    document.querySelectorAll('a[href^="http"]').forEach(link => {
+        if (!link.hasAttribute('rel')) {
+            link.setAttribute('rel', 'noopener noreferrer');
+        }
+        if (!link.hasAttribute('target')) {
+            link.setAttribute('target', '_blank');
+        }
+    });
+    
+    // 为图片添加加载完成事件，但排除头像图片
+    document.querySelectorAll('img').forEach(img => {
+        // 立即将头像设置为已加载状态
+        if (img.classList.contains('avatar-large') || img.classList.contains('avatar')) {
+            img.classList.add('loaded');
+        } else if (img.hasAttribute('loading') && img.getAttribute('loading') === 'lazy') {
+            // 只有明确标记为lazy的图片才添加加载事件
+            img.addEventListener('load', function() {
+                this.classList.add('loaded');
+            });
+        } else {
+            // 非懒加载图片直接设置为已加载状态
+            img.classList.add('loaded');
+        }
+    });
+    
+    // 为推荐文章链接添加平滑滚动
+    document.querySelectorAll('.scroll-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // 更新URL但不跳转
+                    history.pushState(null, null, targetId);
+                }
+            }
+        });
+    });
+
+    // 添加页面滚动监听
+    window.addEventListener('scroll', function() {
+        const header = document.querySelector('.header');
+        if (window.scrollY > 50) {
+            header.classList.add('header-scrolled');
+        } else {
+            header.classList.remove('header-scrolled');
+        }
+    });
+}
+
+// 在DOM内容加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
+    // 增强页面交互
+    enhancePageInteraction();
+    
     // 获取DOM元素
     const categoryList = document.getElementById('category-list');
     const articlesContainer = document.getElementById('articles-container');
@@ -37,8 +98,99 @@ document.addEventListener('DOMContentLoaded', function() {
         return acc;
     }, {});
 
-    // 初始化页面
-    initializePage();
+    // 检查URL参数
+    const categoryParam = urlParams.get('category');
+    
+    // 创建分类并设置初始选中状态
+    createCategories();
+    
+    // 如果URL有分类参数，则激活该分类
+    if (categoryParam) {
+        const categoryButton = document.querySelector(`.category-filter button[data-category="${categoryParam}"]`);
+        if (categoryButton) {
+            categoryButton.click();
+        } else {
+            // 如果没有找到精确匹配，尝试查找包含此分类的按钮
+            const buttons = document.querySelectorAll('.category-filter button');
+            for (const btn of buttons) {
+                if (btn.getAttribute('data-category').includes(categoryParam)) {
+                    btn.click();
+                    break;
+                }
+            }
+        }
+    }
+
+    // 首页文章展示功能
+    function initializeHomepage() {
+        const articlesContainer = document.getElementById('articles-container');
+        if (!articlesContainer) return; // 不是首页，退出
+        
+        // 获取所有featured为true的文章
+        const featuredArticles = articlesData
+            .filter(article => article.featured === true) // 确保明确匹配true
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, 6); // 只展示最多6篇推荐文章
+        
+        if (featuredArticles.length === 0) {
+            articlesContainer.innerHTML = '<div class="text-center"><p class="text-muted">暂无推荐文章</p></div>';
+            return;
+        }
+        
+        // 显示找到的推荐文章数量
+        const featuredCount = document.createElement('div');
+        featuredCount.className = 'featured-count mb-3';
+        featuredCount.innerHTML = `<span class="badge bg-primary">共找到 ${featuredArticles.length} 篇推荐文章</span>`;
+        articlesContainer.appendChild(featuredCount);
+        
+        // 创建文章卡片网格
+        const articleGrid = document.createElement('div');
+        articleGrid.className = 'article-grid';
+        articlesContainer.appendChild(articleGrid);
+        
+        featuredArticles.forEach(article => {
+            const articleCard = document.createElement('div');
+            articleCard.className = 'article-card';
+            
+            const categoryDisplay = article.subCategory
+                ? `${article.mainCategory} / ${article.subCategory}`
+                : article.mainCategory;
+            
+            articleCard.innerHTML = `
+                <div class="featured-badge"><i class="bi bi-star-fill"></i> 推荐</div>
+                <h2 class="article-title">
+                    <a href="${article.link}" target="_blank">${article.title}</a>
+                </h2>
+                <div class="article-meta">
+                    <span class="platform">
+                        <i class="bi bi-journal-text"></i> ${article.platform}
+                    </span>
+                    <span class="date">
+                        <i class="bi bi-calendar3"></i> ${article.date}
+                    </span>
+                    <span class="category">${categoryDisplay}</span>
+                </div>
+                <p class="article-summary">${article.summary}</p>
+                <a href="${article.link}" class="read-more" target="_blank">阅读全文 &rarr;</a>
+            `;
+            
+            articleGrid.appendChild(articleCard);
+        });
+    }
+
+    // 检查是否是首页
+    const isHomepage = document.getElementById('featured-articles') !== null;
+    
+    if (isHomepage) {
+        // 首页特定初始化
+        initializeHomepage();
+    } else {
+        // 文章列表页初始化
+        if (categoryList) {
+            // 初始化页面
+            initializePage();
+        }
+    }
 
     function initializePage() {
         // 页面加载时，根据 currentMainCategory, currentSubCategory, showAll 的状态渲染
