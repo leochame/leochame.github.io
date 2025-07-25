@@ -257,8 +257,16 @@
 <section id="featured-articles" class="featured-articles section-compact fade-in-up">
     <div class="container">
         <h2 class="section-title">推荐文章<span class="featured-note">（标记为featured=true的精选文章）</span></h2>
+        <p class="text-center mb-4">
+            <span class="scroll-hint">
+                <i class="bi bi-arrow-left-right"></i> 
+                <strong>左右滑动或点击箭头</strong>查看更多文章
+            </span>
+        </p>
         <div class="articles-container" id="articles-container">
             <!-- 文章卡片将通过JS动态生成 -->
+            <div class="scroll-indicator left"><i class="bi bi-chevron-left"></i></div>
+            <div class="scroll-indicator right"><i class="bi bi-chevron-right"></i></div>
         </div>
         <div class="text-center mt-3">
             <a href="tech.html" class="btn btn-primary btn-sm">查看更多文章</a>
@@ -340,14 +348,19 @@
         // 确保推荐文章在首页被显示
         const articlesContainer = document.getElementById('articles-container');
         if (articlesContainer) {
+            // 清空容器内容，防止重复添加
+            articlesContainer.innerHTML = `
+                <div class="scroll-indicator left"><i class="bi bi-chevron-left"></i></div>
+                <div class="scroll-indicator right"><i class="bi bi-chevron-right"></i></div>
+            `;
+            
             // 确保articlesData已加载
             setTimeout(() => {
                 if (typeof articlesData !== 'undefined') {
                     // 获取所有featured为true的文章
                     const featuredArticles = articlesData
                         .filter(article => article.featured === true)
-                        .sort((a, b) => new Date(b.date) - new Date(a.date))
-                        .slice(0, 6); // 最多显示6篇
+                        .sort((a, b) => new Date(b.date) - new Date(a.date));
                     
                     if (featuredArticles.length === 0) {
                         articlesContainer.innerHTML = '<div class="text-center"><p class="text-muted">暂无推荐文章</p></div>';
@@ -355,44 +368,90 @@
                     }
                     
                     // 显示找到的推荐文章数量
-                    const featuredCount = document.createElement('div');
-                    featuredCount.className = 'featured-count mb-3';
-                    featuredCount.innerHTML = `<span class="badge bg-primary">共找到 ${featuredArticles.length} 篇推荐文章</span>`;
-                    articlesContainer.appendChild(featuredCount);
+                    const countBadge = document.createElement('div');
+                    countBadge.className = 'article-count-badge mb-4';
+                    countBadge.innerHTML = `共找到 ${featuredArticles.length} 篇推荐文章`;
+                    articlesContainer.appendChild(countBadge);
                     
-                    // 创建文章卡片网格
-                    const articleGrid = document.createElement('div');
-                    articleGrid.className = 'article-grid';
-                    articlesContainer.appendChild(articleGrid);
+                    // 创建横向滚动容器
+                    const scrollContainer = document.createElement('div');
+                    scrollContainer.className = 'articles-scroll-container';
+                    articlesContainer.appendChild(scrollContainer);
                     
+                    // 添加文章卡片
                     featuredArticles.forEach(article => {
                         const articleCard = document.createElement('div');
-                        articleCard.className = 'article-card';
+                        articleCard.className = 'featured-article-card';
                         
                         const categoryDisplay = article.subCategory
                             ? `${article.mainCategory} / ${article.subCategory}`
                             : article.mainCategory;
                         
+                        // 整合平台和日期信息
+                        let metaInfo = '';
+                        if (article.platform) {
+                            metaInfo += `<div class="meta-item"><i class="bi bi-journal-text"></i> ${article.platform}</div>`;
+                        }
+                        if (article.date) {
+                            metaInfo += `<div class="meta-item"><i class="bi bi-calendar3"></i> ${article.date}</div>`;
+                        }
+                        
                         articleCard.innerHTML = `
-                            <div class="featured-badge"><i class="bi bi-star-fill"></i> 推荐</div>
-                            <h2 class="article-title">
-                                <a href="${article.link}" target="_blank">${article.title}</a>
-                            </h2>
-                            <div class="article-meta">
-                                <span class="platform">
-                                    <i class="bi bi-journal-text"></i> ${article.platform}
-                                </span>
-                                <span class="date">
-                                    <i class="bi bi-calendar3"></i> ${article.date}
-                                </span>
-                                <span class="category">${categoryDisplay}</span>
+                            <div class="article-badge">
+                                <i class="bi bi-star-fill"></i> 推荐
                             </div>
-                            <p class="article-summary">${article.summary}</p>
-                            <a href="${article.link}" class="read-more" target="_blank">阅读全文 &rarr;</a>
+                            <div class="article-main">
+                                <h3 class="article-title">${article.title}</h3>
+                                <div class="article-meta">
+                                    ${metaInfo}
+                                    <div class="meta-item category-tag">${categoryDisplay}</div>
+                                </div>
+                            </div>
                         `;
                         
-                        articleGrid.appendChild(articleCard);
+                        // 为卡片添加点击事件
+                        articleCard.addEventListener('click', () => {
+                            window.open(article.link, '_blank');
+                        });
+                        
+                        scrollContainer.appendChild(articleCard);
                     });
+                    
+                    // 添加滚动指示器的点击事件
+                    const leftIndicator = articlesContainer.querySelector('.scroll-indicator.left');
+                    const rightIndicator = articlesContainer.querySelector('.scroll-indicator.right');
+                    
+                    if (leftIndicator && rightIndicator && scrollContainer) {
+                        // 左箭头点击事件
+                        leftIndicator.addEventListener('click', () => {
+                            scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
+                        });
+                        
+                        // 右箭头点击事件
+                        rightIndicator.addEventListener('click', () => {
+                            scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
+                        });
+                        
+                        // 监听滚动事件以显示/隐藏指示器
+                        scrollContainer.addEventListener('scroll', () => {
+                            // 检查是否可以向左滚动
+                            if (scrollContainer.scrollLeft <= 10) {
+                                leftIndicator.style.opacity = '0.3';
+                            } else {
+                                leftIndicator.style.opacity = '0.8';
+                            }
+                            
+                            // 检查是否可以向右滚动
+                            if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 10) {
+                                rightIndicator.style.opacity = '0.3';
+                            } else {
+                                rightIndicator.style.opacity = '0.8';
+                            }
+                        });
+                        
+                        // 初始触发一次滚动事件以设置正确的指示器状态
+                        scrollContainer.dispatchEvent(new Event('scroll'));
+                    }
                 } else {
                     console.error('文章数据未加载');
                 }
