@@ -10,6 +10,76 @@
     <link rel="icon" href="images/favicon.ico">
     <meta name="description" content="关于Leochame的个人介绍和联系方式">
     <meta name="keywords" content="Leochame, 个人简介, 后端开发, 技术博客">
+    <style>
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            height: calc(100% - 12px);
+            width: 2px;
+            background: var(--primary-color);
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 25px;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .interest-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .interest-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--hover-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary-color);
+            font-size: 1.25rem;
+        }
+        .quote-card {
+            position: relative;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            background-color: var(--hover-color);
+            border-radius: 8px;
+        }
+        .quote-card i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            opacity: 0.5;
+        }
+        .quote-card blockquote {
+            margin: 0.5rem 0 0;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
 <header class="header">
@@ -82,10 +152,10 @@
                 <div class="hero-content">
                     <h1>你好，我是 <span class="highlight">Leochame</span></h1>
                     <p class="lead">后端开发工程师 | Java生态系统 | 技术探索者</p>
-                    <div class="about-social">
-                        <a href="https://github.com/leochame" target="_blank" class="social-icon"><i class="bi bi-github"></i></a>
-                        <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="social-icon"><i class="bi bi-link-45deg"></i></a>
-                        <a href="mailto:liulch.cn@gmail.com" class="social-icon"><i class="bi bi-envelope"></i></a>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="https://github.com/leochame" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-github me-2"></i>GitHub</a>
+                        <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-link-45deg me-2"></i>掘金</a>
+                        <a href="mailto:liulch.cn@gmail.com" class="btn btn-outline-primary btn-sm"><i class="bi bi-envelope me-2"></i>联系我</a>
                     </div>
                 </div>
             </div>
@@ -110,11 +180,101 @@
                     
                     <p>我对构建高效、可扩展的系统充满热情，并持续关注操作系统、计算机网络及数据库等底层技术的演进。我相信，<span class="highlight">对技术原理的深刻理解是解决复杂问题的关键</span>。</p>
                     
+                    <p>在技术领域，我专注于以下方向：</p>
+                    <ul>
+                        <li>Java核心技术与JVM性能优化</li>
+                        <li>分布式系统设计与微服务架构</li>
+                        <li>数据库性能调优与高可用设计</li>
+                        <li>操作系统原理与计算机网络底层机制</li>
+                    </ul>
+                    
                     <div class="quote-card">
                         <i class="bi bi-quote"></i>
                         <blockquote>
                             技术探索是一场永无止境的旅程，每一次深入学习都会带来新的视角与思考。
                         </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 技术兴趣 -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="section-title">技术兴趣</h2>
+                <div class="content-card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="interest-item">
+                                <div class="interest-icon">
+                                    <i class="bi bi-cpu"></i>
+                                </div>
+                                <div>
+                                    <h4>系统架构</h4>
+                                    <p>设计高可用、高性能的分布式系统</p>
+                                </div>
+                            </div>
+                            
+                            <div class="interest-item">
+                                <div class="interest-icon">
+                                    <i class="bi bi-database"></i>
+                                </div>
+                                <div>
+                                    <h4>数据库优化</h4>
+                                    <p>关系型与NoSQL数据库性能调优</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="interest-item">
+                                <div class="interest-icon">
+                                    <i class="bi bi-gear"></i>
+                                </div>
+                                <div>
+                                    <h4>JVM调优</h4>
+                                    <p>深入理解JVM运行机制与性能优化</p>
+                                </div>
+                            </div>
+                            
+                            <div class="interest-item">
+                                <div class="interest-icon">
+                                    <i class="bi bi-diagram-3"></i>
+                                </div>
+                                <div>
+                                    <h4>微服务生态</h4>
+                                    <p>探索Spring Cloud、Kubernetes等技术栈</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 职业历程 -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="section-title">职业历程</h2>
+                <div class="content-card">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2022 - 至今</div>
+                            <h4>高级后端开发工程师</h4>
+                            <p>负责核心业务系统的架构设计与性能优化，带领团队完成多个关键项目的交付。</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">2019 - 2022</div>
+                            <h4>后端开发工程师</h4>
+                            <p>参与电商平台的微服务改造，实现了系统吞吐量提升300%，大幅降低了运维成本。</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">2017 - 2019</div>
+                            <h4>Java开发实习生</h4>
+                            <p>参与企业内部管理系统的开发与维护，积累了丰富的实战经验。</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -131,7 +291,7 @@
                                 <i class="bi bi-journal-code"></i>
                             </div>
                             <h3>掘金</h3>
-                            <p>分享Java生态、架构设计等技术文章</p>
+                            <p>分享Java生态、架构设计等技术文章，已有30+原创文章，获赞2000+</p>
                             <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="btn btn-outline-primary btn-sm">访问主页</a>
                         </div>
                     </div>
@@ -142,7 +302,7 @@
                                 <i class="bi bi-chat-quote"></i>
                             </div>
                             <h3>知乎</h3>
-                            <p>回答技术问题，分享学习心得</p>
+                            <p>回答技术问题，分享学习心得，专注于Java性能优化与分布式系统话题</p>
                             <a href="https://www.zhihu.com/people/echo-29-41-13" target="_blank" class="btn btn-outline-primary btn-sm">访问主页</a>
                         </div>
                     </div>
@@ -153,7 +313,7 @@
                                 <i class="bi bi-wechat"></i>
                             </div>
                             <h3>公众号</h3>
-                            <p>「加瓦学徒」- 深入浅出Java技术</p>
+                            <p>「加瓦学徒」- 深入浅出Java技术，每周更新原创技术文章</p>
                             <div class="mt-3">
                                 <span class="badge bg-light text-dark">扫码关注</span>
                             </div>
@@ -194,8 +354,8 @@
                         <div class="col-md-6">
                             <div class="p-4 bg-light rounded-3">
                                 <h3>留言给我</h3>
-                                <p>如果你有任何问题或合作意向，欢迎联系我</p>
-                                <div class="d-flex gap-3 mt-4">
+                                <p>如果你有任何问题或合作意向，欢迎通过以下方式联系我</p>
+                                <div class="d-flex flex-wrap gap-3 mt-4">
                                     <a href="https://github.com/leochame" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-github me-2"></i>GitHub</a>
                                     <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-link-45deg me-2"></i>掘金</a>
                                     <a href="mailto:liulch.cn@gmail.com" class="btn btn-outline-primary btn-sm"><i class="bi bi-envelope me-2"></i>邮箱</a>
