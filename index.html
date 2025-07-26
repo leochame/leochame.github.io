@@ -84,8 +84,8 @@
     </div>
 </header>
 
-<!-- 简化的主页横幅 -->
-<section class="hero-section hero-compact fade-in-up">
+<!-- 主页英雄区 -->
+<section class="hero-section fade-in-up">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-7">
@@ -96,7 +96,7 @@
             </div>
             <div class="col-lg-5">
                 <div class="hero-image text-center">
-                    <img src="images/avatar.svg" alt="头像" class="img-fluid rounded-circle avatar-large">
+                    <img src="images/avatar.svg" alt="头像" class="img-fluid avatar-large">
                 </div>
             </div>
         </div>
@@ -170,7 +170,7 @@
 </section>
 
 <!-- 博客内容导航 -->
-<section id="blog-sections" class="blog-sections section-compact fade-in-up">
+<section id="blog-sections" class="section-compact fade-in-up">
     <div class="container">
         <h2 class="section-title">博客内容</h2>
         <div class="row mt-3 g-4">
@@ -209,7 +209,7 @@
 </section>
 
 <!-- 专业领域 -->
-<section class="expertise-section section-compact fade-in-up">
+<section class="expertise-section fade-in-up">
     <div class="container">
         <h2 class="section-title">专业领域</h2>
         <div class="row mt-3 g-4">
@@ -254,7 +254,7 @@
 </section>
 
 <!-- 推荐文章部分 -->
-<section id="featured-articles" class="featured-articles section-compact fade-in-up">
+<section id="featured-articles" class="featured-articles fade-in-up">
     <div class="container">
         <h2 class="section-title">推荐文章<span class="featured-note">（标记为featured=true的精选文章）</span></h2>
         <p class="text-center mb-4">
@@ -400,12 +400,10 @@
                             <div class="article-badge">
                                 <i class="bi bi-star-fill"></i> 推荐
                             </div>
-                            <div class="article-main">
-                                <h3 class="article-title">${article.title}</h3>
-                                <div class="article-meta">
-                                    ${metaInfo}
-                                    <div class="meta-item category-tag">${categoryDisplay}</div>
-                                </div>
+                            <h3 class="article-title">${article.title}</h3>
+                            <div class="article-meta">
+                                ${metaInfo}
+                                <div class="meta-item category-tag">${categoryDisplay}</div>
                             </div>
                         `;
                         
@@ -461,14 +459,6 @@
         // 页面加载完成后移除加载指示器
         window.addEventListener('load', function() {
             document.body.classList.add('loaded');
-            
-            // 延迟加载非关键资源
-            setTimeout(() => {
-                const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-                lazyImages.forEach(img => {
-                    img.src = img.dataset.src;
-                });
-            }, 200);
         });
     });
 </script>

@@ -44,15 +44,27 @@ function enhancePageInteraction() {
         });
     });
 
-    // 添加页面滚动监听
-    window.addEventListener('scroll', function() {
-        const header = document.querySelector('.header');
-        if (window.scrollY > 50) {
-            header.classList.add('header-scrolled');
-        } else {
-            header.classList.remove('header-scrolled');
-        }
-    });
+    // 添加渐入动画
+    const animateElements = document.querySelectorAll('.fade-in-up');
+    if (animateElements.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = `${entry.target.dataset.delay || 0}s`;
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        animateElements.forEach((el, index) => {
+            el.style.animationPlayState = 'paused';
+            el.dataset.delay = index * 0.1;
+            observer.observe(el);
+        });
+    }
 }
 
 // 在DOM内容加载完成后执行
@@ -102,7 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const categoryParam = urlParams.get('category');
     
     // 创建分类并设置初始选中状态
-    createCategories();
+    if (typeof createCategories === 'function') {
+        createCategories();
+    }
     
     // 如果URL有分类参数，则激活该分类
     if (categoryParam) {
@@ -136,46 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
             articlesContainer.innerHTML = '<div class="text-center"><p class="text-muted">暂无推荐文章</p></div>';
             return;
         }
-        
-        // 显示找到的推荐文章数量
-        const featuredCount = document.createElement('div');
-        featuredCount.className = 'featured-count mb-3';
-        featuredCount.innerHTML = `<span class="badge bg-primary">共找到 ${featuredArticles.length} 篇推荐文章</span>`;
-        articlesContainer.appendChild(featuredCount);
-        
-        // 创建文章卡片网格
-        const articleGrid = document.createElement('div');
-        articleGrid.className = 'article-grid';
-        articlesContainer.appendChild(articleGrid);
-        
-        featuredArticles.forEach(article => {
-            const articleCard = document.createElement('div');
-            articleCard.className = 'article-card';
-            
-            const categoryDisplay = article.subCategory
-                ? `${article.mainCategory} / ${article.subCategory}`
-                : article.mainCategory;
-            
-            articleCard.innerHTML = `
-                <div class="featured-badge"><i class="bi bi-star-fill"></i> 推荐</div>
-                <h2 class="article-title">
-                    <a href="${article.link}" target="_blank">${article.title}</a>
-                </h2>
-                <div class="article-meta">
-                    <span class="platform">
-                        <i class="bi bi-journal-text"></i> ${article.platform}
-                    </span>
-                    <span class="date">
-                        <i class="bi bi-calendar3"></i> ${article.date}
-                    </span>
-                    <span class="category">${categoryDisplay}</span>
-                </div>
-                <p class="article-summary">${article.summary}</p>
-                <a href="${article.link}" class="read-more" target="_blank">阅读全文 &rarr;</a>
-            `;
-            
-            articleGrid.appendChild(articleCard);
-        });
     }
 
     // 检查是否是首页
@@ -184,12 +158,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (isHomepage) {
         // 首页特定初始化
         initializeHomepage();
-    } else {
+    } else if (categoryList) {
         // 文章列表页初始化
-        if (categoryList) {
-            // 初始化页面
-            initializePage();
-        }
+        initializePage();
     }
 
     function initializePage() {
@@ -202,13 +173,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 渲染分类列表函数
     function renderCategories() {
+        if (!categoryList) return;
+        
         categoryList.innerHTML = '';
 
         // 创建主分类容器
         const mainCategoriesContainer = document.createElement('div');
         mainCategoriesContainer.className = 'main-categories-container';
-
-        // 主分类渲染逻辑保持不变，因为切换按钮不在侧边栏
 
         // 渲染主分类
         for (const mainCategory in categories) {
@@ -236,6 +207,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 渲染子分类列表
     function renderSubCategories() {
+        if (!subCategoriesScroll) return;
+        
         subCategoriesScroll.innerHTML = '';
         // 推荐和全部视图下不显示子分类
         if (currentMainCategory === 'featured' || currentMainCategory === 'all') {
@@ -272,6 +245,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 渲染文章列表函数
     function renderArticles() {
+        if (!articlesContainer || !currentCategoryTitle) return;
+        
         articlesContainer.innerHTML = '';
         let filteredArticles = [];
 
@@ -281,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
             filteredArticles = articlesData.filter(article => article.featured);
             currentCategoryTitle.textContent = '推荐阅读';
         } else if (currentMainCategory === 'all') {
-            // 切换到“全部文章”视图
+            // 切换到"全部文章"视图
             filteredArticles = articlesData;
             currentCategoryTitle.textContent = '全部文章';
         } else if (currentMainCategory && currentMainCategory !== 'all' && currentMainCategory !== 'featured') {
@@ -335,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </span>
                 </div>
                 <p class="article-summary">${article.summary}</p>
-                <a href="${article.link}" class="read-more" target="_blank">阅读全文 &rarr;</a>
+                <a href="${article.link}" class="read-more" target="_blank">阅读全文</a>
             `;
 
             articlesContainer.appendChild(articleCard);
