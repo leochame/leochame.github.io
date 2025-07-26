@@ -74,67 +74,104 @@
     </div>
 </header>
 
-<main class="main-content">
+<!-- 技术专栏标题区域 -->
+<section class="hero-section fade-in-up">
     <div class="container">
-        <div class="content-area">
-            <div class="category-heading">
-                <h1>技术专栏</h1>
-                <p class="text-muted">深入研究后端开发技术，分享实战经验和最佳实践</p>
-                
-                <div class="category-filters mt-4">
-                    <div class="d-flex flex-wrap gap-2">
-                        <button class="btn btn-outline-primary active" data-category="all">全部</button>
-                        <button class="btn btn-outline-primary" data-category="Java">Java</button>
-                        <button class="btn btn-outline-primary" data-category="操作系统">操作系统</button>
-                        <button class="btn btn-outline-primary" data-category="数据库">数据库</button>
-                        <button class="btn btn-outline-primary" data-category="计算机网络">计算机网络</button>
-                        <button class="btn btn-outline-primary" data-category="计算机基础">计算机基础</button>
-                        <button class="btn btn-outline-primary" data-category="人工智能">人工智能</button>
-                        <button class="btn btn-outline-primary" data-category="大数据">大数据</button>
-                    </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="hero-content">
+                    <h1>技术专栏</h1>
+                    <p class="lead">深入研究后端开发技术，分享实战经验和最佳实践</p>
                 </div>
-            </div>
-
-            <div class="row" id="article-container">
-                <!-- 文章将通过JavaScript动态生成 -->
-            </div>
-            
-            <div class="mt-4 d-flex justify-content-center">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
     </div>
-</main>
+</section>
+
+<!-- 文章列表内容 -->
+<section class="section-compact fade-in-up">
+    <div class="container">
+        <!-- 分类筛选 -->
+        <div class="mb-5">
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <button class="btn btn-outline-primary active" data-category="all">全部</button>
+                <button class="btn btn-outline-primary" data-category="Java">Java</button>
+                <button class="btn btn-outline-primary" data-category="操作系统">操作系统</button>
+                <button class="btn btn-outline-primary" data-category="数据库">数据库</button>
+                <button class="btn btn-outline-primary" data-category="计算机网络">计算机网络</button>
+                <button class="btn btn-outline-primary" data-category="计算机基础">计算机基础</button>
+                <button class="btn btn-outline-primary" data-category="人工智能">人工智能</button>
+                <button class="btn btn-outline-primary" data-category="大数据">大数据</button>
+            </div>
+        </div>
+
+        <!-- 文章列表 -->
+        <div class="row" id="article-container">
+            <!-- 文章将通过JavaScript动态生成 -->
+        </div>
+        
+        <!-- 分页 -->
+        <div class="mt-5 d-flex justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
 
 <footer class="footer">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <p>&copy; 2023-2025 Leochame 的技术博客。使用 <a href="https://pages.github.com/">GitHub Pages</a> 构建。</p>
+                <div class="d-flex align-items-center mb-3">
+                    <h5 class="me-3 mb-0">Leochame</h5>
+                    <div class="footer-social">
+                        <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
+                        <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
+                        <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <p class="small">后端开发工程师，专注于Java生态系统、系统架构设计与性能优化</p>
             </div>
-            <div class="col-md-6 text-md-end">
-                <div class="footer-social">
-                    <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
-                    <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
-                    <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i></a>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-6">
+                        <h6>导航</h6>
+                        <ul class="footer-links small">
+                            <li><a href="tech.html">技术专栏</a></li>
+                            <li><a href="research.html">研究札记</a></li>
+                            <li><a href="projects.html">项目展示</a></li>
+                            <li><a href="about.html">关于我</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <h6>热门分类</h6>
+                        <ul class="footer-links small">
+                            <li><a href="tech.html?category=Java">Java开发</a></li>
+                            <li><a href="tech.html?category=数据库">数据库</a></li>
+                            <li><a href="research.html?category=操作系统">操作系统</a></li>
+                            <li><a href="research.html?category=计算机基础">计算机基础</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="footer-bottom text-center mt-3">
+            <p class="small mb-0">&copy; 2023-2025 Leochame 的技术博客。使用 <a href="https://pages.github.com/">GitHub Pages</a> 构建。</p>
         </div>
     </div>
 </footer>
@@ -145,7 +182,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const articleContainer = document.getElementById('article-container');
-        const categoryButtons = document.querySelectorAll('.category-filters button');
+        const categoryButtons = document.querySelectorAll('.btn[data-category]');
         const pagination = document.querySelector('.pagination');
         let currentCategory = 'all';
         let currentPage = 1;
@@ -186,7 +223,7 @@
                 : techArticles.filter(article => article.mainCategory === category);
             
             if (filteredArticles.length === 0) {
-                articleContainer.innerHTML = '<div class="col-12"><div class="no-articles">该分类下暂无文章</div></div>';
+                articleContainer.innerHTML = '<div class="col-12"><div class="alert alert-info text-center">该分类下暂无文章</div></div>';
                 renderPagination(1, 1);
                 return;
             }
@@ -203,28 +240,30 @@
             // 渲染当前页文章
             currentPageArticles.forEach(article => {
                 const articleCol = document.createElement('div');
-                articleCol.className = 'col-md-4 mb-4';
+                articleCol.className = 'col-md-6 col-lg-4 mb-4';
                 
                 const categoryDisplay = article.subCategory 
                     ? `${article.mainCategory} / ${article.subCategory}` 
                     : article.mainCategory;
                 
                 articleCol.innerHTML = `
-                    <div class="article-card">
-                        <h2 class="article-title">
+                    <div class="content-card h-100">
+                        <h3 class="article-title">
                             <a href="${article.link}" target="_blank">${article.title}</a>
-                        </h2>
-                        <div class="article-meta">
-                            <span class="platform">
-                                <i class="bi bi-journal-text"></i> ${article.platform}
-                            </span>
-                            <span class="date">
-                                <i class="bi bi-calendar3"></i> ${article.date}
-                            </span>
-                            <span class="category">${categoryDisplay}</span>
+                        </h3>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-journal-text me-2 text-primary"></i>
+                                <span class="text-secondary small">${article.platform}</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-calendar3 me-2 text-primary"></i>
+                                <span class="text-secondary small">${article.date}</span>
+                            </div>
+                            <span class="badge bg-light text-primary">${categoryDisplay}</span>
                         </div>
-                        <p class="article-summary">${article.summary}</p>
-                        <a href="${article.link}" class="read-more" target="_blank">阅读全文 &rarr;</a>
+                        <p class="text-secondary mb-4">${article.summary}</p>
+                        <a href="${article.link}" class="btn btn-outline-primary btn-sm" target="_blank">阅读全文</a>
                     </div>
                 `;
                 
@@ -375,7 +414,7 @@
             pagination.appendChild(nextLi);
             
             // 如果总页数小于等于1，隐藏分页组件
-            const paginationContainer = pagination.parentElement.parentElement;
+            const paginationContainer = pagination.parentElement;
             paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
         }
         

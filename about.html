@@ -75,11 +75,11 @@
 </header>
 
 <!-- 个人介绍横幅 -->
-<section class="about-hero fade-in-up">
+<section class="hero-section fade-in-up">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <div class="about-hero-content">
+                <div class="hero-content">
                     <h1>你好，我是 <span class="highlight">Leochame</span></h1>
                     <p class="lead">后端开发工程师 | Java生态系统 | 技术探索者</p>
                     <div class="about-social">
@@ -90,29 +90,25 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="about-hero-image">
-                    <img src="images/avatar.svg" alt="Leochame的照片" class="about-avatar-hero">
-                    <div class="avatar-backdrop"></div>
+                <div class="hero-image text-center">
+                    <img src="images/avatar.svg" alt="Leochame的照片" class="avatar-large">
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<main class="main-content">
+<!-- 主要内容 -->
+<section class="section-compact fade-in-up">
     <div class="container">
         <!-- 个人简介部分 -->
-        <section class="about-section fade-in">
-            <div class="section-header">
-                <h2><i class="bi bi-person-badge"></i> 个人简介</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <div class="about-card">
-                <div class="about-content">
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="section-title">个人简介</h2>
+                <div class="content-card">
                     <p class="about-intro">你好，我是 <strong>Leochame</strong>。我致力于后端技术的探索与实践，尤其在Java生态领域尝试进行深入研究。</p>
                     
-                    <p>我对构建高效、可扩展的系统充满热情，并持续关注操作系统、计算机网络及数据库等底层技术的演进。我相信，<span class="highlight-text">对技术原理的深刻理解是解决复杂问题的关键</span>。</p>
+                    <p>我对构建高效、可扩展的系统充满热情，并持续关注操作系统、计算机网络及数据库等底层技术的演进。我相信，<span class="highlight">对技术原理的深刻理解是解决复杂问题的关键</span>。</p>
                     
                     <div class="quote-card">
                         <i class="bi bi-quote"></i>
@@ -122,162 +118,158 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
         
         <!-- 专业技能部分 -->
-        <section class="skills-section fade-in">
-            <div class="section-header">
-                <h2><i class="bi bi-lightning-charge"></i> 技能专长</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <div class="skills-card">
-                <div class="skills-container">
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span>Java</span>
-                            <span class="skill-percent">85%</span>
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="section-title">技能专长</h2>
+                <div class="content-card">
+                    <div class="skills-container">
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Java</span>
+                                <span class="skill-percent">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="--skill-level: 85%"></div>
+                            </div>
+                            <div class="skill-tags">
+                                <span class="skill-tag">核心技能</span>
+                            </div>
                         </div>
-                        <div class="skill-bar">
-                            <div class="skill-bar-fill" style="--skill-level: 85%"></div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>MySQL</span>
+                                <span class="skill-percent">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="--skill-level: 80%"></div>
+                            </div>
+                            <div class="skill-tags">
+                                <span class="skill-tag">数据库</span>
+                            </div>
                         </div>
-                        <div class="skill-tags">
-                            <span class="skill-tag">核心技能</span>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>操作系统</span>
+                                <span class="skill-percent">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="--skill-level: 75%"></div>
+                            </div>
+                            <div class="skill-tags">
+                                <span class="skill-tag">系统原理</span>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span>MySQL</span>
-                            <span class="skill-percent">80%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-bar-fill" style="--skill-level: 80%"></div>
-                        </div>
-                        <div class="skill-tags">
-                            <span class="skill-tag">数据库</span>
-                        </div>
-                    </div>
-                    
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span>操作系统</span>
-                            <span class="skill-percent">75%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-bar-fill" style="--skill-level: 75%"></div>
-                        </div>
-                        <div class="skill-tags">
-                            <span class="skill-tag">系统原理</span>
-                        </div>
-                    </div>
-                    
-                    <div class="skill-item">
-                        <div class="skill-name">
-                            <span>计算机网络</span>
-                            <span class="skill-percent">70%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-bar-fill" style="--skill-level: 70%"></div>
-                        </div>
-                        <div class="skill-tags">
-                            <span class="skill-tag">网络协议</span>
+                        
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>计算机网络</span>
+                                <span class="skill-percent">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="--skill-level: 70%"></div>
+                            </div>
+                            <div class="skill-tags">
+                                <span class="skill-tag">网络协议</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
         
         <!-- 我的平台 -->
-        <section class="platforms-section fade-in">
-            <div class="section-header">
-                <h2><i class="bi bi-share"></i> 我的平台</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="platform-card">
-                        <div class="platform-icon">
-                            <i class="bi bi-journal-code"></i>
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="section-title">我的平台</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="content-card h-100">
+                            <div class="content-icon">
+                                <i class="bi bi-journal-code"></i>
+                            </div>
+                            <h3>掘金</h3>
+                            <p>分享Java生态、架构设计等技术文章</p>
+                            <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="btn btn-outline-primary btn-sm">访问主页</a>
                         </div>
-                        <h3>掘金</h3>
-                        <p>分享Java生态、架构设计等技术文章</p>
-                        <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="platform-link">访问主页 <i class="bi bi-arrow-right"></i></a>
                     </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="platform-card">
-                        <div class="platform-icon">
-                            <i class="bi bi-chat-quote"></i>
+                    
+                    <div class="col-md-4">
+                        <div class="content-card h-100">
+                            <div class="content-icon">
+                                <i class="bi bi-chat-quote"></i>
+                            </div>
+                            <h3>知乎</h3>
+                            <p>回答技术问题，分享学习心得</p>
+                            <a href="https://www.zhihu.com/people/echo-29-41-13" target="_blank" class="btn btn-outline-primary btn-sm">访问主页</a>
                         </div>
-                        <h3>知乎</h3>
-                        <p>回答技术问题，分享学习心得</p>
-                        <a href="https://www.zhihu.com/people/echo-29-41-13" target="_blank" class="platform-link">访问主页 <i class="bi bi-arrow-right"></i></a>
                     </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="platform-card">
-                        <div class="platform-icon">
-                            <i class="bi bi-wechat"></i>
-                        </div>
-                        <h3>公众号</h3>
-                        <p>「加瓦学徒」- 深入浅出Java技术</p>
-                        <div class="platform-qrcode">
-                            <span>扫码关注</span>
+                    
+                    <div class="col-md-4">
+                        <div class="content-card h-100">
+                            <div class="content-icon">
+                                <i class="bi bi-wechat"></i>
+                            </div>
+                            <h3>公众号</h3>
+                            <p>「加瓦学徒」- 深入浅出Java技术</p>
+                            <div class="mt-3">
+                                <span class="badge bg-light text-dark">扫码关注</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
         
         <!-- 联系我 -->
-        <section class="contact-section fade-in">
-            <div class="section-header">
-                <h2><i class="bi bi-envelope-open"></i> 联系我</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <div class="contact-card">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="contact-info">
-                            <div class="contact-item">
-                                <i class="bi bi-envelope"></i>
-                                <div>
-                                    <h4>邮箱</h4>
-                                    <p><a href="mailto:liulch.cn@gmail.com">liulch.cn@gmail.com</a></p>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="section-title">联系我</h2>
+                <div class="content-card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="bi bi-envelope fs-3 me-3 text-primary"></i>
+                                    <div>
+                                        <h4>邮箱</h4>
+                                        <p><a href="mailto:liulch.cn@gmail.com">liulch.cn@gmail.com</a></p>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <div class="contact-item">
-                                <i class="bi bi-github"></i>
-                                <div>
-                                    <h4>GitHub</h4>
-                                    <p><a href="https://github.com/leochame" target="_blank">github.com/leochame</a></p>
+                            <div class="mb-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-github fs-3 me-3 text-primary"></i>
+                                    <div>
+                                        <h4>GitHub</h4>
+                                        <p><a href="https://github.com/leochame" target="_blank">github.com/leochame</a></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="contact-message">
-                            <h3>留言给我</h3>
-                            <p>如果你有任何问题或合作意向，欢迎联系我</p>
-                            <div class="contact-social">
-                                <a href="https://github.com/leochame" target="_blank" class="contact-social-icon"><i class="bi bi-github"></i></a>
-                                <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="contact-social-icon"><i class="bi bi-link-45deg"></i></a>
-                                <a href="mailto:liulch.cn@gmail.com" class="contact-social-icon"><i class="bi bi-envelope"></i></a>
+                        
+                        <div class="col-md-6">
+                            <div class="p-4 bg-light rounded-3">
+                                <h3>留言给我</h3>
+                                <p>如果你有任何问题或合作意向，欢迎联系我</p>
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="https://github.com/leochame" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-github me-2"></i>GitHub</a>
+                                    <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-link-45deg me-2"></i>掘金</a>
+                                    <a href="mailto:liulch.cn@gmail.com" class="btn btn-outline-primary btn-sm"><i class="bi bi-envelope me-2"></i>邮箱</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
-</main>
+</section>
 
 <footer class="footer">
     <div class="container">
