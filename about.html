@@ -10,36 +10,6 @@
     <link rel="icon" href="images/favicon.ico">
     <meta name="description" content="关于Leochame的个人介绍和联系方式">
     <meta name="keywords" content="Leochame, 个人简介, 后端开发, 技术博客">
-    <style>
-        /* 技能条样式 */
-        .skill-item {
-            margin-bottom: 1.5rem;
-        }
-        .skill-name {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-        .skill-bar {
-            height: 8px;
-            background-color: var(--hover-color);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 0.5rem;
-        }
-        .skill-bar-fill {
-            height: 100%;
-            background: var(--gradient-primary);
-            border-radius: 4px;
-            width: 0;
-            transition: width 1s ease;
-        }
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-    </style>
 </head>
 <body>
 <header class="header">
@@ -145,68 +115,6 @@
                         <blockquote>
                             技术探索是一场永无止境的旅程，每一次深入学习都会带来新的视角与思考。
                         </blockquote>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 专业技能部分 -->
-        <div class="row mb-5">
-            <div class="col-12">
-                <h2 class="section-title">技能专长</h2>
-                <div class="content-card">
-                    <div class="skills-container">
-                        <div class="skill-item">
-                            <div class="skill-name">
-                                <span>Java</span>
-                                <span class="skill-percent">85%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-bar-fill" data-width="85%"></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="badge bg-light text-primary">核心技能</span>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="skill-name">
-                                <span>MySQL</span>
-                                <span class="skill-percent">80%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-bar-fill" data-width="80%"></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="badge bg-light text-primary">数据库</span>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="skill-name">
-                                <span>操作系统</span>
-                                <span class="skill-percent">75%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-bar-fill" data-width="75%"></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="badge bg-light text-primary">系统原理</span>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="skill-name">
-                                <span>计算机网络</span>
-                                <span class="skill-percent">70%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-bar-fill" data-width="70%"></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="badge bg-light text-primary">网络协议</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -347,37 +255,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
 <script src="js/theme-switcher.js" defer></script>
 <script src="js/main.js" defer></script>
-<script>
-    // 初始化技能条动画
-    document.addEventListener('DOMContentLoaded', function() {
-        // 使用IntersectionObserver来检测技能条是否进入视口
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // 获取所有技能条
-                    const skillBars = document.querySelectorAll('.skill-bar-fill');
-                    skillBars.forEach(bar => {
-                        // 获取宽度数据
-                        const width = bar.getAttribute('data-width');
-                        // 设置宽度以触发动画
-                        setTimeout(() => {
-                            bar.style.width = width;
-                        }, 200);
-                    });
-                    // 一旦触发动画，就不再观察
-                    observer.disconnect();
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        // 开始观察技能容器
-        const skillsContainer = document.querySelector('.skills-container');
-        if (skillsContainer) {
-            observer.observe(skillsContainer);
-        }
-    });
-</script>
 </body>
 </html>
