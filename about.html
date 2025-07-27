@@ -307,43 +307,103 @@
 <!-- 我的平台部分 -->
 <section class="section-compact">
     <div class="container">
-        <h2 class="section-title">我的平台</h2>
-        <div class="row platform-container">
-            <div class="col-md-4">
-                <div class="platform-card">
-                    <div class="content-icon">
-                        <i class="bi bi-journal-code"></i>
+        <h2 class="section-title">我的社交媒体</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="social-platforms-card">
+                    <div class="d-flex flex-wrap justify-content-center gap-4 mb-5">
+                        <a href="https://github.com/leochame" target="_blank" class="social-platform-link">
+                            <div class="social-platform-icon">
+                                <i class="bi bi-github"></i>
+                            </div>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="social-platform-link">
+                            <div class="social-platform-icon">
+                                <i class="bi bi-journal-code"></i>
+                            </div>
+                            <span>掘金</span>
+                        </a>
+                        <a href="https://www.zhihu.com/people/echo-29-41-13" target="_blank" class="social-platform-link">
+                            <div class="social-platform-icon">
+                                <i class="bi bi-chat-quote"></i>
+                            </div>
+                            <span>知乎</span>
+                        </a>
                     </div>
-                    <h3>掘金</h3>
-                    <p>分享Java生态、架构设计等技术文章，已有30+原创文章，获赞2000+</p>
-                    <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="btn btn-outline-primary btn-sm">访问主页</a>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="platform-card">
-                    <div class="content-icon">
-                        <i class="bi bi-chat-quote"></i>
+                    
+                    <div class="wechat-account text-center p-4 rounded-3">
+                        <h4 class="mb-3">公众号「加瓦学徒」</h4>
+                        <p class="text-muted mb-4">深入浅出Java技术，每周更新原创技术文章</p>
+                        <div class="mb-3">
+                            <img src="images/wx_account.jpg" alt="公众号二维码" class="img-fluid qr-code" style="max-width: 180px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                        </div>
+                        <span class="badge bg-light text-primary">扫码关注</span>
                     </div>
-                    <h3>知乎</h3>
-                    <p>回答技术问题，分享学习心得，专注于Java性能优化与分布式系统话题</p>
-                    <a href="https://www.zhihu.com/people/echo-29-41-13" target="_blank" class="btn btn-outline-primary btn-sm">访问主页</a>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="platform-card">
-                    <div class="content-icon">
-                        <i class="bi bi-wechat"></i>
-                    </div>
-                    <h3>公众号</h3>
-                    <p>「加瓦学徒」- 深入浅出Java技术，每周更新原创技术文章</p>
-                    <span class="badge bg-light text-dark">扫码关注</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    .social-platforms-card {
+        background-color: #fff;
+        border-radius: var(--radius-lg);
+        padding: 2.5rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+    
+    .social-platform-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: var(--text-color);
+        transition: transform 0.3s ease;
+    }
+    
+    .social-platform-link:hover {
+        transform: translateY(-5px);
+        color: var(--primary-color);
+    }
+    
+    .social-platform-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--hover-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+        font-size: 1.75rem;
+        color: var(--primary-color);
+        transition: all 0.3s ease;
+    }
+    
+    .social-platform-link:hover .social-platform-icon {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .wechat-account {
+        background-color: var(--hover-color);
+        margin-top: 2rem;
+    }
+    
+    @media (max-width: 767px) {
+        .social-platforms-card {
+            padding: 1.5rem;
+        }
+        
+        .social-platform-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+        }
+    }
+</style>
 
 <!-- 联系我部分 -->
 <section class="section-compact" style="background-color: var(--section-bg-light);">
