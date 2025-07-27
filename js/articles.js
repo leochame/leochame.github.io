@@ -58,7 +58,7 @@ const articlesData = [
         date: "2025-04-25",
         mainCategory: "Java",
         subCategory: "Java并发",
-        isResearch: true // 研究札记 - 由于讲解底层原理
+        isResearch: false
     },
     {
         featured: false,
@@ -82,7 +82,7 @@ const articlesData = [
         date: "2025-03-12",
         mainCategory: "计算机基础",
         subCategory: "NTP",
-        isResearch: false // 技术专栏 - 更侧重于实践优化
+        isResearch: true
     },
     {
         featured: true,
@@ -107,7 +107,7 @@ const articlesData = [
         date: "2025-03-03",
         mainCategory: "操作系统",
         subCategory: "MIT6.1810【笔记】",
-        isResearch: true // 研究札记
+        isResearch: false
     },
     {
         featured: false,
@@ -119,7 +119,7 @@ const articlesData = [
         date: "2024-12-29",
         mainCategory: "操作系统",
         subCategory: "MIT6.1810【笔记】",
-        isResearch: true // 研究札记
+        isResearch: true
     },
     {
         featured: false,
@@ -131,7 +131,7 @@ const articlesData = [
         date: "2024-12-29",
         mainCategory: "操作系统",
         subCategory: "MIT6.1810【笔记】",
-        isResearch: true // 研究札记
+        isResearch: true
     },
     {
         featured: false,
@@ -184,7 +184,7 @@ const articlesData = [
     {
         featured: false,
         id: 7,
-        title: "拥塞控制原理与TCP拥塞",
+        title: "《Computer Networking A Top-Down Approach》- 拥塞控制原理与TCP拥塞",
         summary: "探讨网络拥塞控制的基本原理以及 TCP 协议如何实现拥塞控制。",
         link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/kkmagdynt183fyvo",
         platform: "语雀",
@@ -203,7 +203,7 @@ const articlesData = [
         date: "2025-04-08",
         mainCategory: "Java",
         subCategory: "Java并发",
-        isResearch: false // 技术专栏 - 偏向实践应用
+        isResearch: false
     },
     {
         featured: true,
@@ -215,12 +215,12 @@ const articlesData = [
         date: "2025-03-24",
         mainCategory: "操作系统",
         subCategory: "MIT6.1810【笔记】",
-        isResearch: true // 研究札记
+        isResearch: false
     },
     {
         featured: false,
         id: 4,
-        title: "操作系统 - 结构与组织",
+        title: "MIT6.1810 - 结构与组织",
         summary: "这篇文章主要介绍了操作系统的结构与组织，包括操作系统的经典组织结构，如硬件资源、内核空间和用户空间的关系，内核中的重要模块...",
         link: "https://juejin.cn/post/7474427694630142002",
         platform: "掘金",
@@ -239,7 +239,7 @@ const articlesData = [
         date: "2025-02-21",
         mainCategory: "计算机网络",
         subCategory: "网络基础",
-        isResearch: true // 研究札记
+        isResearch: false
     },
     {
         featured: false,
@@ -250,8 +250,8 @@ const articlesData = [
         platform: "语雀",
         date: "2025-02-10",
         mainCategory: "数据库",
-        subCategory: "MySQL",
-        isResearch: false // 技术专栏
+        subCategory: "MySQL 学习笔记",
+        isResearch: true // 技术专栏
     },
     {
         featured: false,
@@ -262,7 +262,7 @@ const articlesData = [
         platform: "语雀",
         date: "2025-02-11",
         mainCategory: "数据库",
-        subCategory: "MySQL",
-        isResearch: false // 技术专栏
+        subCategory: "MySQL 学习笔记",
+        isResearch: true // 技术专栏
     }
 ];
