@@ -237,7 +237,7 @@ const articlesData = [
         link: "https://juejin.cn/post/7473721599248744485",
         platform: "掘金",
         date: "2025-02-21",
-        mainCategory: "计算机网络",
+        mainCategory: "操作系统",
         subCategory: "网络基础",
         isResearch: false
     },
