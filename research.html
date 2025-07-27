@@ -109,6 +109,114 @@
     </div>
 </section>
 
+<style>
+    /* 研究札记页面样式 */
+    .research-card {
+        display: flex;
+        border-radius: var(--radius-md);
+        background-color: #fff;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+    }
+    
+    .research-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .research-card-left {
+        width: 30%;
+        padding: 1.5rem;
+        background-color: var(--hover-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-right: 1px solid var(--border-color);
+    }
+    
+    .research-card-right {
+        width: 70%;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .research-date {
+        font-size: 0.9rem;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+    
+    .research-category {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 30px;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    .research-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: var(--text-color);
+    }
+    
+    .research-summary {
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex-grow: 1;
+    }
+    
+    .research-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .research-tag {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        background-color: var(--hover-color);
+        color: var(--text-color);
+        border-radius: 4px;
+        font-size: 0.75rem;
+    }
+    
+    .research-link {
+        align-self: flex-end;
+    }
+    
+    @media (max-width: 767px) {
+        .research-card {
+            flex-direction: column;
+        }
+        
+        .research-card-left {
+            width: 100%;
+            padding: 1rem;
+            border-right: none;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .research-card-right {
+            width: 100%;
+            padding: 1rem;
+        }
+    }
+</style>
+
 <footer class="footer">
     <div class="container">
         <div class="row">
@@ -162,7 +270,7 @@
         const pagination = document.querySelector('.pagination');
         let currentCategory = 'all';
         let currentPage = 1;
-        const ITEMS_PER_PAGE = 4; // 每页显示4篇研究内容
+        const ITEMS_PER_PAGE = 10; // 每页显示10篇研究内容
         
         // 检查URL参数
         const urlParams = new URLSearchParams(window.location.search);
@@ -218,25 +326,26 @@
             // 渲染当前页研究内容
             currentPageResearch.forEach(article => {
                 const noteCol = document.createElement('div');
-                noteCol.className = 'col-md-6 mb-4';
+                noteCol.className = 'col-12';
                 
                 const noteCard = document.createElement('div');
-                noteCard.className = 'content-card h-100';
+                noteCard.className = 'research-card';
                 
                 // 构建研究札记内容
                 noteCard.innerHTML = `
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <h3>${article.title}</h3>
-                        <span class="badge bg-light text-primary">${article.date}</span>
+                    <div class="research-card-left">
+                        <div class="research-date">${article.date}</div>
+                        <div class="research-category">${article.mainCategory}</div>
+                        <div class="research-platform">${article.platform}</div>
                     </div>
-                    <p class="text-secondary mb-4">${article.summary}</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex flex-wrap gap-2">
-                            <span class="badge bg-light text-dark">${article.mainCategory}</span>
-                            ${article.subCategory ? `<span class="badge bg-light text-dark">${article.subCategory}</span>` : ''}
-                            <span class="badge bg-light text-dark">${article.platform}</span>
+                    <div class="research-card-right">
+                        <h3 class="research-title">${article.title}</h3>
+                        <p class="research-summary">${article.summary}</p>
+                        <div class="research-tags">
+                            ${article.subCategory ? `<span class="research-tag">${article.subCategory}</span>` : ''}
+                            <span class="research-tag">${article.mainCategory}</span>
                         </div>
-                        <a href="${article.link}" class="btn btn-outline-primary btn-sm" target="_blank">研读全文</a>
+                        <a href="${article.link}" class="btn btn-outline-primary btn-sm research-link" target="_blank">研读全文</a>
                     </div>
                 `;
                 
@@ -266,6 +375,8 @@
                 prevLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     renderResearch(currentCategory, currentPage - 1);
+                    // 滚动到页面顶部
+                    window.scrollTo({top: 0, behavior: 'smooth'});
                 });
             }
             
@@ -295,6 +406,8 @@
                 firstLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     renderResearch(currentCategory, 1);
+                    // 滚动到页面顶部
+                    window.scrollTo({top: 0, behavior: 'smooth'});
                 });
                 
                 firstLi.appendChild(firstLink);
@@ -328,6 +441,8 @@
                     pageLink.addEventListener('click', function(e) {
                         e.preventDefault();
                         renderResearch(currentCategory, i);
+                        // 滚动到页面顶部
+                        window.scrollTo({top: 0, behavior: 'smooth'});
                     });
                 }
                 
@@ -361,6 +476,8 @@
                 lastLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     renderResearch(currentCategory, totalPages);
+                    // 滚动到页面顶部
+                    window.scrollTo({top: 0, behavior: 'smooth'});
                 });
                 
                 lastLi.appendChild(lastLink);
@@ -381,6 +498,8 @@
                 nextLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     renderResearch(currentCategory, currentPage + 1);
+                    // 滚动到页面顶部
+                    window.scrollTo({top: 0, behavior: 'smooth'});
                 });
             }
             
