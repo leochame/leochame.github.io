@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 创建分类并设置初始选中状态
     if (typeof createCategories === 'function') {
-        createCategories();
+    createCategories();
     }
     
     // 如果URL有分类参数，则激活该分类
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeHomepage();
     } else if (categoryList) {
         // 文章列表页初始化
-        initializePage();
+            initializePage();
     }
 
     function initializePage() {

@@ -2,18 +2,6 @@
 const articlesData = [
    {
         featured: true,
-        id: 23,
-        title: "提示词缓存技术详解",
-        summary: "详细阐述提示词缓存（Prompt Caching）技术的定义、机制、运作流程、收益与应用，探讨如何通过缓存提升大型语言模型的性能和降低成本。",
-        link: "posts/prompt-caching.html",
-        platform: "本站原创",
-        date: "2025-07-28",
-        mainCategory: "人工智能",
-        subCategory: "性能优化",
-        isResearch: true // 研究札记
-    },
-   {
-        featured: true,
         id: 22,
         title: "AI 工程专业术语扫盲",
         summary: "作为开发者，我们主要将目光聚焦于 Agent、MCP，Function call、RAG等概念，我们对这些概念进行扫盲，让在开发沟通中减少阻碍",
