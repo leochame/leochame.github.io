@@ -1,5 +1,41 @@
 // 文章数据
 const articlesData = [
+    {
+        featured: true,
+        id: 25,
+        title: "GC怎么保证不 STW 的？（二）",
+        summary: "本章节我们主要去阐述，ZGC 的并发整理是怎么实现的，这里主要解决的问题是怎么实现一个对象被移动后（标记-复制），移动到一个新的 Region，我们还能正常的访问的到。",
+        link: "https://mp.weixin.qq.com/s/hHZseg7QYVk4iNeuvkbOhg",
+        platform: "微信公众号",
+        date: "2025-07-30",
+        mainCategory: "Java",
+        subCategory: "JVM 虚拟机",
+        isResearch: false
+    },
+    {
+        featured: true,
+        id: 24,
+        title: "GC怎么保证不 STW 的？（一）",
+        summary: "保证不 STW，本质是个并发问题，怎么保证用户线程和垃圾回收线程互不干扰的运行，这里就提出了三点要求：...",
+        link: "https://mp.weixin.qq.com/s/iOdbzOu9aKdR62LPtROEkg",
+        platform: "微信公众号",
+        date: "2025-06-25",
+        mainCategory: "Java",
+        subCategory: "JVM 虚拟机",
+        isResearch: false
+    },
+    {
+        featured: true,
+        id: 23,
+        title: "LLM 推理成本直降 90% 应用提速 85%：提示词缓存如何重塑 Agent 开发",
+        summary: "本文旨在详细阐述“提示词缓存”（Prompt Caching）技术。为确保内容的清晰与循序渐进，文章将 ：首先介绍其基本定义、核心机制及其收益，再讲述其在 Agent 开发中如何落地",
+        link: "https://mp.weixin.qq.com/s/xfidMN73XnurT0O-OrpWPg",
+        platform: "微信公众号",
+        date: "2025-07-30",
+        mainCategory: "人工智能",
+        subCategory: "工程开发",
+        isResearch: false
+    },
    {
         featured: true,
         id: 22,
