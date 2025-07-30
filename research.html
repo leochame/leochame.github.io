@@ -289,8 +289,8 @@
         
         // 获取研究札记类型的文章
         function getResearchArticles() {
-            // 根据isResearch字段过滤，只获取研究类文章
-            return articlesData.filter(article => article.isResearch)
+            // 只获取研究类文章 (isResearch = true)
+            return articlesData.filter(article => article.isResearch === true)
                 .sort((a, b) => new Date(b.date) - new Date(a.date));
         }
         
