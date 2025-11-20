@@ -3,174 +3,372 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>技术专栏 - Leochame</title>
+    <title>LEOCHAME // TECH_LOGS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="icon" href="images/favicon.ico">
-    <meta name="description" content="Leochame的技术专栏，分享后端开发技术文章">
-    <meta name="keywords" content="Leochame, 技术专栏, Java, MySQL, 后端开发, 技术文章">
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0b0b10;
+            --border-color: #333;
+
+            /* 语法高亮色系 */
+            --syntax-keyword: #c678dd; /* 紫 */
+            --syntax-func: #61afef;    /* 蓝 */
+            --syntax-string: #98c379;  /* 绿 */
+            --syntax-var: #e06c75;     /* 红 */
+            --neon-cyan: #00f3ff;      /* 赛博青 */
+
+            --text-main: #ffffff;
+            --text-muted: #abb2bf;
+
+            --font-tech: 'Orbitron', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-code);
+            overflow-x: hidden;
+            /* 电路板背景纹理 */
+            background-image:
+                    radial-gradient(#1a1a1a 15%, transparent 16%),
+                    radial-gradient(#1a1a1a 15%, transparent 16%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* --- 导航栏 --- */
+        .navbar {
+            background: rgba(5, 5, 5, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+        .navbar-brand {
+            font-family: var(--font-tech);
+            color: var(--neon-cyan) !important;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+        .nav-link { color: #888 !important; transition: 0.3s; }
+        .nav-link.active { color: #fff !important; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+        /* --- 头部 Hero --- */
+        .hero-section {
+            padding: 80px 0 40px;
+            position: relative;
+            border-bottom: 1px dashed #333;
+        }
+
+        .cli-title {
+            font-family: var(--font-tech);
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .cli-prompt {
+            color: var(--syntax-string);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* --- 筛选器 (Command Bar) --- */
+        .command-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            background: #111;
+            padding: 15px;
+            border: 1px solid #333;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .command-bar::before {
+            content: 'SELECT * FROM CATEGORIES WHERE TYPE =';
+            position: absolute;
+            top: -25px; left: 0;
+            font-size: 0.8rem;
+            color: var(--syntax-keyword);
+        }
+
+        .cmd-btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: #888;
+            padding: 6px 16px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .cmd-btn:hover {
+            border-color: var(--syntax-func);
+            color: #fff;
+        }
+
+        .cmd-btn.active {
+            background: rgba(97, 175, 239, 0.1);
+            border-color: var(--syntax-func);
+            color: var(--syntax-func);
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(97, 175, 239, 0.2);
+        }
+
+        .cmd-btn.active::before {
+            content: '>';
+            margin-right: 5px;
+        }
+
+        /* --- 文章模块 (Tech Module) --- */
+        .tech-module {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        /* 顶部装饰条 */
+        .module-header {
+            background: #15151a;
+            padding: 8px 15px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        .module-status {
+            width: 8px; height: 8px;
+            background: #333;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .tech-module:hover {
+            border-color: var(--syntax-func);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .tech-module:hover .module-status {
+            background: var(--syntax-string);
+            box-shadow: 0 0 8px var(--syntax-string);
+        }
+
+        .module-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-title {
+            font-family: var(--font-code); /* 保持代码感 */
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .module-title a:hover {
+            color: var(--syntax-func);
+            text-decoration: underline;
+            text-decoration-style: dashed;
+            text-underline-offset: 5px;
+        }
+
+        .module-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .meta-item i { margin-right: 5px; color: var(--syntax-keyword); }
+
+        .module-summary {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            border-left: 2px solid #333;
+            padding-left: 10px;
+            line-height: 1.6;
+        }
+
+        .module-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #333;
+            padding-top: 15px;
+        }
+
+        .lang-badge {
+            font-size: 0.75rem;
+            color: var(--syntax-var);
+            border: 1px solid #444;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .exec-btn {
+            color: var(--neon-cyan);
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .exec-btn:hover {
+            text-shadow: 0 0 8px var(--neon-cyan);
+            letter-spacing: 1px;
+        }
+
+        /* --- 分页 --- */
+        .pagination { gap: 5px; }
+        .page-link {
+            background: #111;
+            border: 1px solid #333;
+            color: #888;
+            font-family: var(--font-code);
+            border-radius: 0 !important;
+        }
+        .page-link:hover, .page-item.active .page-link {
+            background: #222;
+            border-color: var(--syntax-keyword);
+            color: var(--syntax-keyword);
+            box-shadow: 0 0 10px rgba(198, 120, 221, 0.2);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            border-top: 1px solid #222;
+            background: #080808;
+            padding: 40px 0;
+            margin-top: 60px;
+            color: #555;
+        }
+
+        /* 动画 */
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
 </head>
 <body>
-<header class="header">
+
+<header class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">Leochame</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">首页</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html#featured-articles">推荐文章</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="tech.html">技术专栏</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="research.html">研究札记</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html">关于我</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <i class="bi bi-sun-fill theme-icon"></i>
-                            <label class="theme-switch">
-                                <input type="checkbox" id="theme-switch">
-                                <span class="slider"></span>
-                            </label>
-                            <i class="bi bi-moon-fill theme-icon"></i>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <a class="navbar-brand" href="index.html">LEO_CHAME_</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="bi bi-list text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">01_HOME</a></li>
+                <li class="nav-item"><a class="nav-link active" href="tech.html">02_TECH_LOGS</a></li>
+                <li class="nav-item"><a class="nav-link" href="research.html">03_RESEARCH</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">04_ABOUT_ME</a></li>
+            </ul>
+        </div>
     </div>
 </header>
 
-<!-- 技术专栏标题区域 -->
-<section class="hero-section fade-in-up">
+<section class="hero-section">
+    <div class="container text-center">
+        <span class="cli-prompt">root@server:~/tech-column# ./init_view.sh</span>
+        <h1 class="cli-title">DEV_LOG_REPOSITORY</h1>
+        <p class="text-muted" style="max-width: 600px; margin: 0 auto;">
+            // <span style="color: var(--syntax-func)">System.out.println</span>("Backend Architecture & Best Practices");<br>
+            这里是技术实战的演练场。记录从 JVM 调优到分布式架构的每一次系统升级。
+        </p>
+    </div>
+</section>
+
+<section class="py-5">
     <div class="container">
-        <div class="row">
-            <div class="col-12 text-center">
-                <div class="hero-content">
-                <h1>技术专栏</h1>
-                    <p class="lead">深入研究后端开发技术，分享实战经验和最佳实践</p>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="command-bar">
+                    <button class="cmd-btn active" data-category="all">ALL (*)</button>
+                    <button class="cmd-btn" data-category="Java">JAVA.class</button>
+                    <button class="cmd-btn" data-category="操作系统">KERNEL.sys</button>
+                    <button class="cmd-btn" data-category="数据库">DB.sql</button>
+                    <button class="cmd-btn" data-category="计算机网络">NET.socket</button>
+                    <button class="cmd-btn" data-category="人工智能">AI.model</button>
+                    <button class="cmd-btn" data-category="大数据">BIGDATA.hadoop</button>
                 </div>
             </div>
+        </div>
+
+        <div class="row g-4" id="article-container">
+            <div class="col-12 text-center py-5">
+                <span style="color: var(--syntax-func)">Loading modules...</span>
+            </div>
+        </div>
+
+        <div class="mt-5 d-flex justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                </ul>
+            </nav>
         </div>
     </div>
 </section>
 
-<!-- 文章列表内容 -->
-<section class="section-compact fade-in-up">
+<footer class="footer text-center">
     <div class="container">
-        <!-- 分类筛选 -->
-        <div class="mb-5">
-            <div class="d-flex flex-wrap gap-2 justify-content-center">
-                        <button class="btn btn-outline-primary active" data-category="all">全部</button>
-                        <button class="btn btn-outline-primary" data-category="Java">Java</button>
-                        <button class="btn btn-outline-primary" data-category="操作系统">操作系统</button>
-                        <button class="btn btn-outline-primary" data-category="数据库">数据库</button>
-                        <button class="btn btn-outline-primary" data-category="计算机网络">计算机网络</button>
-                        <button class="btn btn-outline-primary" data-category="计算机基础">计算机基础</button>
-                        <button class="btn btn-outline-primary" data-category="人工智能">人工智能</button>
-                        <button class="btn btn-outline-primary" data-category="大数据">大数据</button>
-                </div>
-            </div>
-
-        <!-- 文章列表 -->
-            <div class="row" id="article-container">
-                <!-- 文章将通过JavaScript动态生成 -->
-            </div>
-            
-        <!-- 分页 -->
-        <div class="mt-5 d-flex justify-content-center">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-</section>
-
-<footer class="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="d-flex align-items-center mb-3">
-                    <h5 class="me-3 mb-0">Leochame</h5>
-                <div class="footer-social">
-                    <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
-                    <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
-                    <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i></a>
-                </div>
-            </div>
-                <p class="small">后端开发工程师，专注于Java生态系统、系统架构设计与性能优化</p>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-6">
-                        <h6>导航</h6>
-                        <ul class="footer-links small">
-                            <li><a href="tech.html">技术专栏</a></li>
-                            <li><a href="research.html">研究札记</a></li>
-                            <li><a href="about.html">关于我</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <h6>热门分类</h6>
-                        <ul class="footer-links small">
-                            <li><a href="tech.html?category=Java">Java开发</a></li>
-                            <li><a href="tech.html?category=数据库">数据库</a></li>
-                            <li><a href="research.html?category=操作系统">操作系统</a></li>
-                            <li><a href="research.html?category=计算机基础">计算机基础</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom text-center mt-3">
-            <p class="small mb-0">&copy; 2023-2025 Leochame 的技术博客。使用 <a href="https://pages.github.com/">GitHub Pages</a> 构建。</p>
-        </div>
+        <p class="font-monospace mb-0">
+            EXECUTION TIME: 0.02s // COPYRIGHT © 2025 LEOCHAME
+        </p>
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-<script src="js/theme-switcher.js" defer></script>
-<script src="js/articles.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/articles.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const articleContainer = document.getElementById('article-container');
-        const categoryButtons = document.querySelectorAll('.btn[data-category]');
+        const categoryButtons = document.querySelectorAll('.cmd-btn');
         const pagination = document.querySelector('.pagination');
         let currentCategory = 'all';
         let currentPage = 1;
-        const ITEMS_PER_PAGE = 6; // 每页显示6篇文章
-        
-        // 检查URL参数
+        const ITEMS_PER_PAGE = 6;
+
+        // URL 参数处理
         const urlParams = new URLSearchParams(window.location.search);
         const categoryParam = urlParams.get('category');
         if (categoryParam) {
             currentCategory = categoryParam;
-            // 更新按钮状态
             categoryButtons.forEach(button => {
                 if (button.getAttribute('data-category') === categoryParam) {
                     button.classList.add('active');
@@ -179,244 +377,132 @@
                 }
             });
         }
-        
-        // 筛选属于技术专栏的文章（不包含研究札记的文章）
+
+        // 核心数据过滤
         function getTechArticles() {
-            // 根据isResearch字段过滤，只获取非研究类文章
+            if (typeof articlesData === 'undefined') return [];
             return articlesData.filter(article => !article.isResearch)
                 .sort((a, b) => new Date(b.date) - new Date(a.date));
         }
-        
-        // 渲染文章列表
+
+        // 渲染主逻辑
         function renderArticles(category, page = 1) {
             articleContainer.innerHTML = '';
-            
-            // 获取技术专栏文章
+
             const techArticles = getTechArticles();
-            
-            // 过滤分类
-            const filteredArticles = category === 'all' 
-                ? techArticles 
+            const filteredArticles = category === 'all'
+                ? techArticles
                 : techArticles.filter(article => article.mainCategory === category);
-            
+
             if (filteredArticles.length === 0) {
-                articleContainer.innerHTML = '<div class="col-12"><div class="alert alert-info text-center">该分类下暂无文章</div></div>';
+                articleContainer.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <div style="border: 1px dashed #444; padding: 2rem; color: var(--syntax-var);">
+                            > Exception: NoModulesFoundForCategory('${category}')
+                        </div>
+                    </div>`;
                 renderPagination(1, 1);
                 return;
             }
-            
-            // 计算分页数据
+
             const totalPages = Math.ceil(filteredArticles.length / ITEMS_PER_PAGE);
-            currentPage = page > totalPages ? 1 : page; // 确保页码有效
-            
-            // 获取当前页的文章
+            currentPage = page > totalPages ? 1 : page;
+
             const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
             const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredArticles.length);
             const currentPageArticles = filteredArticles.slice(startIndex, endIndex);
-            
-            // 渲染当前页文章
-            currentPageArticles.forEach(article => {
+
+            currentPageArticles.forEach((article, index) => {
                 const articleCol = document.createElement('div');
-                articleCol.className = 'col-md-6 col-lg-4 mb-4';
-                
-                const categoryDisplay = article.subCategory 
-                    ? `${article.mainCategory} / ${article.subCategory}` 
+                articleCol.className = 'col-md-6 col-lg-4 fade-in-up';
+                articleCol.style.animationDelay = `${index * 0.1}s`;
+
+                // 分类显示逻辑
+                const categoryDisplay = article.subCategory
+                    ? `${article.mainCategory}::${article.subCategory}`
                     : article.mainCategory;
-                
+
+                // 随机生成一个模块ID
+                const moduleId = `MOD-${Math.floor(Math.random() * 1000).toString().padStart(4, '0')}`;
+
                 articleCol.innerHTML = `
-                    <div class="content-card h-100">
-                        <h3 class="article-title">
-                            <a href="${article.link}" target="_blank">${article.title}</a>
-                        </h3>
-                        <div class="d-flex flex-wrap gap-2 mb-3">
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-journal-text me-2 text-primary"></i>
-                                <span class="text-secondary small">${article.platform}</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-calendar3 me-2 text-primary"></i>
-                                <span class="text-secondary small">${article.date}</span>
-                            </div>
-                            <span class="badge bg-light text-primary">${categoryDisplay}</span>
+                    <div class="tech-module">
+                        <div class="module-header">
+                            <span class="font-monospace">${moduleId}</span>
+                            <div class="module-status"></div>
                         </div>
-                        <p class="text-secondary mb-4">${article.summary}</p>
-                        <a href="${article.link}" class="btn btn-outline-primary btn-sm" target="_blank">阅读全文</a>
+                        <div class="module-body">
+                            <h3 class="module-title">
+                                <a href="${article.link}" target="_blank">${article.title}</a>
+                            </h3>
+                            <div class="module-meta">
+                                <span class="meta-item"><i class="bi bi-hdd-network"></i>${article.platform}</span>
+                                <span class="meta-item"><i class="bi bi-clock-history"></i>${article.date}</span>
+                            </div>
+                            <p class="module-summary">
+                                <span style="color: #555;">//</span> ${article.summary}
+                            </p>
+                            <div class="module-footer">
+                                <span class="lang-badge">${categoryDisplay}</span>
+                                <a href="${article.link}" class="exec-btn" target="_blank">./EXECUTE ></a>
+                            </div>
+                        </div>
                     </div>
                 `;
-                
                 articleContainer.appendChild(articleCol);
             });
-            
-            // 更新分页
+
             renderPagination(currentPage, totalPages);
         }
-        
-        // 渲染分页组件
+
+        // 分页逻辑 (风格化)
         function renderPagination(currentPage, totalPages) {
             pagination.innerHTML = '';
-            
-            // 前一页按钮
-            const prevLi = document.createElement('li');
-            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
-            
-            const prevLink = document.createElement('a');
-            prevLink.className = 'page-link';
-            prevLink.href = '#';
-            prevLink.setAttribute('aria-label', 'Previous');
-            prevLink.innerHTML = '<span aria-hidden="true">&laquo;</span>';
-            
-            if (currentPage > 1) {
-                prevLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    renderArticles(currentCategory, currentPage - 1);
-                });
-            }
-            
-            prevLi.appendChild(prevLink);
-            pagination.appendChild(prevLi);
-            
-            // 页码按钮
-            const maxPageButtons = 5; // 最多显示的页码按钮数
-            let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
-            let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
-            
-            // 调整startPage，确保显示足够的页码按钮
-            if (endPage - startPage + 1 < maxPageButtons && startPage > 1) {
-                startPage = Math.max(1, endPage - maxPageButtons + 1);
-            }
-            
-            // 第一页按钮（如果当前不是第一页且起始页不是第一页）
-            if (startPage > 1) {
-                const firstLi = document.createElement('li');
-                firstLi.className = 'page-item';
-                
-                const firstLink = document.createElement('a');
-                firstLink.className = 'page-link';
-                firstLink.href = '#';
-                firstLink.textContent = '1';
-                
-                firstLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    renderArticles(currentCategory, 1);
-                });
-                
-                firstLi.appendChild(firstLink);
-                pagination.appendChild(firstLi);
-                
-                // 如果第一页和起始页之间有间隔，添加省略号
-                if (startPage > 2) {
-                    const ellipsisLi = document.createElement('li');
-                    ellipsisLi.className = 'page-item disabled';
-                    
-                    const ellipsisSpan = document.createElement('a');
-                    ellipsisSpan.className = 'page-link';
-                    ellipsisSpan.innerHTML = '&hellip;';
-                    
-                    ellipsisLi.appendChild(ellipsisSpan);
-                    pagination.appendChild(ellipsisLi);
-                }
-            }
-            
-            // 页码按钮
-            for (let i = startPage; i <= endPage; i++) {
-                const pageLi = document.createElement('li');
-                pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                
-                const pageLink = document.createElement('a');
-                pageLink.className = 'page-link';
-                pageLink.href = '#';
-                pageLink.textContent = i;
-                
-                if (i !== currentPage) {
-                    pageLink.addEventListener('click', function(e) {
+            if(totalPages <= 1) return;
+
+            const createItem = (html, page, active = false, disabled = false) => {
+                const li = document.createElement('li');
+                li.className = `page-item ${active ? 'active' : ''} ${disabled ? 'disabled' : ''}`;
+                const a = document.createElement('a');
+                a.className = 'page-link';
+                a.href = '#';
+                a.innerHTML = html;
+                if(!active && !disabled) {
+                    a.addEventListener('click', (e) => {
                         e.preventDefault();
-                        renderArticles(currentCategory, i);
+                        renderArticles(currentCategory, page);
+                        document.querySelector('.command-bar').scrollIntoView({behavior: 'smooth'});
                     });
                 }
-                
-                pageLi.appendChild(pageLink);
-                pagination.appendChild(pageLi);
+                li.appendChild(a);
+                pagination.appendChild(li);
+            };
+
+            createItem('<', currentPage - 1, false, currentPage === 1);
+            for(let i = 1; i <= totalPages; i++) {
+                createItem(i, i, i === currentPage);
             }
-            
-            // 如果结束页和最后一页之间有间隔，添加省略号
-            if (endPage < totalPages - 1) {
-                const ellipsisLi = document.createElement('li');
-                ellipsisLi.className = 'page-item disabled';
-                
-                const ellipsisSpan = document.createElement('a');
-                ellipsisSpan.className = 'page-link';
-                ellipsisSpan.innerHTML = '&hellip;';
-                
-                ellipsisLi.appendChild(ellipsisSpan);
-                pagination.appendChild(ellipsisLi);
-            }
-            
-            // 最后一页按钮（如果当前不是最后一页且结束页不是最后一页）
-            if (endPage < totalPages) {
-                const lastLi = document.createElement('li');
-                lastLi.className = 'page-item';
-                
-                const lastLink = document.createElement('a');
-                lastLink.className = 'page-link';
-                lastLink.href = '#';
-                lastLink.textContent = totalPages;
-                
-                lastLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    renderArticles(currentCategory, totalPages);
-                });
-                
-                lastLi.appendChild(lastLink);
-                pagination.appendChild(lastLi);
-            }
-            
-            // 下一页按钮
-            const nextLi = document.createElement('li');
-            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
-            
-            const nextLink = document.createElement('a');
-            nextLink.className = 'page-link';
-            nextLink.href = '#';
-            nextLink.setAttribute('aria-label', 'Next');
-            nextLink.innerHTML = '<span aria-hidden="true">&raquo;</span>';
-            
-            if (currentPage < totalPages) {
-                nextLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    renderArticles(currentCategory, currentPage + 1);
-                });
-            }
-            
-            nextLi.appendChild(nextLink);
-            pagination.appendChild(nextLi);
-            
-            // 如果总页数小于等于1，隐藏分页组件
-            const paginationContainer = pagination.parentElement;
-            paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
+            createItem('>', currentPage + 1, false, currentPage === totalPages);
         }
-        
-        // 初始化渲染
+
+        // 初始化
         renderArticles(currentCategory, currentPage);
-        
-        // 事件监听
+
+        // 事件绑定
         categoryButtons.forEach(button => {
             button.addEventListener('click', function() {
                 categoryButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
                 currentCategory = this.getAttribute('data-category');
                 renderArticles(currentCategory, 1);
-                
-                // 更新URL参数，但不刷新页面
+
                 const url = new URL(window.location);
-                if (currentCategory === 'all') {
-                    url.searchParams.delete('category');
-                } else {
-                    url.searchParams.set('category', currentCategory);
-                }
+                if (currentCategory === 'all') url.searchParams.delete('category');
+                else url.searchParams.set('category', currentCategory);
                 window.history.pushState({}, '', url);
             });
         });
     });
 </script>
 </body>
-</html> 
+</html>

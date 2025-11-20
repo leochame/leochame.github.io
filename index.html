@@ -3,430 +3,507 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leochame - 技术博客</title>
-    <!-- 预连接常用域名 -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preload" href="css/main.css" as="style">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
-    <link rel="preload" href="images/avatar.svg" as="image">
+    <title>LEOCHAME // SYSTEM_ROOT</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="icon" href="images/favicon.ico">
-    <meta name="description" content="Leochame的个人博客，分享技术文章和学习心得">
-    <meta name="keywords" content="Leochame, 博客, 技术文章, 后端开发, Java, MySQL, 操作系统">
-    <!-- Open Graph 标记 -->
-    <meta property="og:title" content="Leochame - 技术博客">
-    <meta property="og:description" content="探索后端技术的奥秘，记录我的技术成长之路">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="images/avatar.svg">
+
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #0a0a0f;
+            --border-color: #333;
+
+            --neon-cyan: #00f3ff;
+            --neon-purple: #bc13fe;
+            --neon-green: #00ff9d;
+            --neon-red: #ff3333;
+
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
+
+            --font-tech: 'Orbitron', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-code);
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        /* 背景 Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.3; /* 降低透明度，避免干扰文字 */
+        }
+
+        /* --- 导航栏 --- */
+        .navbar {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+        }
+        .navbar-brand {
+            font-family: var(--font-tech);
+            color: #fff !important;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+        .nav-link {
+            color: #aaa !important;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        /* --- Hero Section: 故障文字 --- */
+        .hero-section {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .glitch-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-family: var(--font-tech);
+            font-size: 5rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 5px;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        /* 简单的文字阴影故障效果，保证清晰度 */
+        .hero-title:hover {
+            text-shadow: 2px 2px var(--neon-red), -2px -2px var(--neon-cyan);
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        /* --- Bio Terminal: 个人介绍 --- */
+        .terminal-window {
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid #444;
+            border-top: 20px solid #222; /* 模拟窗口栏 */
+            border-radius: 5px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            text-align: left;
+            position: relative;
+        }
+
+        /* 窗口按钮装饰 */
+        .terminal-window::before {
+            content: '•••';
+            position: absolute;
+            top: -22px;
+            left: 10px;
+            color: #555;
+            font-size: 24px;
+            line-height: 20px;
+        }
+
+        .terminal-window::after {
+            content: 'root@leochame:~';
+            position: absolute;
+            top: -18px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #888;
+            font-size: 0.8rem;
+            font-family: sans-serif;
+        }
+
+        .terminal-body {
+            padding: 20px;
+            font-family: var(--font-code);
+            color: var(--neon-green);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background: var(--neon-green);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* --- Dashboard Grid: 功能入口 --- */
+        .dashboard-section {
+            padding: 60px 0;
+        }
+
+        .nav-card {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            padding: 2rem;
+            height: 100%;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: #333;
+            transition: 0.3s;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            background: #111;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+
+        /* 不同卡片的 Hover 颜色 */
+        .nav-card.tech:hover { border-color: var(--neon-cyan); }
+        .nav-card.tech:hover::before { background: var(--neon-cyan); }
+
+        .nav-card.research:hover { border-color: var(--neon-purple); }
+        .nav-card.research:hover::before { background: var(--neon-purple); }
+
+        .nav-card.about:hover { border-color: var(--neon-green); }
+        .nav-card.about:hover::before { background: var(--neon-green); }
+
+        .nav-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            transition: 0.3s;
+        }
+        .nav-card:hover .nav-icon { transform: scale(1.1); }
+
+        .nav-title {
+            font-family: var(--font-tech);
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-desc {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* --- Featured Articles --- */
+        .featured-section {
+            padding: 40px 0 80px;
+            border-top: 1px dashed #222;
+        }
+
+        .section-header {
+            font-family: var(--font-tech);
+            color: #fff;
+            border-left: 4px solid var(--neon-cyan);
+            padding-left: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .featured-article-row {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding-bottom: 20px;
+        }
+
+        .featured-card {
+            min-width: 300px;
+            background: #0e0e13;
+            border: 1px solid #333;
+            padding: 20px;
+            transition: 0.3s;
+        }
+        .featured-card:hover {
+            border-color: var(--neon-cyan);
+        }
+
+        .f-title {
+            font-family: var(--font-tech);
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .f-meta {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #000;
+            border-top: 1px solid #222;
+            padding: 3rem 0;
+            text-align: center;
+            color: #555;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+        }
+    </style>
 </head>
 <body>
-<header class="header">
+
+<canvas id="bg-canvas"></canvas>
+
+<header class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">Leochame</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="index.html">首页</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#featured-articles">推荐文章</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="tech.html">技术专栏</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="research.html">研究札记</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html">关于我</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <i class="bi bi-sun-fill theme-icon"></i>
-                            <label class="theme-switch">
-                                <input type="checkbox" id="theme-switch">
-                                <span class="slider"></span>
-                            </label>
-                            <i class="bi bi-moon-fill theme-icon"></i>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <a class="navbar-brand" href="#">LEO_CHAME_</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="bi bi-list text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" href="#home">01_ROOT</a></li>
+                <li class="nav-item"><a class="nav-link" href="tech.html">02_TECH</a></li>
+                <li class="nav-item"><a class="nav-link" href="research.html">03_RESEARCH</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">04_ABOUT</a></li>
+            </ul>
+        </div>
     </div>
 </header>
 
-<!-- 主页英雄区 -->
-<section class="hero-section fade-in-up">
+<section id="home" class="hero-section">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-7">
-                <div class="hero-content">
-                    <h1>Leochame的技术博客</h1>
-                    <p class="lead">探索技术的奥秘，记录成长之路</p>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <div class="hero-image text-center">
-                    <img src="images/avatar.svg" alt="头像" class="img-fluid avatar-large">
-                </div>
+        <div class="glitch-wrapper">
+            <h1 class="hero-title" data-text="LEOCHAME">LEOCHAME</h1>
+        </div>
+
+        <div class="terminal-window mt-4">
+            <div class="terminal-body">
+                <span id="typewriter"></span><span class="cursor"></span>
             </div>
         </div>
     </div>
 </section>
 
-<!-- 个人介绍 -->
-<section class="bio-section fade-in-up">
-    <div class="container">
-        <div class="bio-card">
-            <div class="bio-tabs">
-                <button class="bio-tab active" data-lang="zh">中文</button>
-                <button class="bio-tab" data-lang="en">English</button>
+<section class="dashboard-section container">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="nav-card tech" onclick="window.location.href='tech.html'">
+                <i class="bi bi-terminal nav-icon" style="color: var(--neon-cyan)"></i>
+                <h3 class="nav-title">TECH_LOGS</h3>
+                <p class="nav-desc">// Java Architecture & <br>System Design Patterns</p>
             </div>
-            
-            <!-- 中文介绍 -->
-            <div class="bio-content active" id="bio-zh">
-                <h2>关于我</h2>
-                <p>一个<span class="highlight">「看似精通实则入门」</span>的技术爱好者</p>
-                <ul class="bio-list">
-                    <li>
-                        <i class="bi bi-braces"></i> <strong>大模型专家？</strong> 
-                        精通Transformer、注意力机制、DropOut等技术
-                        <small>（其实只是照着书从零手搓过大模型而已...）</small>
-                    </li>
-                    <li>
-                        <i class="bi bi-cpu"></i> <strong>系统内核大师？</strong> 
-                        精通Trap、COW、惰性加载、页表、系统调用、线程切换等核心概念
-                        <small>（不过说白了就是做过MIT 6.S081课程...）</small>
-                    </li>
-                    <li>
-                        <i class="bi bi-cup-hot"></i> <strong>Java领域高手</strong> 
-                        <small>（至少自我感觉是这样）</small>
-                    </li>
-                    <li>
-                        <i class="bi bi-robot"></i> <strong>AI Agent实战派</strong> 
-                        熟悉COT、ReAct、MCP、A2A、TAP等框架和协议，拥有落地实战和各种各样的踩坑经验
-                        <small>（在填坑的路上越走越远...）</small>
-                    </li>
-                </ul>
+        </div>
+        <div class="col-md-4">
+            <div class="nav-card research" onclick="window.location.href='research.html'">
+                <i class="bi bi-radioactive nav-icon" style="color: var(--neon-purple)"></i>
+                <h3 class="nav-title">ARCHIVES</h3>
+                <p class="nav-desc">// Deep Dive into Kernel <br>& AI Papers</p>
             </div>
-            
-            <!-- 英文介绍 -->
-            <div class="bio-content" id="bio-en">
-                <h2>About Me</h2>
-                <p>A tech enthusiast with <span class="highlight">"seemingly expert-level but actually beginner-level"</span> skills</p>
-                <ul class="bio-list">
-                    <li>
-                        <i class="bi bi-braces"></i> <strong>LLM Expert?</strong> 
-                        Proficient in Transformer architecture, attention mechanisms, and DropOut techniques
-                        <small>(actually just followed tutorials to build models from scratch...)</small>
-                    </li>
-                    <li>
-                        <i class="bi bi-cpu"></i> <strong>OS Kernel Master?</strong> 
-                        Well-versed in Trap, Copy-on-Write, lazy loading, page tables, system calls, and thread switching
-                        <small>(basically just completed MIT's 6.S081 course...)</small>
-                    </li>
-                    <li>
-                        <i class="bi bi-cup-hot"></i> <strong>Java Developer</strong> 
-                        <small>(at least I think I am)</small>
-                    </li>
-                    <li>
-                        <i class="bi bi-robot"></i> <strong>AI Agent Practitioner</strong> 
-                        Familiar with COT, ReAct, MCP, A2A, TAP frameworks and protocols, with hands-on experience and an impressive collection of lessons learned the hard way
-                        <small>(still finding new pitfalls every day...)</small>
-                    </li>
-                </ul>
+        </div>
+        <div class="col-md-4">
+            <div class="nav-card about" onclick="window.location.href='about.html'">
+                <i class="bi bi-person-bounding-box nav-icon" style="color: var(--neon-green)"></i>
+                <h3 class="nav-title">PROFILE</h3>
+                <p class="nav-desc">// Engineer Bio <br>& Skill Radar</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- 博客内容导航 -->
-<section id="blog-sections" class="section-compact fade-in-up">
-    <div class="container">
-        <h2 class="section-title">博客内容</h2>
-        <div class="row mt-3 g-4">
-            <div class="col-md-6">
-                <div class="content-card">
-                    <div class="content-icon">
-                        <i class="bi bi-gear"></i>
-                    </div>
-                    <h3>技术专栏</h3>
-                    <p>我的技术输出天地，在这里写代码不会报错，分享经验不会被打脸...大概吧</p>
-                    <a href="tech.html" class="btn btn-outline-primary btn-sm stretched-link">浏览专栏</a>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="content-card">
-                    <div class="content-icon">
-                        <i class="bi bi-journal-text"></i>
-                    </div>
-                    <h3>研究札记</h3>
-                    <p>纯学习笔记和论文解读，对晦涩难懂的论文做出更晦涩难懂的解释</p>
-                    <a href="research.html" class="btn btn-outline-primary btn-sm stretched-link">查看札记</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<section class="featured-section container">
+    <h2 class="section-header">
+        SYSTEM_UPDATES
+        <span style="font-size: 0.8rem; color: #666; margin-left: 15px; font-family: var(--font-code)">
+            [ Latest Activity ]
+        </span>
+    </h2>
 
-<!-- 专业领域 -->
-<section class="expertise-section fade-in-up">
-    <div class="container">
-        <h2 class="section-title">专业领域</h2>
-        <div class="row mt-3 g-4">
-            <div class="col-md-3">
-                <div class="expertise-card">
-                    <div class="expertise-icon">
-                        <i class="bi bi-code-slash"></i>
-                    </div>
-                    <h3>后端开发</h3>
-                    <p>Java生态系统开发</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="expertise-card">
-                    <div class="expertise-icon">
-                        <i class="bi bi-database"></i>
-                    </div>
-                    <h3>数据库技术</h3>
-                    <p>MySQL优化与索引设计</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="expertise-card">
-                    <div class="expertise-icon">
-                        <i class="bi bi-cpu"></i>
-                    </div>
-                    <h3>系统与架构</h3>
-                    <p>操作系统原理与网络协议</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="expertise-card">
-                    <div class="expertise-icon">
-                        <i class="bi bi-robot"></i>
-                    </div>
-                    <h3>AI应用</h3>
-                    <p>Agent框架与大模型应用</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- 推荐文章部分 -->
-<section id="featured-articles" class="featured-articles fade-in-up">
-    <div class="container">
-        <h2 class="section-title">推荐文章<span class="featured-note">（标记为featured=true的精选文章）</span></h2>
-        <p class="text-center mb-4">
-            <span class="scroll-hint">
-                <i class="bi bi-arrow-left-right"></i> 
-                <strong>左右滑动或点击箭头</strong>查看更多文章
-            </span>
-        </p>
-        <div class="articles-container" id="articles-container">
-            <!-- 文章卡片将通过JS动态生成 -->
-            <div class="scroll-indicator left"><i class="bi bi-chevron-left"></i></div>
-            <div class="scroll-indicator right"><i class="bi bi-chevron-right"></i></div>
-        </div>
-        <div class="text-center mt-3">
-            <a href="tech.html" class="btn btn-primary btn-sm">查看更多文章</a>
-        </div>
+    <div class="featured-article-row" id="featured-container">
+        <div class="text-muted p-3">> Fetching data streams...</div>
     </div>
 </section>
 
 <footer class="footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <div class="d-flex align-items-center mb-3">
-                    <h5 class="me-3 mb-0">Leochame</h5>
-                    <div class="footer-social">
-                        <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
-                        <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
-                        <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i></a>
-                    </div>
+            <div class="col-12">
+                <p class="font-monospace mb-2">SYSTEM ONLINE // VERSION 3.0.1</p>
+                <div class="d-flex justify-content-center gap-4 fs-4 mb-3">
+                    <a href="https://github.com/leochame" class="text-white"><i class="bi bi-github"></i></a>
+                    <a href="mailto:liulch.cn@gmail.com" class="text-white"><i class="bi bi-envelope-fill"></i></a>
                 </div>
-                <p class="small">后端开发工程师，专注于Java生态系统、系统架构设计与性能优化</p>
+                <small class="text-muted">COPYRIGHT © 2025 LEOCHAME. DESIGNED FOR HIGH CONTRAST.</small>
             </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-6">
-                        <h6>导航</h6>
-                        <ul class="footer-links small">
-                            <li><a href="tech.html">技术专栏</a></li>
-                            <li><a href="research.html">研究札记</a></li>
-                            <li><a href="about.html">关于我</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <h6>热门分类</h6>
-                        <ul class="footer-links small">
-                            <li><a href="tech.html?category=Java">Java开发</a></li>
-                            <li><a href="tech.html?category=数据库">数据库</a></li>
-                            <li><a href="research.html?category=操作系统">操作系统</a></li>
-                            <li><a href="research.html?category=计算机基础">计算机基础</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom text-center mt-3">
-            <p class="small mb-0">&copy; 2023-2025 Leochame 的技术博客。使用 <a href="https://pages.github.com/">GitHub Pages</a> 构建。</p>
         </div>
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-<script src="js/theme-switcher.js" defer></script>
-<script src="js/articles.js" defer></script>
-<script src="js/main.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/articles.js"></script>
+
 <script>
-    // 处理个人介绍的语言切换
-    document.addEventListener('DOMContentLoaded', function() {
-        const bioTabs = document.querySelectorAll('.bio-tab');
-        const bioContents = document.querySelectorAll('.bio-content');
-        
-        bioTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                const lang = this.getAttribute('data-lang');
-                
-                // 激活当前标签
-                bioTabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                // 显示对应内容
-                bioContents.forEach(content => {
-                    content.classList.remove('active');
-                    if (content.id === `bio-${lang}`) {
-                        content.classList.add('active');
-                    }
-                });
-            });
-        });
-        
-        // 确保推荐文章在首页被显示
-        const articlesContainer = document.getElementById('articles-container');
-        if (articlesContainer) {
-            // 清空容器内容，防止重复添加
-            articlesContainer.innerHTML = `
-                <div class="scroll-indicator left"><i class="bi bi-chevron-left"></i></div>
-                <div class="scroll-indicator right"><i class="bi bi-chevron-right"></i></div>
-            `;
-            
-            // 确保articlesData已加载
-            setTimeout(() => {
-                if (typeof articlesData !== 'undefined') {
-                    // 获取所有featured为true的文章
-                    const featuredArticles = articlesData
-                        .filter(article => article.featured === true)
-                        .sort((a, b) => new Date(b.date) - new Date(a.date));
-                    
-                    if (featuredArticles.length === 0) {
-                        articlesContainer.innerHTML = '<div class="text-center"><p class="text-muted">暂无推荐文章</p></div>';
-                        return;
-                    }
-                    
-                    // 显示找到的推荐文章数量
-                    const countBadge = document.createElement('div');
-                    countBadge.className = 'article-count-badge mb-4';
-                    countBadge.innerHTML = `共找到 ${featuredArticles.length} 篇推荐文章`;
-                    articlesContainer.appendChild(countBadge);
-                    
-                    // 创建横向滚动容器
-                    const scrollContainer = document.createElement('div');
-                    scrollContainer.className = 'articles-scroll-container';
-                    articlesContainer.appendChild(scrollContainer);
-                    
-                    // 添加文章卡片
-                    featuredArticles.forEach(article => {
-                        const articleCard = document.createElement('div');
-                        articleCard.className = 'featured-article-card';
-                        
-                        const categoryDisplay = article.subCategory
-                            ? `${article.mainCategory} / ${article.subCategory}`
-                            : article.mainCategory;
-                        
-                        // 整合平台和日期信息
-                        let metaInfo = '';
-                        if (article.platform) {
-                            metaInfo += `<div class="meta-item"><i class="bi bi-journal-text"></i> ${article.platform}</div>`;
-                        }
-                        if (article.date) {
-                            metaInfo += `<div class="meta-item"><i class="bi bi-calendar3"></i> ${article.date}</div>`;
-                        }
-                        
-                        articleCard.innerHTML = `
-                            <div class="article-badge">
-                                <i class="bi bi-star-fill"></i> 推荐
-                            </div>
-                                <h3 class="article-title">${article.title}</h3>
-                                <div class="article-meta">
-                                    ${metaInfo}
-                                    <div class="meta-item category-tag">${categoryDisplay}</div>
-                            </div>
-                        `;
-                        
-                        // 为卡片添加点击事件
-                        articleCard.addEventListener('click', () => {
-                            window.open(article.link, '_blank');
-                        });
-                        
-                        scrollContainer.appendChild(articleCard);
-                    });
-                    
-                    // 添加滚动指示器的点击事件
-                    const leftIndicator = articlesContainer.querySelector('.scroll-indicator.left');
-                    const rightIndicator = articlesContainer.querySelector('.scroll-indicator.right');
-                    
-                    if (leftIndicator && rightIndicator && scrollContainer) {
-                        // 左箭头点击事件
-                        leftIndicator.addEventListener('click', () => {
-                            scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
-                        });
-                        
-                        // 右箭头点击事件
-                        rightIndicator.addEventListener('click', () => {
-                            scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
-                        });
-                        
-                        // 监听滚动事件以显示/隐藏指示器
-                        scrollContainer.addEventListener('scroll', () => {
-                            // 检查是否可以向左滚动
-                            if (scrollContainer.scrollLeft <= 10) {
-                                leftIndicator.style.opacity = '0.3';
-                            } else {
-                                leftIndicator.style.opacity = '0.8';
-                            }
-                            
-                            // 检查是否可以向右滚动
-                            if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 10) {
-                                rightIndicator.style.opacity = '0.3';
-                            } else {
-                                rightIndicator.style.opacity = '0.8';
-                            }
-                        });
-                        
-                        // 初始触发一次滚动事件以设置正确的指示器状态
-                        scrollContainer.dispatchEvent(new Event('scroll'));
-                    }
-                } else {
-                    console.error('文章数据未加载');
-                }
-            }, 100);
+    // --- 1. 粒子背景动画 (简化版，高性能) ---
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    const particles = [];
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * 0.3; // 慢速移动
+            this.vy = (Math.random() - 0.5) * 0.3;
+            this.size = Math.random() * 2;
         }
-        
-        // 页面加载完成后移除加载指示器
-        window.addEventListener('load', function() {
-            document.body.classList.add('loaded');
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0) this.x = width;
+            if (this.x > width) this.x = 0;
+            if (this.y < 0) this.y = height;
+            if (this.y > height) this.y = 0;
+        }
+        draw() {
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    for(let i = 0; i < 60; i++) particles.push(new Particle());
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach((p, index) => {
+            p.update();
+            p.draw();
+            // 连线
+            for (let j = index + 1; j < particles.length; j++) {
+                const p2 = particles[j];
+                const dx = p.x - p2.x;
+                const dy = p.y - p2.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < 100) {
+                    ctx.strokeStyle = `rgba(0, 243, 255, ${1 - dist/100 * 0.5})`; // 青色连线
+                    ctx.lineWidth = 0.2;
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
+            }
         });
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // --- 2. 打字机效果 (Typewriter) ---
+    const textToType = [
+        "> IDENTITY: LEOCHAME (Backend Engineer)",
+        "> AFFILIATION: HANGZHOU DIANZI UNIV (2026)",
+        "> MISSION: Integrating AI Agents with Java Ecosystem.",
+        "> STATUS: Coding..._"
+    ];
+    const typeWriterElement = document.getElementById('typewriter');
+    let lineIndex = 0;
+    let charIndex = 0;
+
+    function typeWriter() {
+        if (lineIndex < textToType.length) {
+            if (charIndex < textToType[lineIndex].length) {
+                // 检查是否是标签闭合，这里简化处理
+                typeWriterElement.innerHTML += textToType[lineIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 30); // 打字速度
+            } else {
+                typeWriterElement.innerHTML += "<br>";
+                lineIndex++;
+                charIndex = 0;
+                setTimeout(typeWriter, 300); // 换行停顿
+            }
+        }
+    }
+    // 启动打字机
+    setTimeout(typeWriter, 500);
+
+    // --- 3. 加载推荐文章 ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('featured-container');
+        if (typeof articlesData !== 'undefined') {
+            container.innerHTML = '';
+            // 取最新的3篇文章
+            const featured = articlesData.slice(0, 5);
+            featured.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'featured-card';
+                card.innerHTML = `
+                    <div class="f-meta mb-2">
+                        <span style="color: var(--neon-cyan)">${article.mainCategory}</span>
+                        // ${article.date}
+                    </div>
+                    <h3 class="f-title">
+                        <a href="${article.link}" target="_blank" class="text-white text-decoration-none">${article.title}</a>
+                    </h3>
+                    <div class="text-muted small text-truncate">${article.summary}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
     });
 </script>
 </body>

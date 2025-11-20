@@ -3,496 +3,431 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于我 - Leochame</title>
+    <title>LEOCHAME // PROFILE_DATA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="icon" href="images/favicon.ico">
-    <meta name="description" content="关于Leochame的个人介绍和联系方式">
-    <meta name="keywords" content="Leochame, 个人简介, 后端开发, 技术博客">
+
     <style>
-        /* 重置全局样式以防止遮盖 */
-        .content-card {
-            transform: none !important;
-            transition: none !important;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
-            overflow: visible !important;
-            padding: 2rem !important;
-            margin-bottom: 2rem !important;
-            position: static !important;
+        :root {
+            --bg-color: #000000;
+            --card-bg: #0a0a0e;
+            --card-border: #333;
+
+            --neon-blue: #00f3ff;
+            --neon-purple: #d56fff;
+            --neon-green: #00ff9d;
+            --neon-red: #ff3333; /* 新增红色，用于保密标记 */
+
+            --text-main: #ffffff;
+            --text-muted: #d0d0d0;
+
+            --font-tech: 'Orbitron', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
         }
-        
-        .content-card::after {
-            display: none !important;
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-code);
+            overflow-x: hidden;
+            background-image:
+                    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            -webkit-font-smoothing: antialiased;
         }
-        
-        .content-card:hover {
-            transform: none !important;
+
+        a { text-decoration: none; }
+
+        /* --- 导航栏 --- */
+        .navbar {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        /* 页面整体布局 */
-        .section-compact {
-            padding: 4rem 0 !important;
+        .navbar-brand {
+            font-family: var(--font-tech);
+            color: #fff !important;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px var(--neon-blue);
         }
-        
-        .section-title {
-            margin-bottom: 2rem !important;
-            text-align: center !important;
-        }
-        
-        /* 兴趣项样式 */
-        .interest-container {
-            margin-bottom: 2rem;
-        }
-        
-        .interest-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 2rem;
-        }
-        
-        .interest-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .interest-icon {
-            width: 40px;
-            height: 40px;
-            min-width: 40px;
-            border-radius: 50%;
-            background: var(--hover-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            color: var(--primary-color);
-            font-size: 1.25rem;
-        }
-        
-        /* 平台卡片样式 */
-        .platform-container {
-            margin-bottom: 2rem;
-        }
-        
-        .platform-card {
-            height: 100%;
-            background-color: #fff;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-        
-        .platform-card .content-icon {
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            color: var(--primary-color);
-        }
-        
-        .platform-card h3 {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .platform-card p {
-            margin-bottom: 1.5rem;
-            color: var(--secondary-color);
-        }
-        
-        /* 联系信息样式 */
-        .contact-container {
-            margin-bottom: 0;
-        }
-        
-        .contact-info {
-            margin-bottom: 1.5rem;
-        }
-        
-        .contact-info:last-child {
-            margin-bottom: 0;
-        }
-        
-        .contact-card {
-            height: 100%;
-            background-color: var(--hover-color);
-            border-radius: 12px;
-            padding: 2rem;
-        }
-        
-        .quote-card {
+        .nav-link { color: #aaa !important; font-weight: 500; }
+        .nav-link.active { color: var(--neon-blue) !important; font-weight: 700; }
+
+        /* --- ID Card --- */
+        .profile-section { padding: 100px 0 50px; }
+
+        .id-card {
+            background: #0d0d12;
+            border: 1px solid var(--neon-blue);
             position: relative;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            background-color: var(--hover-color);
-            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+            z-index: 1;
         }
-        
-        .quote-card i {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            opacity: 0.5;
+        .id-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: #fff;
+            opacity: 0.3;
+            box-shadow: 0 0 10px var(--neon-blue);
+            animation: scan 4s linear infinite;
+            pointer-events: none;
         }
-        
-        .quote-card blockquote {
-            margin: 0.5rem 0 0;
-            font-style: italic;
+        @keyframes scan {
+            0% { top: -10%; opacity: 0; }
+            10% { opacity: 1; }
+            100% { top: 110%; opacity: 0; }
         }
-        
-        /* 响应式调整 */
-        @media (max-width: 767px) {
-            .platform-card,
-            .contact-card {
-                margin-bottom: 2rem;
-            }
-            
-            .section-compact {
-                padding: 3rem 0 !important;
-            }
+
+        .avatar-frame {
+            width: 150px; height: 150px;
+            border: 2px solid #fff;
+            padding: 4px;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
         }
+        .avatar-frame img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: contrast(1.1) brightness(1.1);
+        }
+
+        .stat-row {
+            display: flex; justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 0;
+        }
+        .stat-label { color: var(--neon-blue); font-size: 0.85rem; font-weight: 600; }
+        .stat-value { color: #fff; font-weight: 700; font-size: 0.95rem; }
+
+        /* --- Timeline --- */
+        .timeline-container { position: relative; padding-left: 30px; }
+        .timeline-line {
+            position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: #333;
+        }
+        .timeline-line::after {
+            content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to bottom, var(--neon-blue), var(--neon-purple)); opacity: 0.7;
+        }
+
+        .timeline-item { position: relative; margin-bottom: 3rem; }
+        .timeline-node {
+            position: absolute; left: -29px; top: 5px; width: 16px; height: 16px;
+            background: #000; border: 3px solid var(--neon-blue); border-radius: 50%;
+            z-index: 2; box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .log-card {
+            background: #0e0e13;
+            border: 1px solid #333;
+            border-left: 4px solid var(--text-muted);
+            padding: 1.8rem;
+            transition: 0.3s;
+            position: relative;
+        }
+        .log-card:hover {
+            background: #14141a;
+            border-color: #555;
+            border-left-color: var(--neon-blue);
+            transform: translateX(5px);
+        }
+
+        .log-date {
+            font-family: var(--font-code);
+            color: var(--neon-blue);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+            background: rgba(0, 243, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 2px;
+        }
+
+        .log-title {
+            font-family: var(--font-tech);
+            font-size: 1.6rem;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .log-role {
+            color: var(--neon-purple);
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* 保密条样式 */
+        .redacted-bar {
+            background: repeating-linear-gradient(
+                    45deg,
+                    #222,
+                    #222 10px,
+                    #333 10px,
+                    #333 20px
+            );
+            color: #888;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border: 1px dashed #555;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 2px 8px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+
+        /* --- Skills --- */
+        .tech-spec-box { border: 1px solid #333; padding: 25px; background: #0e0e13; }
+        .progress-label {
+            display: flex; justify-content: space-between; font-size: 0.9rem;
+            font-weight: 600; margin-bottom: 8px; color: #fff;
+        }
+        .cyber-progress { height: 8px; background: #222; }
+        .cyber-bar { height: 100%; background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); }
+
+        /* --- Footer --- */
+        .footer {
+            border-top: 1px solid #222; padding: 3rem 0; margin-top: 5rem;
+            background: #050505; color: #666;
+        }
+
+        .section-header {
+            font-family: var(--font-tech); font-size: 2.2rem; font-weight: 700; color: #fff;
+            border-bottom: 4px solid var(--neon-blue); display: inline-block;
+            margin-bottom: 3rem; padding-right: 20px; text-transform: uppercase;
+        }
+
+        .terminal-box {
+            background: #000; border: 1px solid #444; border-left: 4px solid var(--neon-green);
+            padding: 2rem; font-size: 1rem; color: #ccc;
+        }
+
     </style>
 </head>
 <body>
-<header class="header">
+
+<header class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">Leochame</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">首页</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html#featured-articles">推荐文章</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="tech.html">技术专栏</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="research.html">研究札记</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="about.html">关于我</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <i class="bi bi-sun-fill theme-icon"></i>
-                            <label class="theme-switch">
-                                <input type="checkbox" id="theme-switch">
-                                <span class="slider"></span>
-                            </label>
-                            <i class="bi bi-moon-fill theme-icon"></i>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <a class="navbar-brand" href="index.html">LEO_CHAME_</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="bi bi-list text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">01_HOME</a></li>
+                <li class="nav-item"><a class="nav-link" href="tech.html">02_TECH</a></li>
+                <li class="nav-item"><a class="nav-link" href="research.html">03_RESEARCH</a></li>
+                <li class="nav-item"><a class="nav-link active" href="about.html">04_ABOUT_ME</a></li>
+            </ul>
+        </div>
     </div>
 </header>
 
-<!-- 个人介绍横幅 -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="hero-content">
-                    <h1>你好，我是 <span class="highlight">Leochame</span></h1>
-                    <p class="lead">后端开发工程师 | Java生态系统 | 技术探索者</p>
-                    <div class="d-flex flex-wrap gap-3 mt-4">
-                        <a href="https://github.com/leochame" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-github me-2"></i>GitHub</a>
-                        <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-link-45deg me-2"></i>掘金</a>
-                        <a href="mailto:liulch.cn@gmail.com" class="btn btn-outline-primary btn-sm"><i class="bi bi-envelope me-2"></i>联系我</a>
+<section class="profile-section container">
+    <div class="row g-5">
+        <div class="col-lg-4">
+            <div class="sticky-lg-top" style="top: 100px; z-index: 1;">
+                <div class="id-card p-4">
+                    <div class="text-center">
+                        <div class="avatar-frame mx-auto">
+                            <img src="images/avatar.svg" alt="Avatar">
+                        </div>
+                        <h2 class="mt-3 fw-bold text-white" style="font-family: var(--font-tech);">LEOCHAME</h2>
+                        <div class="badge bg-dark border border-info text-info mb-4 rounded-0 p-2">LV.2026 UNDERGRADUATE</div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="hero-image text-center">
-                    <img src="images/avatar.svg" alt="Leochame的照片" class="avatar-large">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- 个人简介部分 -->
-<section class="section-compact">
-    <div class="container">
-        <h2 class="section-title">个人简介</h2>
-        <div class="row">
-            <div class="col-12">
-                <div class="content-card">
-                    <p class="about-intro">你好，我是 <strong>Leochame</strong>。我致力于后端技术的探索与实践，尤其在Java生态领域尝试进行深入研究。</p>
-                    
-                    <p>我对构建高效、可扩展的系统充满热情，并持续关注操作系统、计算机网络及数据库等底层技术的演进。我相信，<span class="highlight">对技术原理的深刻理解是解决复杂问题的关键</span>。</p>
-                    
-                    <p>在技术领域，我专注于以下方向：</p>
-                    <ul>
-                        <li>Java核心技术与JVM性能优化</li>
-                        <li>分布式系统设计与微服务架构</li>
-                        <li>数据库性能调优与高可用设计</li>
-                        <li>操作系统原理与计算机网络底层机制</li>
-                    </ul>
-                    
-                    <div class="quote-card">
-                        <i class="bi bi-quote"></i>
-                        <blockquote>
-                            技术探索是一场永无止境的旅程，每一次深入学习都会带来新的视角与思考。
-                        </blockquote>
+                    <div class="stats-box mt-2">
+                        <div class="stat-row">
+                            <span class="stat-label">CLASS:</span>
+                            <span class="stat-value">Backend Engineer</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">AFFILIATION:</span>
+                            <span class="stat-value">HDU (Hangzhou Dianzi Univ)</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">STATUS:</span>
+                            <span class="stat-value" style="color: var(--neon-green)">ONLINE / CODING</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">LOCATION:</span>
+                            <span class="stat-value">Hangzhou, CN</span>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- 技术兴趣部分 -->
-<section class="section-compact" style="background-color: var(--section-bg-light);">
-    <div class="container">
-        <h2 class="section-title">技术兴趣</h2>
-        <div class="row interest-container">
-            <div class="col-md-6">
-                <div class="content-card">
-                    <div class="interest-item">
-                        <div class="interest-icon">
-                            <i class="bi bi-cpu"></i>
-                        </div>
-                        <div>
-                            <h4>系统架构</h4>
-                            <p>设计高可用、高性能的分布式系统</p>
-                        </div>
-                    </div>
-                    
-                    <div class="interest-item" style="margin-bottom: 0;">
-                        <div class="interest-icon">
-                            <i class="bi bi-database"></i>
-                        </div>
-                        <div>
-                            <h4>数据库优化</h4>
-                            <p>关系型与NoSQL数据库性能调优</p>
+                    <div class="mt-4">
+                        <div class="d-grid gap-3">
+                            <a href="mailto:liulch.cn@gmail.com" class="btn btn-info fw-bold rounded-0 text-dark">
+                                <i class="bi bi-envelope-fill me-2"></i> SEND_MESSAGE
+                            </a>
+                            <a href="https://github.com/leochame" target="_blank" class="btn btn-outline-light fw-bold rounded-0">
+                                <i class="bi bi-github me-2"></i> ACCESS_GITHUB
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-md-6">
-                <div class="content-card">
-                    <div class="interest-item">
-                        <div class="interest-icon">
-                            <i class="bi bi-gear"></i>
+
+                <div class="mt-4">
+                    <h4 class="text-white mb-3 fw-bold" style="font-family: var(--font-tech)">// SKILL_MODULES</h4>
+                    <div class="tech-spec-box">
+                        <div class="progress-container mb-3">
+                            <div class="progress-label">
+                                <span>JAVA ECOSYSTEM</span>
+                                <span style="color:var(--neon-blue)">90%</span>
+                            </div>
+                            <div class="cyber-progress"><div class="cyber-bar" style="width: 90%"></div></div>
                         </div>
-                        <div>
-                            <h4>JVM调优</h4>
-                            <p>深入理解JVM运行机制与性能优化</p>
+
+                        <div class="progress-container mb-3">
+                            <div class="progress-label">
+                                <span>AI AGENT & LLM</span>
+                                <span style="color:var(--neon-purple)">85%</span>
+                            </div>
+                            <div class="cyber-progress"><div class="cyber-bar" style="width: 85%; background: var(--neon-purple); box-shadow: 0 0 8px var(--neon-purple);"></div></div>
                         </div>
-                    </div>
-                    
-                    <div class="interest-item" style="margin-bottom: 0;">
-                        <div class="interest-icon">
-                            <i class="bi bi-diagram-3"></i>
-                        </div>
-                        <div>
-                            <h4>微服务生态</h4>
-                            <p>探索Spring Cloud、Kubernetes等技术栈</p>
+
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>KERNEL / INFRA</span>
+                                <span style="color:var(--neon-green)">75%</span>
+                            </div>
+                            <div class="cyber-progress"><div class="cyber-bar" style="width: 75%; background: var(--neon-green); box-shadow: 0 0 8px var(--neon-green);"></div></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- 我的平台部分 -->
-<section class="section-compact">
-    <div class="container">
-        <h2 class="section-title">我的社交媒体</h2>
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="social-platforms-card">
-                    <div class="d-flex flex-wrap justify-content-center gap-4 mb-5">
-                        <a href="https://github.com/leochame" target="_blank" class="social-platform-link">
-                            <div class="social-platform-icon">
-                                <i class="bi bi-github"></i>
-                            </div>
-                            <span>GitHub</span>
-                        </a>
-                        <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="social-platform-link">
-                            <div class="social-platform-icon">
-                                <i class="bi bi-journal-code"></i>
-                            </div>
-                            <span>掘金</span>
-                        </a>
-                        <a href="https://www.zhihu.com/people/echo-29-41-13" target="_blank" class="social-platform-link">
-                            <div class="social-platform-icon">
-                                <i class="bi bi-chat-quote"></i>
-                            </div>
-                            <span>知乎</span>
-                        </a>
-                    </div>
-                    
-                    <div class="wechat-account text-center p-4 rounded-3">
-                        <h4 class="mb-3">公众号「加瓦学徒」</h4>
-                        <p class="text-muted mb-4">深入浅出Java技术，更新原创技术文章</p>
+        <div class="col-lg-8">
+            <h2 class="section-header">CAREER_PATH_LOG</h2>
+
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+
+                <div class="timeline-item">
+                    <div class="timeline-node"></div>
+                    <div class="log-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="log-date">2025.10 - PRESENT</span>
+                            <span class="badge bg-danger rounded-0" style="font-family: var(--font-code)">CONFIDENTIAL</span>
+                        </div>
+                        <h3 class="log-title">ALIBABA GROUP</h3>
+                        <div class="log-role">Backend Dev Intern | AutoNavi (Amap)</div>
+
                         <div class="mb-3">
-                            <img src="images/wx_account.jpg" alt="公众号二维码" class="img-fluid qr-code" style="max-width: 180px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                            <div class="redacted-bar">// MISSION DETAILS ENCRYPTED BY NDA PROTOCOL</div>
                         </div>
-                        <span class="badge bg-light text-primary">扫码关注</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<style>
-    .social-platforms-card {
-        background-color: #fff;
-        border-radius: var(--radius-lg);
-        padding: 2.5rem;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    }
-    
-    .social-platform-link {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: var(--text-color);
-        transition: transform 0.3s ease;
-    }
-    
-    .social-platform-link:hover {
-        transform: translateY(-5px);
-        color: var(--primary-color);
-    }
-    
-    .social-platform-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background-color: var(--hover-color);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 0.75rem;
-        font-size: 1.75rem;
-        color: var(--primary-color);
-        transition: all 0.3s ease;
-    }
-    
-    .social-platform-link:hover .social-platform-icon {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .wechat-account {
-        background-color: var(--hover-color);
-        margin-top: 2rem;
-    }
-    
-    @media (max-width: 767px) {
-        .social-platforms-card {
-            padding: 1.5rem;
-        }
-        
-        .social-platform-icon {
-            width: 50px;
-            height: 50px;
-            font-size: 1.5rem;
-        }
-    }
-</style>
-
-<!-- 联系我部分 -->
-<section class="section-compact" style="background-color: var(--section-bg-light);">
-    <div class="container">
-        <h2 class="section-title">联系我</h2>
-        <div class="row contact-container">
-            <div class="col-md-6">
-                <div class="content-card">
-                    <div class="contact-info">
-                        <div class="d-flex align-items-center mb-4">
-                            <i class="bi bi-envelope fs-3 me-3 text-primary"></i>
+                        <div>
+                            <div class="text-white mb-2 small fw-bold">CORE TECHNOLOGIES:</div>
                             <div>
-                                <h4>邮箱</h4>
-                                <p class="mb-0"><a href="mailto:liulch.cn@gmail.com">liulch.cn@gmail.com</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-info" style="margin-bottom: 0;">
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-github fs-3 me-3 text-primary"></i>
-                            <div>
-                                <h4>GitHub</h4>
-                                <p class="mb-0"><a href="https://github.com/leochame" target="_blank">github.com/leochame</a></p>
+                                <span class="tech-tag">Large Model Agents</span>
+                                <span class="tech-tag">System Diagnosis</span>
+                                <span class="tech-tag">High Availability</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-md-6">
-                <div class="contact-card">
-                    <h3>留言给我</h3>
-                    <p>如果你有任何问题或合作意向，欢迎通过以下方式联系我</p>
-                    <div class="d-flex flex-wrap gap-3 mt-4">
-                        <a href="https://github.com/leochame" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-github me-2"></i>GitHub</a>
-                        <a href="https://juejin.cn/user/3672826532608270" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-link-45deg me-2"></i>掘金</a>
-                        <a href="mailto:liulch.cn@gmail.com" class="btn btn-outline-primary btn-sm"><i class="bi bi-envelope me-2"></i>邮箱</a>
+
+                <div class="timeline-item">
+                    <div class="timeline-node" style="border-color: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple)"></div>
+                    <div class="log-card" style="border-left-color: var(--neon-purple)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="log-date" style="color: var(--neon-purple); background: rgba(213, 111, 255, 0.1)">2025.04 - 2025.09</span>
+                            <span class="badge bg-danger rounded-0" style="font-family: var(--font-code)">CONFIDENTIAL</span>
+                        </div>
+                        <h3 class="log-title">TENCENT</h3>
+                        <div class="log-role" style="color: var(--neon-purple)">Data Engineer Intern | Ads Marketing</div>
+
+                        <div class="mb-3">
+                            <div class="redacted-bar">// MISSION DETAILS ENCRYPTED BY NDA PROTOCOL</div>
+                        </div>
+
+                        <div>
+                            <div class="text-white mb-2 small fw-bold">CORE TECHNOLOGIES:</div>
+                            <div>
+                                <span class="tech-tag" style="color:var(--neon-purple); border-color:var(--neon-purple)">Data Pipeline</span>
+                                <span class="tech-tag" style="color:var(--neon-purple); border-color:var(--neon-purple)">RAG Architecture</span>
+                                <span class="tech-tag" style="color:var(--neon-purple); border-color:var(--neon-purple)">Text-to-Chart</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-node" style="border-color: #fff; box-shadow: 0 0 10px #fff"></div>
+                    <div class="log-card" style="border-left-color: #fff">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="log-date" style="color: #fff; background: rgba(255,255,255,0.1)">2024.09 - 2025.02</span>
+                        </div>
+                        <h3 class="log-title">iMILE LOGISTICS</h3>
+                        <div class="log-role" style="color: #fff">Backend Dev Intern | R&D Center</div>
+
+                        <div class="mb-3">
+                            <div class="redacted-bar">// PROJECT DETAILS ARCHIVED</div>
+                        </div>
+
+                        <div>
+                            <div class="text-white mb-2 small fw-bold">CORE TECHNOLOGIES:</div>
+                            <div>
+                                <span class="tech-tag" style="color:#fff; border-color:#fff">Distributed Consistency</span>
+                                <span class="tech-tag" style="color:#fff; border-color:#fff">High Concurrency</span>
+                                <span class="tech-tag" style="color:#fff; border-color:#fff">Data Services</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
+            <div class="mt-5">
+                <h2 class="section-header">SYSTEM_DESCRIPTION</h2>
+                <div class="terminal-box">
+                    <p class="mb-3" style="color: #fff; font-weight: bold;">
+                        <span style="color: var(--neon-green)">root@leochame:~#</span> cat about_me.txt
+                    </p>
+                    <p>
+                        不仅仅是一个 API 调用者。我着迷于探究 <strong class="text-white">"Why it works"</strong>。<br><br>
+
+                        从手动实现 <span class="text-white">MIT 6.S081</span> 的内核 Trap 机制，到构建基于 <span class="text-white">Transformer</span> 的 Agent 工作流，
+                        我致力于打通“底层原理”与“上层智能”的壁垒。<br><br>
+
+                        目前正专注于研究如何将 <strong class="text-white" style="border-bottom: 2px solid var(--neon-blue)">Agentic Workflow</strong> 与传统的 <strong class="text-white">Java 后端架构</strong> 融合，以解决真实世界的复杂问题。
+                    </p>
+                    <p class="mb-0 mt-4" style="color: var(--neon-blue)">
+                        // End of stream.
+                    </p>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
 
-<footer class="footer">
+<footer class="footer text-center">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="d-flex align-items-center mb-3">
-                    <h5 class="me-3 mb-0">Leochame</h5>
-                    <div class="footer-social">
-                        <a href="https://github.com/leochame" target="_blank"><i class="bi bi-github"></i></a>
-                        <a href="https://juejin.cn/user/3672826532608270" target="_blank"><i class="bi bi-link-45deg"></i></a>
-                        <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i></a>
-                    </div>
-                </div>
-                <p class="small">后端开发工程师，专注于Java生态系统、系统架构设计与性能优化</p>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-6">
-                        <h6>导航</h6>
-                        <ul class="footer-links small">
-                            <li><a href="tech.html">技术专栏</a></li>
-                            <li><a href="research.html">研究札记</a></li>
-                            <li><a href="about.html">关于我</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <h6>热门分类</h6>
-                        <ul class="footer-links small">
-                            <li><a href="tech.html?category=Java">Java开发</a></li>
-                            <li><a href="tech.html?category=数据库">数据库</a></li>
-                            <li><a href="research.html?category=操作系统">操作系统</a></li>
-                            <li><a href="research.html?category=计算机基础">计算机基础</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom text-center mt-3">
-            <p class="small mb-0">&copy; 2023-2025 Leochame 的技术博客。使用 <a href="https://pages.github.com/">GitHub Pages</a> 构建。</p>
-        </div>
+        <p class="mb-0 font-monospace" style="color: #555">SYSTEM STATUS: STABLE // COPYRIGHT © 2026 LEOCHAME</p>
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-<script src="js/theme-switcher.js" defer></script>
-<script src="js/main.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
