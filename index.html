@@ -17,15 +17,12 @@
             --bg-color: #000000;
             --card-bg: #0a0a0f;
             --border-color: #333;
-
             --neon-cyan: #00f3ff;
             --neon-purple: #bc13fe;
             --neon-green: #00ff9d;
             --neon-red: #ff3333;
-
             --text-main: #ffffff;
             --text-muted: #b0b0b0;
-
             --font-tech: 'Orbitron', sans-serif;
             --font-code: 'JetBrains Mono', monospace;
         }
@@ -38,15 +35,12 @@
             margin: 0;
         }
 
-        /* 背景 Canvas */
         #bg-canvas {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            opacity: 0.3; /* 降低透明度，避免干扰文字 */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.3;
         }
 
-        /* --- 导航栏 --- */
+        /* --- Navbar --- */
         .navbar {
             background: rgba(0, 0, 0, 0.95);
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
@@ -59,30 +53,22 @@
             letter-spacing: 2px;
             text-shadow: 0 0 8px var(--neon-cyan);
         }
-        .nav-link {
-            color: #aaa !important;
-            font-weight: 500;
-            transition: 0.3s;
-        }
+        .nav-link { color: #aaa !important; font-weight: 500; transition: 0.3s; }
         .nav-link.active, .nav-link:hover {
             color: var(--neon-cyan) !important;
             text-shadow: 0 0 5px var(--neon-cyan);
         }
 
-        /* --- Hero Section: 故障文字 --- */
+        /* --- Hero Section --- */
         .hero-section {
-            min-height: 60vh;
+            min-height: 85vh;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             text-align: center;
             padding-top: 80px;
-        }
-
-        .glitch-wrapper {
-            position: relative;
-            margin-bottom: 20px;
+            padding-bottom: 40px;
         }
 
         .hero-title {
@@ -93,9 +79,8 @@
             letter-spacing: 5px;
             position: relative;
             text-transform: uppercase;
+            margin-bottom: 1rem;
         }
-
-        /* 简单的文字阴影故障效果，保证清晰度 */
         .hero-title:hover {
             text-shadow: 2px 2px var(--neon-red), -2px -2px var(--neon-cyan);
             animation: shake 0.5s infinite;
@@ -104,195 +89,119 @@
         @keyframes shake {
             0% { transform: translate(1px, 1px) rotate(0deg); }
             10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
             100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
 
-        /* --- Bio Terminal: 个人介绍 --- */
+        /* --- Terminal Window --- */
         .terminal-window {
             background: rgba(10, 10, 15, 0.95);
             border: 1px solid #444;
-            border-top: 20px solid #222; /* 模拟窗口栏 */
+            border-top: 20px solid #222;
             border-radius: 5px;
+            width: 100%;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 0 auto 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             text-align: left;
             position: relative;
         }
-
-        /* 窗口按钮装饰 */
         .terminal-window::before {
-            content: '•••';
-            position: absolute;
-            top: -22px;
-            left: 10px;
-            color: #555;
-            font-size: 24px;
-            line-height: 20px;
+            content: '•••'; position: absolute; top: -22px; left: 10px; color: #555; font-size: 24px; line-height: 20px;
         }
-
         .terminal-window::after {
-            content: 'root@leochame:~';
-            position: absolute;
-            top: -18px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            color: #888;
-            font-size: 0.8rem;
-            font-family: sans-serif;
+            content: 'root@leochame:~'; position: absolute; top: -18px; left: 0; width: 100%; text-align: center; color: #888; font-size: 0.8rem; font-family: sans-serif;
         }
-
         .terminal-body {
             padding: 20px;
             font-family: var(--font-code);
             color: var(--neon-green);
             font-size: 1rem;
             line-height: 1.6;
+            min-height: 120px;
         }
-
         .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 15px;
-            background: var(--neon-green);
-            animation: blink 1s infinite;
-            vertical-align: middle;
+            display: inline-block; width: 8px; height: 15px; background: var(--neon-green);
+            animation: blink 1s infinite; vertical-align: middle;
         }
-
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* --- Dashboard Grid: 功能入口 --- */
-        .dashboard-section {
-            padding: 60px 0;
-        }
-
-        .nav-card {
-            background: var(--card-bg);
-            border: 1px solid #333;
-            padding: 2rem;
-            height: 100%;
-            transition: 0.3s;
+        /* --- System Manifest (自我介绍区) --- */
+        .manifest-box {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+            border-left: 2px solid var(--neon-purple);
+            padding-left: 20px;
             position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
+            background: linear-gradient(90deg, rgba(188, 19, 254, 0.05), transparent);
         }
 
+        .manifest-title {
+            font-family: var(--font-tech);
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .manifest-text {
+            color: #d0d0d0;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .highlight-text {
+            color: #fff;
+            font-weight: bold;
+            text-decoration: underline;
+            text-decoration-color: var(--neon-cyan);
+            text-underline-offset: 4px;
+        }
+
+        /* --- Dashboard Grid --- */
+        .dashboard-section { padding: 60px 0; }
+        .nav-card {
+            background: var(--card-bg); border: 1px solid #333; padding: 2rem; height: 100%;
+            transition: 0.3s; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; cursor: pointer;
+        }
         .nav-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 3px;
-            background: #333;
-            transition: 0.3s;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: #333; transition: 0.3s;
         }
-
         .nav-card:hover {
-            transform: translateY(-5px);
-            background: #111;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+            transform: translateY(-5px); background: #111; box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
         }
+        .nav-card.tech:hover { border-color: var(--neon-cyan); } .nav-card.tech:hover::before { background: var(--neon-cyan); }
+        .nav-card.research:hover { border-color: var(--neon-purple); } .nav-card.research:hover::before { background: var(--neon-purple); }
+        .nav-card.about:hover { border-color: var(--neon-green); } .nav-card.about:hover::before { background: var(--neon-green); }
 
-        /* 不同卡片的 Hover 颜色 */
-        .nav-card.tech:hover { border-color: var(--neon-cyan); }
-        .nav-card.tech:hover::before { background: var(--neon-cyan); }
-
-        .nav-card.research:hover { border-color: var(--neon-purple); }
-        .nav-card.research:hover::before { background: var(--neon-purple); }
-
-        .nav-card.about:hover { border-color: var(--neon-green); }
-        .nav-card.about:hover::before { background: var(--neon-green); }
-
-        .nav-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            transition: 0.3s;
-        }
+        .nav-icon { font-size: 3rem; margin-bottom: 1rem; color: #fff; transition: 0.3s; }
         .nav-card:hover .nav-icon { transform: scale(1.1); }
+        .nav-title { font-family: var(--font-tech); font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem; }
+        .nav-desc { color: #888; font-size: 0.9rem; }
 
-        .nav-title {
-            font-family: var(--font-tech);
-            font-size: 1.5rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-desc {
-            color: #888;
-            font-size: 0.9rem;
-        }
-
-        /* --- Featured Articles --- */
-        .featured-section {
-            padding: 40px 0 80px;
-            border-top: 1px dashed #222;
-        }
-
+        /* --- Featured --- */
+        .featured-section { padding: 40px 0 80px; border-top: 1px dashed #222; }
         .section-header {
-            font-family: var(--font-tech);
-            color: #fff;
-            border-left: 4px solid var(--neon-cyan);
-            padding-left: 15px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
+            font-family: var(--font-tech); color: #fff; border-left: 4px solid var(--neon-cyan);
+            padding-left: 15px; margin-bottom: 30px; display: flex; align-items: center;
         }
-
-        .featured-article-row {
-            display: flex;
-            overflow-x: auto;
-            gap: 20px;
-            padding-bottom: 20px;
-        }
-
+        .featured-article-row { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 20px; }
         .featured-card {
-            min-width: 300px;
-            background: #0e0e13;
-            border: 1px solid #333;
-            padding: 20px;
-            transition: 0.3s;
+            min-width: 300px; background: #0e0e13; border: 1px solid #333; padding: 20px; transition: 0.3s;
         }
-        .featured-card:hover {
-            border-color: var(--neon-cyan);
-        }
-
-        .f-title {
-            font-family: var(--font-tech);
-            color: #fff;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        .f-meta {
-            color: #666;
-            font-size: 0.8rem;
-        }
+        .featured-card:hover { border-color: var(--neon-cyan); }
+        .f-title { font-family: var(--font-tech); color: #fff; margin-bottom: 10px; font-size: 1.1rem; }
+        .f-meta { color: #666; font-size: 0.8rem; }
 
         /* Footer */
-        .footer {
-            background: #000;
-            border-top: 1px solid #222;
-            padding: 3rem 0;
-            text-align: center;
-            color: #555;
-        }
+        .footer { background: #000; border-top: 1px solid #222; padding: 3rem 0; text-align: center; color: #555; }
 
-        /* 响应式 */
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-        }
+        @media (max-width: 768px) { .hero-title { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
@@ -316,16 +225,35 @@
     </div>
 </header>
 
-<section id="home" class="hero-section">
-    <div class="container">
-        <div class="glitch-wrapper">
-            <h1 class="hero-title" data-text="LEOCHAME">LEOCHAME</h1>
-        </div>
+<section id="home" class="hero-section container">
+    <div class="glitch-wrapper">
+        <h1 class="hero-title" data-text="LEOCHAME">LEOCHAME</h1>
+    </div>
 
-        <div class="terminal-window mt-4">
-            <div class="terminal-body">
-                <span id="typewriter"></span><span class="cursor"></span>
-            </div>
+    <div class="terminal-window">
+        <div class="terminal-body">
+            <span id="typewriter"></span><span class="cursor"></span>
+        </div>
+    </div>
+
+    <div class="manifest-box fade-in">
+        <div class="manifest-title">
+            <i class="bi bi-terminal-fill" style="color: var(--neon-purple)"></i>
+            <span>SYSTEM_MANIFEST.md</span>
+        </div>
+        <div class="manifest-text">
+            <p class="mb-3">
+                我承认，我对屏幕背后的 <span class="highlight-text">"Why it works"</span> 有一点不健康的执念。
+                当大多数人满足于 API 能跑通时，我通常在凌晨三点盯着内核 Trap 处理机制，试图理解操作系统是如何“思考”的。
+            </p>
+            <p class="mb-3">
+                我与 <strong>Java</strong> 维持着一种长期且复杂的关系——从纠结 GC 的垃圾回收策略，到指挥高并发的线程协奏曲。
+                最近，我开始尝试一项名为 <span class="highlight-text">"教 AI 讲逻辑"</span> 的极限运动（也就是构建 Agentic Workflow），试图在概率模型中寻找确定性的火花。
+            </p>
+            <p class="mb-0">
+                简而言之：我热衷于构建那些<span class="highlight-text">外表枯燥稳定、内核精密复杂</span>的系统。
+                没有黑魔法，只有严谨的工程化......以及大量的咖啡。
+            </p>
         </div>
     </div>
 </section>
@@ -336,14 +264,14 @@
             <div class="nav-card tech" onclick="window.location.href='tech.html'">
                 <i class="bi bi-terminal nav-icon" style="color: var(--neon-cyan)"></i>
                 <h3 class="nav-title">TECH_LOGS</h3>
-                <p class="nav-desc">// Java Architecture & <br>System Design Patterns</p>
+                <p class="nav-desc">// Java Architecture & <br>High Concurrency</p>
             </div>
         </div>
         <div class="col-md-4">
             <div class="nav-card research" onclick="window.location.href='research.html'">
                 <i class="bi bi-radioactive nav-icon" style="color: var(--neon-purple)"></i>
                 <h3 class="nav-title">ARCHIVES</h3>
-                <p class="nav-desc">// Deep Dive into Kernel <br>& AI Papers</p>
+                <p class="nav-desc">// Kernel Deep Dive <br>& Paper Decoding</p>
             </div>
         </div>
         <div class="col-md-4">
@@ -378,7 +306,7 @@
                     <a href="https://github.com/leochame" class="text-white"><i class="bi bi-github"></i></a>
                     <a href="mailto:liulch.cn@gmail.com" class="text-white"><i class="bi bi-envelope-fill"></i></a>
                 </div>
-                <small class="text-muted">COPYRIGHT © 2025 LEOCHAME. DESIGNED FOR HIGH CONTRAST.</small>
+                <small class="text-muted">COPYRIGHT © 2025 LEOCHAME. ALL SYSTEMS OPERATIONAL.</small>
             </div>
         </div>
     </div>
@@ -388,7 +316,7 @@
 <script src="js/articles.js"></script>
 
 <script>
-    // --- 1. 粒子背景动画 (简化版，高性能) ---
+    // --- 1. 粒子背景动画 ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let width, height;
@@ -405,7 +333,7 @@
         constructor() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * 0.3; // 慢速移动
+            this.vx = (Math.random() - 0.5) * 0.3;
             this.vy = (Math.random() - 0.5) * 0.3;
             this.size = Math.random() * 2;
         }
@@ -432,14 +360,13 @@
         particles.forEach((p, index) => {
             p.update();
             p.draw();
-            // 连线
             for (let j = index + 1; j < particles.length; j++) {
                 const p2 = particles[j];
                 const dx = p.x - p2.x;
                 const dy = p.y - p2.y;
                 const dist = Math.sqrt(dx*dx + dy*dy);
                 if (dist < 100) {
-                    ctx.strokeStyle = `rgba(0, 243, 255, ${1 - dist/100 * 0.5})`; // 青色连线
+                    ctx.strokeStyle = `rgba(0, 243, 255, ${1 - dist/100 * 0.5})`;
                     ctx.lineWidth = 0.2;
                     ctx.beginPath();
                     ctx.moveTo(p.x, p.y);
@@ -452,13 +379,14 @@
     }
     animate();
 
-    // --- 2. 打字机效果 (Typewriter) ---
+    // --- 2. 打字机效果 ---
     const textToType = [
-        "> IDENTITY: LEOCHAME (Backend Engineer)",
-        "> AFFILIATION: HANGZHOU DIANZI UNIV (2026)",
-        "> MISSION: Integrating AI Agents with Java Ecosystem.",
-        "> STATUS: Coding..._"
+        "> IDENTITY: LEOCHAME (Backend Engineer / CS Explorer)",
+        "> CURRENT_STACK: Java Ecosystem + Large Language Models.",
+        "> MISSION: Decoding the layers between Hardware and AI.",
+        "> STATUS: Compiling knowledge..."
     ];
+
     const typeWriterElement = document.getElementById('typewriter');
     let lineIndex = 0;
     let charIndex = 0;
@@ -466,28 +394,25 @@
     function typeWriter() {
         if (lineIndex < textToType.length) {
             if (charIndex < textToType[lineIndex].length) {
-                // 检查是否是标签闭合，这里简化处理
                 typeWriterElement.innerHTML += textToType[lineIndex].charAt(charIndex);
                 charIndex++;
-                setTimeout(typeWriter, 30); // 打字速度
+                setTimeout(typeWriter, 30);
             } else {
                 typeWriterElement.innerHTML += "<br>";
                 lineIndex++;
                 charIndex = 0;
-                setTimeout(typeWriter, 300); // 换行停顿
+                setTimeout(typeWriter, 500);
             }
         }
     }
-    // 启动打字机
-    setTimeout(typeWriter, 500);
+    setTimeout(typeWriter, 800);
 
     // --- 3. 加载推荐文章 ---
     document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('featured-container');
         if (typeof articlesData !== 'undefined') {
             container.innerHTML = '';
-            // 取最新的3篇文章
-            const featured = articlesData.slice(0, 5);
+            const featured = articlesData.filter(a => a.featured).slice(0, 5);
             featured.forEach(article => {
                 const card = document.createElement('div');
                 card.className = 'featured-card';
