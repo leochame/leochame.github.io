@@ -3,27 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEOCHAME // RESEARCH_ARCHIVE</title>
+    <title>LEOCHAME // CHRONO_ARCHIVE</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            --bg-color: #000000;
+            --bg-color: #020205;
             --card-bg: #0b0b10;
+            --sidebar-bg: #050508;
+
             --neon-cyan: #00f3ff;
             --neon-purple: #bc13fe;
             --neon-green: #00ff9d;
-            --neon-orange: #ff9e00;
+            --neon-red: #ff3333;
+
             --text-main: #e0e0e0;
-            --text-muted: #888;
+            --text-muted: #777;
+
             --font-tech: 'Orbitron', sans-serif;
             --font-code: 'JetBrains Mono', monospace;
+
+            --timeline-width: 4px;
         }
 
         body {
@@ -31,18 +37,19 @@
             color: var(--text-main);
             font-family: var(--font-code);
             overflow-x: hidden;
-            /* 细微的网格背景 */
+            /* 复杂的背景纹理 */
             background-image:
-                    linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
+                    linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        /* --- 导航栏 (保持统一) --- */
+        /* --- Navbar --- */
         .navbar {
             background: rgba(0, 0, 0, 0.9);
-            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.15);
             backdrop-filter: blur(10px);
+            z-index: 1000;
         }
         .navbar-brand {
             font-family: var(--font-tech);
@@ -54,300 +61,341 @@
         .nav-link { color: var(--text-muted) !important; transition: 0.3s; }
         .nav-link.active { color: var(--neon-cyan) !important; font-weight: bold; text-shadow: 0 0 8px rgba(0, 243, 255, 0.4); }
 
-        /* --- 头部 Hero --- */
-        .hero-section {
-            padding: 80px 0 40px;
-            border-bottom: 1px dashed #333;
-            position: relative;
+        /* --- Main Layout --- */
+        .archive-layout {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 70px; /* Navbar height */
         }
 
-        .glitch-title {
+        /* --- Sidebar HUD (左侧控制台) --- */
+        .sidebar-hud {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid #222;
+            padding: 30px 20px;
+            position: fixed;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hud-header {
             font-family: var(--font-tech);
-            font-size: 3.5rem;
-            font-weight: 900;
+            font-size: 1.2rem;
             color: #fff;
-            text-transform: uppercase;
-            position: relative;
-            display: inline-block;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--neon-purple);
+            padding-bottom: 10px;
+            letter-spacing: 1px;
         }
 
-        .glitch-title::before {
-            content: '> ARCHIVE_ACCESS';
-            position: absolute;
-            top: -20px;
-            left: 0;
-            font-size: 0.8rem;
-            font-family: var(--font-code);
-            color: var(--neon-green);
-            letter-spacing: 2px;
-        }
-
-        .lead-text {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-            border-left: 2px solid var(--neon-purple);
-            padding-left: 15px;
-            text-align: left;
-        }
-
-        /* --- 筛选控制器 --- */
-        .filter-container {
-            background: rgba(20, 20, 30, 0.5);
-            border: 1px solid #333;
-            padding: 15px;
-            border-radius: 0;
-            display: inline-flex;
+        /* Filter Items */
+        .filter-group {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            position: relative;
+            margin-bottom: 40px;
         }
 
-        .filter-container::before {
-            content: 'FILTER_PROTOCOL:';
-            position: absolute;
-            top: -12px;
-            left: 10px;
-            background: #000;
-            padding: 0 5px;
-            font-size: 0.7rem;
-            color: var(--neon-cyan);
-        }
-
-        .cyber-btn {
+        .filter-item {
             background: transparent;
-            border: 1px solid #444;
+            border: 1px solid #333;
             color: #888;
-            padding: 8px 20px;
-            font-family: var(--font-tech);
+            padding: 12px 15px;
+            text-align: left;
+            font-family: var(--font-code);
             font-size: 0.85rem;
             cursor: pointer;
             transition: 0.3s;
-            text-transform: uppercase;
             position: relative;
             overflow: hidden;
-        }
-
-        .cyber-btn:hover {
-            border-color: var(--neon-cyan);
-            color: #fff;
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-        }
-
-        .cyber-btn.active {
-            background: rgba(0, 243, 255, 0.1);
-            border-color: var(--neon-cyan);
-            color: var(--neon-cyan);
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-        }
-
-        /* 按钮激活时的装饰角标 */
-        .cyber-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0; right: 0;
-            width: 10px; height: 10px;
-            background: linear-gradient(135deg, transparent 50%, var(--neon-cyan) 50%);
-        }
-
-        /* --- 研究卡片 (Holographic Cards) --- */
-        .research-card {
-            background: var(--card-bg);
-            border: 1px solid #333;
-            margin-bottom: 2rem;
-            position: relative;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            overflow: visible; /* 允许装饰溢出 */
-        }
-
-        /* 赛博切角效果 */
-        .research-card {
-            clip-path: polygon(
-                    0 0,
-                    100% 0,
-                    100% calc(100% - 20px),
-                    calc(100% - 20px) 100%,
-                    0 100%
-            );
-        }
-
-        .research-card:hover {
-            transform: translateY(-5px) scale(1.01);
-            border-color: var(--neon-purple);
-            box-shadow: 0 0 30px rgba(188, 19, 254, 0.15);
-            z-index: 10;
-        }
-
-        /* 左侧装饰条 */
-        .card-decor-line {
-            position: absolute;
-            top: 0; left: 0; bottom: 0;
-            width: 4px;
-            background: #333;
-            transition: 0.3s;
-        }
-        .research-card:hover .card-decor-line {
-            background: var(--neon-purple);
-            box-shadow: 0 0 10px var(--neon-purple);
-        }
-
-        .card-body-tech {
-            padding: 2rem;
-            padding-left: 2.5rem; /* 给左侧线条留空间 */
-        }
-
-        /* 头部元数据 */
-        .meta-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px;
-        }
-
-        .date-stamp {
-            color: var(--neon-cyan);
-            background: rgba(0, 243, 255, 0.1);
-            padding: 2px 6px;
-        }
-
-        .category-badge {
-            color: var(--neon-orange);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-        }
-
-        /* 标题 */
-        .research-title {
-            font-family: var(--font-tech);
-            font-size: 1.5rem;
-            color: #fff;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-            transition: 0.3s;
-        }
-        .research-card:hover .research-title {
-            color: var(--neon-purple);
-            text-shadow: 0 0 10px rgba(188, 19, 254, 0.4);
-        }
-
-        .research-summary {
-            color: #aaa;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        /* 底部标签与按钮 */
-        .card-footer-tech {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: auto;
         }
 
-        .tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tech-tag {
-            font-size: 0.75rem;
-            color: #888;
-            border: 1px solid #444;
-            padding: 2px 8px;
-            transition: 0.3s;
-        }
-        .research-card:hover .tech-tag {
-            border-color: var(--neon-green);
-            color: var(--neon-green);
-        }
-
-        .read-btn {
-            background: transparent;
-            border: none;
-            color: var(--neon-cyan);
-            font-family: var(--font-tech);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 5px 15px;
-            position: relative;
+        .filter-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: #444;
             transition: 0.3s;
         }
 
-        .read-btn::before {
-            content: '['; margin-right: 5px; transition: 0.3s;
-        }
-        .read-btn::after {
-            content: ']'; margin-left: 5px; transition: 0.3s;
-        }
-
-        .read-btn:hover {
+        .filter-item:hover {
+            background: rgba(255,255,255,0.05);
             color: #fff;
-            text-shadow: 0 0 10px var(--neon-cyan);
+            border-color: #555;
         }
-        .read-btn:hover::before { margin-right: 10px; }
-        .read-btn:hover::after { margin-left: 10px; }
 
-        /* --- 分页 (Terminal Style) --- */
-        .pagination {
-            justify-content: center;
-            gap: 10px;
-        }
-        .page-link {
-            background: #000;
-            border: 1px solid #444;
-            color: #888;
-            font-family: var(--font-code);
-            border-radius: 0 !important;
-        }
-        .page-link:hover, .page-item.active .page-link {
-            background: var(--neon-cyan);
-            color: #000;
+        .filter-item.active {
+            background: rgba(0, 243, 255, 0.05);
             border-color: var(--neon-cyan);
-            font-weight: bold;
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
-        .page-item.disabled .page-link {
-            background: #111;
-            border-color: #333;
-            color: #444;
+            color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
         }
 
-        /* --- Footer --- */
-        .footer {
-            background: #050505;
-            border-top: 1px solid #222;
-            padding: 40px 0;
-            margin-top: 60px;
+        .filter-item.active::before {
+            background: var(--neon-cyan);
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .filter-count {
+            font-size: 0.7rem;
+            background: #222;
+            padding: 2px 6px;
+            border-radius: 2px;
             color: #666;
         }
+        .filter-item.active .filter-count {
+            color: var(--neon-cyan);
+            background: rgba(0,0,0,0.5);
+        }
 
-        /* 响应式适配 */
-        @media (max-width: 768px) {
-            .hero-section { text-align: center; }
-            .lead-text { margin: 0 auto; border-left: none; text-align: center; }
-            .filter-container { width: 100%; }
-            .cyber-btn { flex: 1 0 40%; }
+        /* Mini Stats in Sidebar */
+        .hud-stats {
+            margin-top: auto;
+            border: 1px solid #333;
+            padding: 15px;
+            background: #0a0a0f;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        .stat-val { color: var(--neon-green); }
+
+        /* --- Content Area (Timeline) --- */
+        .archive-content {
+            flex-grow: 1;
+            margin-left: 280px; /* Offset for sidebar */
+            padding: 50px 60px;
+            position: relative;
+        }
+
+        .timeline-header {
+            margin-bottom: 60px;
+            padding-left: 30px;
+        }
+        .glitch-heading {
+            font-family: var(--font-tech);
+            font-size: 3rem;
+            color: #fff;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .timeline-desc {
+            color: var(--text-muted);
+            border-left: 3px solid var(--neon-purple);
+            padding-left: 15px;
+        }
+
+        /* Timeline Structure */
+        .timeline-wrapper {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        /* The Main Vertical Line */
+        .timeline-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 30px;
+            width: 2px;
+            background: #333;
+            z-index: 0;
+        }
+        /* Glowing effect on the line */
+        .timeline-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 30px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple), transparent);
+            opacity: 0.6;
+            z-index: 0;
+        }
+
+        /* Year Group */
+        .year-group {
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .year-marker {
+            font-family: var(--font-tech);
+            font-size: 2rem;
+            color: rgba(255,255,255,0.1);
+            position: absolute;
+            left: -20px;
+            top: -40px;
+            font-weight: 900;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Article Node */
+        .timeline-node {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 50px; /* Space from line */
+            opacity: 0;
+            animation: slideIn 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* The Dot on the line */
+        .node-dot {
+            position: absolute;
+            left: 22px; /* Align with line center (30px) - half width */
+            top: 25px;
+            width: 16px;
+            height: 16px;
+            background: #000;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 10px var(--neon-cyan);
+            transition: 0.3s;
+        }
+
+        .timeline-node:hover .node-dot {
+            background: var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* Connection Line (Horizontal) */
+        .node-connector {
+            position: absolute;
+            left: 30px;
+            top: 33px;
+            width: 50px;
+            height: 1px;
+            background: var(--neon-cyan);
+            opacity: 0.3;
+        }
+
+        /* The Card */
+        .research-card-h {
+            background: rgba(15, 15, 20, 0.8);
+            border: 1px solid #333;
+            border-left: 4px solid var(--text-muted);
+            padding: 25px;
+            position: relative;
+            transition: 0.3s;
+            margin-left: 30px; /* Distance from connector */
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+        }
+
+        .research-card-h:hover {
+            background: #15151e;
+            border-color: #555;
+            border-left-color: var(--neon-purple);
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        .security-badge {
+            border: 1px solid var(--neon-red);
+            color: var(--neon-red);
+            font-size: 0.6rem;
+            padding: 1px 4px;
+            letter-spacing: 1px;
+        }
+
+        .card-title {
+            font-family: var(--font-tech);
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        .research-card-h:hover .card-title {
+            color: var(--neon-cyan);
+        }
+
+        .card-summary {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .tech-tag-sm {
+            font-size: 0.75rem;
+            color: #888;
+            background: #111;
+            padding: 2px 8px;
+            border: 1px solid #333;
+        }
+
+        .access-btn {
+            margin-left: auto;
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-size: 0.8rem;
+            padding: 5px 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: var(--font-tech);
+        }
+        .access-btn:hover {
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            .sidebar-hud {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid #333;
+                overflow-x: auto;
+            }
+            .filter-group {
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+            .archive-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+            .hud-stats { display: none; } /* Hide stats on mobile */
         }
     </style>
 </head>
 <body>
 
-<header class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
+<header class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid px-4">
         <a class="navbar-brand" href="index.html">LEO_CHAME_</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <i class="bi bi-list text-white"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -355,204 +403,200 @@
                 <li class="nav-item"><a class="nav-link" href="index.html">01_HOME</a></li>
                 <li class="nav-item"><a class="nav-link" href="tech.html">02_TECH</a></li>
                 <li class="nav-item"><a class="nav-link active" href="research.html">03_RESEARCH</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.html">04_ABOUT_ME</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">04_ABOUT</a></li>
             </ul>
         </div>
     </div>
 </header>
 
-<section class="hero-section fade-in-up">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8 offset-lg-2 text-center">
-                <h1 class="glitch-title mb-4">RESEARCH_ARCHIVE</h1>
-                <p class="lead-text">
-                    // SYSTEM LOG: <br>
-                    深入探究 <span style="color:var(--neon-green)">OS 与 Network</span>, <span style="color:var(--neon-purple)">LLM</span> 。<br>
-                    此处归档了涉及到操作系统，计算机网络，LLM论文解读与重要概念深入探究。
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
+<div class="archive-layout">
 
-<section class="section-compact fade-in-up py-5">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-12 text-center">
-                <div class="filter-container">
-                    <button class="cyber-btn active" data-category="all">[ALL_DATA]</button>
-                    <button class="cyber-btn" data-category="经典论文">[PAPERS]</button>
-                    <button class="cyber-btn" data-category="MIT6.1810">[MIT_OS]</button>
-                    <button class="cyber-btn" data-category="操作系统">[KERNEL]</button>
-                    <button class="cyber-btn" data-category="计算机基础">[CS_BASE]</button>
-                    <button class="cyber-btn" data-category="人工智能">[AI_LAB]</button>
-                </div>
-            </div>
+    <aside class="sidebar-hud">
+        <div class="hud-header">
+            <i class="bi bi-database-lock me-2"></i>ARCHIVE_FILTER
         </div>
 
-        <div class="row" id="notes-container">
-            <div class="col-12 text-center text-muted py-5">
-                > INITIALIZING DATA STREAM...
+        <div class="filter-group">
+            <button class="filter-item active" data-category="all">
+                <span>[ ALL_DATA ]</span> <span class="filter-count">--</span>
+            </button>
+            <button class="filter-item" data-category="经典论文">
+                <span>PAPER_DECODE</span> <span class="filter-count" id="count-paper">0</span>
+            </button>
+            <button class="filter-item" data-category="MIT6.1810">
+                <span>MIT_KERNEL</span> <span class="filter-count" id="count-mit">0</span>
+            </button>
+            <button class="filter-item" data-category="操作系统">
+                <span>OS_CORE</span> <span class="filter-count" id="count-os">0</span>
+            </button>
+            <button class="filter-item" data-category="计算机基础">
+                <span>CS_BASE</span> <span class="filter-count" id="count-cs">0</span>
+            </button>
+            <button class="filter-item" data-category="人工智能">
+                <span>AI_LAB</span> <span class="filter-count" id="count-ai">0</span>
+            </button>
+        </div>
+
+        <div class="hud-stats">
+            <div class="text-white small mb-2 font-monospace" style="border-bottom: 1px solid #333; padding-bottom: 5px;">SYSTEM_STATUS</div>
+            <div class="stat-row">
+                <span>DATABASE:</span> <span class="stat-val">CONNECTED</span>
+            </div>
+            <div class="stat-row">
+                <span>LATENCY:</span> <span class="stat-val">12ms</span>
+            </div>
+            <div class="stat-row">
+                <span>SECURITY:</span> <span class="stat-val" style="color: var(--neon-red)">HIGH</span>
+            </div>
+            <div class="mt-3 text-muted" style="font-size: 0.65rem;">
+                // ACCESS GRANTED<br>
+                // USER: GUEST
+            </div>
+        </div>
+    </aside>
+
+    <main class="archive-content">
+        <div class="timeline-header">
+            <h1 class="glitch-heading">RESEARCH_LOGS</h1>
+            <p class="timeline-desc">
+                按时间轴归档的深度技术分析。<br>
+                包含 <span style="color: var(--neon-green)">Kernel Trap</span> 机制源码拆解与 <span style="color: var(--neon-purple)">Attention</span> 论文复现记录。
+            </p>
+        </div>
+
+        <div id="timeline-wrapper" class="timeline-wrapper">
+            <div class="text-center py-5 text-muted">
+                > DECRYPTING ARCHIVES...
             </div>
         </div>
 
-        <div class="mt-5 d-flex justify-content-center">
+        <div class="mt-5 pt-4 border-top border-dark d-flex justify-content-center">
             <nav aria-label="Page navigation">
-                <ul class="pagination">
-                </ul>
+                <ul class="pagination pagination-sm" id="pagination"></ul>
             </nav>
         </div>
-    </div>
-</section>
+    </main>
 
-<footer class="footer text-center">
-    <div class="container">
-        <p class="font-monospace small mb-0">
-            ARCHIVE STATUS: ONLINE // COPYRIGHT © 2025 LEOCHAME
-        </p>
-    </div>
-</footer>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/articles.js"></script>
 
 <script>
-    // 核心逻辑保持不变，但渲染的 HTML 模板彻底重写
     document.addEventListener('DOMContentLoaded', function() {
-        const notesContainer = document.getElementById('notes-container');
-        const categoryButtons = document.querySelectorAll('.cyber-btn');
-        const pagination = document.querySelector('.pagination');
+        const timelineWrapper = document.getElementById('timeline-wrapper');
+        const filterItems = document.querySelectorAll('.filter-item');
         let currentCategory = 'all';
-        let currentPage = 1;
-        const ITEMS_PER_PAGE = 10;
 
-        // 模拟数据加载延迟效果
+        // 模拟数据加载
         if (typeof articlesData === 'undefined') {
-            console.error("Error: articles.js not loaded.");
-            notesContainer.innerHTML = '<div class="text-danger text-center">> ERROR: DATA CORRUPTED</div>';
+            console.error("Data Error");
             return;
         }
 
-        // 获取研究札记类型的文章
-        function getResearchArticles() {
-            return articlesData.filter(article => article.isResearch === true)
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
+        // 1. 预处理数据：统计分类数量
+        function updateCounts() {
+            const counts = {
+                '经典论文': 0, 'MIT6.1810': 0, '操作系统': 0,
+                '计算机基础': 0, '人工智能': 0
+            };
+
+            articlesData.forEach(article => {
+                if (!article.isResearch) return;
+                if (article.mainCategory && counts.hasOwnProperty(article.mainCategory)) {
+                    counts[article.mainCategory]++;
+                }
+                if (article.subCategory && article.subCategory.includes('MIT6.1810')) {
+                    counts['MIT6.1810']++;
+                }
+            });
+
+            document.getElementById('count-paper').innerText = counts['经典论文'];
+            document.getElementById('count-mit').innerText = counts['MIT6.1810'];
+            document.getElementById('count-os').innerText = counts['操作系统'];
+            document.getElementById('count-cs').innerText = counts['计算机基础'];
+            document.getElementById('count-ai').innerText = counts['人工智能'];
         }
+        updateCounts();
 
-        // 渲染研究札记列表 (全新 Cyberpunk 卡片模板)
-        function renderResearch(category, page = 1) {
-            notesContainer.innerHTML = '';
+        // 2. 渲染时间轴逻辑
+        function renderTimeline(category) {
+            timelineWrapper.innerHTML = '';
 
-            const researchArticles = getResearchArticles();
-
-            const filteredResearch = category === 'all'
-                ? researchArticles
-                : researchArticles.filter(article =>
-                    article.subCategory === category ||
+            // 筛选数据
+            let filtered = articlesData.filter(a => a.isResearch);
+            if (category !== 'all') {
+                filtered = filtered.filter(article =>
                     article.mainCategory === category ||
-                    (category === 'MIT6.1810' && article.subCategory && article.subCategory.includes('MIT6.1810')));
+                    (article.subCategory && article.subCategory.includes(category))
+                );
+            }
 
-            if (filteredResearch.length === 0) {
-                notesContainer.innerHTML = `
-                    <div class="col-12 text-center py-5">
-                        <div style="border: 1px dashed #444; padding: 2rem; color: #666;">
-                            > NO RECORDS FOUND IN SECTOR [${category}]
-                        </div>
-                    </div>`;
-                renderPagination(1, 1);
+            // 按时间倒序
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (filtered.length === 0) {
+                timelineWrapper.innerHTML = `<div class="text-muted pt-5">> NO RECORDS IN SECTOR [${category}]</div>`;
                 return;
             }
 
-            const totalPages = Math.ceil(filteredResearch.length / ITEMS_PER_PAGE);
-            currentPage = page > totalPages ? 1 : page;
-
-            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-            const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredResearch.length);
-            const currentPageResearch = filteredResearch.slice(startIndex, endIndex);
-
-            // 渲染卡片
-            currentPageResearch.forEach((article, index) => {
-                const noteCol = document.createElement('div');
-                noteCol.className = 'col-lg-6 col-md-12 fade-in-up';
-                noteCol.style.animationDelay = `${index * 0.1}s`; // 瀑布流出现效果
-
-                // 构建新的卡片 HTML
-                const subCat = article.subCategory ? `<span class="tech-tag">${article.subCategory}</span>` : '';
-
-                noteCol.innerHTML = `
-                    <div class="research-card" onclick="window.open('${article.link}', '_blank')">
-                        <div class="card-decor-line"></div>
-                        <div class="card-body-tech">
-                            <div class="meta-header">
-                                <span class="date-stamp">LOG: ${article.date}</span>
-                                <span class="category-badge">${article.mainCategory}</span>
-                            </div>
-                            <h3 class="research-title">${article.title}</h3>
-                            <p class="research-summary">${article.summary}</p>
-                            <div class="card-footer-tech">
-                                <div class="tag-cloud">
-                                    ${subCat}
-                                    <span class="tech-tag">ID: ${Math.floor(Math.random() * 9000) + 1000}</span>
-                                </div>
-                                <button class="read-btn">DECRYPT</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                notesContainer.appendChild(noteCol);
+            // 按年份分组
+            const grouped = {};
+            filtered.forEach(article => {
+                const year = article.date.split('-')[0];
+                if (!grouped[year]) grouped[year] = [];
+                grouped[year].push(article);
             });
 
-            renderPagination(currentPage, totalPages);
+            // 渲染 HTML
+            Object.keys(grouped).sort((a, b) => b - a).forEach(year => {
+                // 年份标记
+                const yearDiv = document.createElement('div');
+                yearDiv.className = 'year-group';
+                yearDiv.innerHTML = `<div class="year-marker">${year}</div>`;
+                timelineWrapper.appendChild(yearDiv);
+
+                // 文章节点
+                grouped[year].forEach((article, index) => {
+                    const node = document.createElement('div');
+                    node.className = 'timeline-node';
+                    node.style.animationDelay = `${index * 0.1}s`; // 瀑布流动画
+
+                    // 生成随机的安全等级
+                    const levels = ['LV.1 PUBLIC', 'LV.2 RESTRICTED', 'LV.3 CLASSIFIED'];
+                    const secLevel = levels[Math.floor(Math.random() * levels.length)];
+
+                    node.innerHTML = `
+                        <div class="node-connector"></div>
+                        <div class="node-dot"></div>
+                        <div class="research-card-h" onclick="window.open('${article.link}', '_blank')">
+                            <div class="card-meta">
+                                <span style="color: var(--neon-cyan)">${article.date}</span>
+                                <span class="security-badge">${secLevel}</span>
+                            </div>
+                            <h3 class="card-title">${article.title}</h3>
+                            <p class="card-summary">${article.summary}</p>
+                            <div class="card-footer">
+                                <span class="tech-tag-sm">${article.mainCategory}</span>
+                                ${article.subCategory ? `<span class="tech-tag-sm">${article.subCategory}</span>` : ''}
+                                <button class="access-btn">ACCESS_FILE ></button>
+                            </div>
+                        </div>
+                    `;
+                    timelineWrapper.appendChild(node);
+                });
+            });
         }
 
-        // 渲染分页 (样式调整)
-        function renderPagination(currentPage, totalPages) {
-            pagination.innerHTML = '';
+        // 3. 初始化与事件绑定
+        renderTimeline('all');
 
-            const createPageItem = (text, page, isDisabled = false, isActive = false) => {
-                const li = document.createElement('li');
-                li.className = `page-item ${isDisabled ? 'disabled' : ''} ${isActive ? 'active' : ''}`;
-                const a = document.createElement('a');
-                a.className = 'page-link';
-                a.href = '#';
-                a.innerHTML = text;
-                if (!isDisabled && !isActive) {
-                    a.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        renderResearch(currentCategory, page);
-                        document.querySelector('.filter-container').scrollIntoView({behavior: 'smooth'});
-                    });
-                }
-                li.appendChild(a);
-                return li;
-            };
-
-            // Prev
-            pagination.appendChild(createPageItem('< PREV', currentPage - 1, currentPage === 1));
-
-            // Pages (Simplified logic for aesthetics)
-            for(let i = 1; i <= totalPages; i++) {
-                if (totalPages > 7 && Math.abs(currentPage - i) > 2 && i !== 1 && i !== totalPages) continue; // Simple collapse
-                pagination.appendChild(createPageItem(i < 10 ? `0${i}` : i, i, false, i === currentPage));
-            }
-
-            // Next
-            pagination.appendChild(createPageItem('NEXT >', currentPage + 1, currentPage === totalPages));
-
-            pagination.parentElement.style.display = totalPages <= 1 ? 'none' : 'flex';
-        }
-
-        // 初始化
-        renderResearch(currentCategory, currentPage);
-
-        // 按钮点击事件
-        categoryButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                categoryButtons.forEach(btn => btn.classList.remove('active'));
+        filterItems.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterItems.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 currentCategory = this.getAttribute('data-category');
-                renderResearch(currentCategory, 1);
+                renderTimeline(currentCategory);
             });
         });
     });
