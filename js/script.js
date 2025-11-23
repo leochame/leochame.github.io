@@ -1,0 +1,807 @@
+/**
+ * ====================================================================
+ * 1. 数据层 (Data Layer)
+ * ====================================================================
+ */
+const articlesData = [
+    {
+        id: 25,
+        title: "GC怎么保证不 STW 的？（二）",
+        summary: "本章节我们主要去阐述，ZGC 的并发整理是怎么实现的，这里主要解决的问题是怎么实现一个对象被移动后（标记-复制），移动到一个新的 Region，我们还能正常的访问的到。",
+        link: "https://mp.weixin.qq.com/s/hHZseg7QYVk4iNeuvkbOhg",
+        platform: "微信公众号",
+        date: "2025-07-30",
+        mainCategory: "Java",
+        subCategory: "JVM 虚拟机",
+        featured: true,
+        isResearch: false
+    },
+    {
+        id: 24,
+        title: "GC怎么保证不 STW 的？（一）",
+        summary: "保证不 STW，本质是个并发问题，怎么保证用户线程和垃圾回收线程互不干扰的运行，这里就提出了三点要求：...",
+        link: "https://mp.weixin.qq.com/s/iOdbzOu9aKdR62LPtROEkg",
+        platform: "微信公众号",
+        date: "2025-06-25",
+        mainCategory: "Java",
+        subCategory: "JVM 虚拟机",
+        featured: true,
+        isResearch: false
+    },
+    {
+        id: 23,
+        title: "LLM 推理成本直降 90% 应用提速 85%：提示词缓存如何重塑 Agent 开发",
+        summary: "本文旨在详细阐述“提示词缓存”（Prompt Caching）技术。为确保内容的清晰与循序渐进，文章将 ：首先介绍其基本定义、核心机制及其收益，再讲述其在 Agent 开发中如何落地",
+        link: "https://mp.weixin.qq.com/s/xfidMN73XnurT0O-OrpWPg",
+        platform: "微信公众号",
+        date: "2025-07-30",
+        mainCategory: "人工智能",
+        subCategory: "工程开发",
+        featured: true,
+        isResearch: false
+    },
+    {
+        id: 22,
+        title: "AI 工程专业术语扫盲",
+        summary: "作为开发者，我们主要将目光聚焦于 Agent、MCP，Function call、RAG等概念，我们对这些概念进行扫盲，让在开发沟通中减少阻碍",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/srhewvsgvcswyds8?singleDoc# 《AI 工程专业术语扫盲【未完待续】》",
+        platform: "语雀",
+        date: "2025-05-07",
+        mainCategory: "人工智能",
+        subCategory: "工程开发",
+        featured: true,
+        isResearch: true
+    },
+    {
+        id: 21,
+        title: "GFS（3）- 大数据的三驾马车",
+        summary: "GFS 也就是 Google 文件系统。目前的大部分分布式系统都或多或少的依赖于底层的文件系统。",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/cg6disr86tugih9p?singleDoc# 《GFS（3）- 大数据的三驾马车》",
+        platform: "语雀",
+        date: "2025-05-05",
+        mainCategory: "大数据",
+        subCategory: "经典论文",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 20,
+        title: "GFS（2）- 大数据的三驾马车",
+        summary: "GFS 也就是 Google 文件系统。目前的大部分分布式系统都或多或少的依赖于底层的文件系统。",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/ggru1bz14yr7vzw6?singleDoc# 《GFS（2）- 大数据的三驾马车》",
+        platform: "语雀",
+        date: "2025-05-03",
+        mainCategory: "大数据",
+        subCategory: "经典论文",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 19,
+        title: "GFS（1）- 大数据的三驾马车",
+        summary: "GFS 也就是 Google 文件系统。目前的大部分分布式系统都或多或少的依赖于底层的文件系统。",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/gx2szi2mss9pkbps?singleDoc# 《GFS（1）- 大数据的三驾马车》",
+        platform: "语雀",
+        date: "2025-05-01",
+        mainCategory: "大数据",
+        subCategory: "经典论文",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 18,
+        title: "有了MESI缓存一致性协议为什么还需要volatile？",
+        summary: "本篇文章先从 CPU 的三级缓存讲起，再讲解三级缓存带来的缓存不一致的挑战，最后去讲解 Java 中的volatile...",
+        link: "https://mp.weixin.qq.com/s/50wt85WcCmdmIQY--sVVBw",
+        platform: "微信公众号",
+        date: "2025-04-25",
+        mainCategory: "Java",
+        subCategory: "Java并发",
+        featured: true,
+        isResearch: false
+    },
+    {
+        id: 15,
+        title: "Tracing the thoughts of a large language model",
+        summary: "这篇论文主要阐述了 Anthropic 科学家如何追踪大语言模型（LLM）的思考过程。具体来说，就是当模型接收到一个提示词后，其内部神经元是如何运作的。",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/qgwoqmmqrinck1i0?singleDoc# 《Tracing the thoughts of a large language model》",
+        platform: "语雀",
+        date: "2025-04-01",
+        mainCategory: "人工智能",
+        subCategory: "经典论文",
+        featured: true,
+        isResearch: true
+    },
+    {
+        id: 6,
+        title: "Java线程池如何保证线程安全？",
+        summary: "在Java并发编程中，ThreadPoolExecutor类号称线程池的\"大脑\"，Java线程池的线程安全设计展示了并发编程的终极艺术。",
+        link: "https://juejin.cn/post/7490497276738486322",
+        platform: "掘金",
+        date: "2025-04-08",
+        mainCategory: "Java",
+        subCategory: "Java并发",
+        featured: true,
+        isResearch: false
+    },
+    {
+        id: 7,
+        title: "《Computer Networking A Top-Down Approach》- 拥塞控制原理与TCP拥塞",
+        summary: "探讨网络拥塞控制的基本原理以及 TCP 协议如何实现拥塞控制。",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/kkmagdynt183fyvo",
+        platform: "语雀",
+        date: "2025-04-01",
+        mainCategory: "计算机网络",
+        subCategory: "TCP",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 101,
+        title: "从NTP时钟同步优化角度出发 - 大学知识不再是空中楼阁（一）",
+        summary: "本系列基于数学，操作系统，计算机网络及网络编程角度出发去探寻 NTP 时钟同步的优化。",
+        link: "https://juejin.cn/post/7480441580059852835",
+        platform: "掘金",
+        date: "2025-03-12",
+        mainCategory: "计算机基础",
+        subCategory: "网络编程",
+        featured: false,
+        isResearch: false
+    },
+    {
+        id: 14,
+        title: "操作系统 - PageTable（一）",
+        summary: "这篇文章主要探讨了操作系统中的页表相关内容，包括页表如何为进程提供专用空间和地址，实现地址转换与隔离。",
+        link: "https://juejin.cn/post/7477228933638373391",
+        platform: "掘金",
+        date: "2025-03-03",
+        mainCategory: "操作系统",
+        subCategory: "MIT6.1810【笔记】",
+        featured: true,
+        isResearch: false
+    },
+    {
+        id: 5,
+        title: "操作系统 - 中断与系统驱动",
+        summary: "网卡收到 pack page,网卡就会产生中断，按下键盘也会产生中断。如果受到一个中断，sw save its work, process interupt, resume its work。",
+        link: "https://juejin.cn/spost/7485188648485601280",
+        platform: "掘金",
+        date: "2025-03-24",
+        mainCategory: "操作系统",
+        subCategory: "MIT6.1810【笔记】",
+        featured: true,
+        isResearch: false
+    },
+    {
+        id: 4,
+        title: "MIT6.1810 - 结构与组织",
+        summary: "这篇文章主要介绍了操作系统的结构与组织，包括操作系统的经典组织结构，如硬件资源、内核空间和用户空间的关系，内核中的重要模块...",
+        link: "https://juejin.cn/post/7474427694630142002",
+        platform: "掘金",
+        date: "2025-02-23",
+        mainCategory: "操作系统",
+        subCategory: "MIT6.1810【笔记】",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 3,
+        title: "操作系统-NetWorking",
+        summary: "文章主要围绕操作系统中的网络功能展开，包括网络分类及通信方式、重要协议（以太网、ARP、IP、UDP）等内容。",
+        link: "https://juejin.cn/post/7473721599248744485",
+        platform: "掘金",
+        date: "2025-02-21",
+        mainCategory: "操作系统",
+        subCategory: "网络基础",
+        featured: false,
+        isResearch: false
+    },
+    {
+        id: 13,
+        title: "MIT6.1810 - Sleep And Wake Up（1）",
+        summary: "介绍 xv6 操作系统中进程睡眠与唤醒机制的基本原理和实现。",
+        link: "https://mp.weixin.qq.com/s/NeaYy0R4gXtEDpz0nVYU1w",
+        platform: "微信公众号",
+        date: "2024-12-29",
+        mainCategory: "操作系统",
+        subCategory: "MIT6.1810【笔记】",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 12,
+        title: "MIT6.1810 - Sleep And Wake Up（2）",
+        summary: "深入探讨 xv6 中睡眠与唤醒的锁机制和 lost wake-up 问题。",
+        link: "https://mp.weixin.qq.com/s/Ksen60Ki0wwrSFtdMnVBaw",
+        platform: "微信公众号",
+        date: "2024-12-29",
+        mainCategory: "操作系统",
+        subCategory: "MIT6.1810【笔记】",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 11,
+        title: "MIT6.1810 - Scheduler And Thread Switch",
+        summary: "讲解 xv6 的调度器实现以及线程切换的过程。",
+        link: "https://mp.weixin.qq.com/s/28YhnpgXE_vD3dOTiYYNQg",
+        platform: "微信公众号",
+        date: "2024-12-28",
+        mainCategory: "操作系统",
+        subCategory: "MIT6.1810【笔记】",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 10,
+        title: "MIT6.1810 - Copy On Write",
+        summary: "介绍写时复制（Copy On Write）技术在 xv6 中的应用。",
+        link: "https://mp.weixin.qq.com/s/SgW_RtLbvu0UjHX_hTsFBg",
+        platform: "微信公众号",
+        date: "2024-12-28",
+        mainCategory: "操作系统",
+        subCategory: "MIT6.1810【笔记】",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 8,
+        title: "MIT6.1810 - Operation System Organization",
+        summary: "概述操作系统的基本组织结构和 xv6 的设计。",
+        link: "https://mp.weixin.qq.com/s/sCAaLyMUnBGC4rKOBN90mA",
+        platform: "微信公众号",
+        date: "2024-12-28",
+        mainCategory: "操作系统",
+        subCategory: "MIT6.1810【笔记】",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 201,
+        title: "MySQL - 查询篇",
+        summary: "文章主要围绕 MySQL 中的查询篇展开，深入讲解查询语句的使用技巧、优化方法等...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/cwcgubokz1hblvw5?singleDoc# 《查询篇》",
+        platform: "语雀",
+        date: "2025-02-11",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 202,
+        title: "MySQL - 存储引擎篇",
+        summary: "文章主要围绕MySQL中的存储引擎篇展开...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/yxqxpt0858ngqpe9?singleDoc# 《存储引擎篇》",
+        platform: "语雀",
+        date: "2025-02-10",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 203,
+        title: "MySQL - 缓存篇",
+        summary: "文章聚焦于 MySQL 中的缓存篇，详细介绍缓存机制、缓存策略以及如何有效利用缓存提升性能...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/yxqxpt0858ngqpe9?singleDoc# 《缓存篇》",
+        platform: "语雀",
+        date: "2025-02-12",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 204,
+        title: "MySQL - 索引篇",
+        summary: "文章着重介绍 MySQL 中的索引篇，包括索引的类型、创建和使用索引的注意事项以及索引对查询性能的影响...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/ttq528fb1bza7o34?singleDoc# 《索引篇》",
+        platform: "语雀",
+        date: "2025-02-14",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 205,
+        title: "MySQL-MVCC 篇",
+        summary: "该文章深入剖析 MySQL 中的 MVCC 篇，详细讲解 MVCC 的工作原理、实现机制以及在并发控制中的应用...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/egmggw9ld3fmoiin?singleDoc# 《MVCC篇》",
+        platform: "语雀",
+        date: "2025-02-15",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 206,
+        title: "MySQL - 锁篇",
+        summary: "文章主要针对 MySQL 中的锁篇，全面介绍锁的类型、锁的粒度以及如何避免死锁等问题...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/frd4zmhhvz6mzmqz?singleDoc# 《锁篇》",
+        platform: "语雀",
+        date: "2025-02-16",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 207,
+        title: "MySQL - 实践开发篇",
+        summary: "此文章围绕 MySQL 在实践开发中的应用展开，分享实际项目中使用 MySQL 的经验、技巧以及常见问题的解决方案...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/gihgg9agt8nhe2bu?singleDoc# 《实践开发篇》",
+        platform: "语雀",
+        date: "2025-02-17",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 208,
+        title: "MySQL - 优化篇",
+        summary: "该文章围绕 MySQL 的优化篇，从多个方面介绍优化策略，包括查询优化、存储优化、服务器参数优化等...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/mqzyghdezlgkkmh7?singleDoc# 《优化篇》",
+        platform: "语雀",
+        date: "2025-02-19",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 209,
+        title: "MySQL - 问答篇",
+        summary: "文章以问答形式呈现，涵盖 MySQL 使用过程中的常见问题及详细解答，为读者提供实用的参考...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/tqi51k3apvv80b71?singleDoc# 《问答篇》",
+        platform: "语雀",
+        date: "2025-02-20",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 210,
+        title: "MySQL - 日志篇",
+        summary: "此文章围绕 MySQL 中的日志篇，全面阐述日志类型、日志记录原理以及日志在故障排查和数据恢复中的作用...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/xbdexw8q18ugtll8?singleDoc# 《日志篇》",
+        platform: "语雀",
+        date: "2024-09-13",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    },
+    {
+        id: 211,
+        title: "MySQL - 架构篇",
+        summary: "文章聚焦于 MySQL 的架构篇，详细解读 MySQL 的体系架构、各个组件的功能以及架构设计的要点...",
+        link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/zgkvm3dydayfgf7q?singleDoc# 《架构篇》",
+        platform: "语雀",
+        date: "2024-10-18",
+        mainCategory: "数据库",
+        subCategory: "MySQL 学习笔记",
+        featured: false,
+        isResearch: true
+    }
+];
+
+/**
+ * ====================================================================
+ * 2. 全局变量与配置 (Global State)
+ * ====================================================================
+ */
+const allowedMainCategories = [
+    "Java",
+    "操作系统",
+    "计算机网络",
+    "计算机基础",
+    "数据库",
+    "人工智能",
+    "大数据"
+];
+
+// 全局状态管理
+let state = {
+    mainCategory: null, // 'featured', 'all', 或具体分类名
+    subCategory: null,
+    showAll: false
+};
+
+/**
+ * ====================================================================
+ * 3. 初始化入口 (Main Entry Point)
+ * ====================================================================
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. 初始化主题（暗黑模式）
+    initTheme();
+
+    // 2. 初始化页面交互（外链安全、懒加载、平滑滚动）
+    enhancePageInteraction();
+
+    // 3. 初始化数据结构
+    const categoriesTree = buildCategoryTree();
+
+    // 4. 处理路由状态与渲染
+    handleRouting();
+
+    // 5. 渲染页面核心组件
+    renderCategories(categoriesTree);
+    renderSubCategories(categoriesTree);
+    renderArticles();
+    setupArticleToggle();
+
+    // 6. 监听浏览器前进后退
+    window.addEventListener('popstate', () => {
+        handleRouting();
+        renderCategories(categoriesTree);
+        renderSubCategories(categoriesTree);
+        renderArticles();
+        updateToggleUI();
+    });
+});
+
+/**
+ * ====================================================================
+ * 4. 核心逻辑函数 (Core Functions)
+ * ====================================================================
+ */
+
+// --- 工具：构建分类树 ---
+function buildCategoryTree() {
+    return articlesData.reduce((acc, article) => {
+        const { mainCategory, subCategory } = article;
+        if (allowedMainCategories.includes(mainCategory)) {
+            if (!acc[mainCategory]) {
+                acc[mainCategory] = new Set();
+            }
+            if (subCategory) {
+                acc[mainCategory].add(subCategory);
+            }
+        }
+        return acc;
+    }, {});
+}
+
+// --- 逻辑：路由解析 ---
+function handleRouting() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramMain = urlParams.get('mainCategory');
+    const paramSub = urlParams.get('subCategory');
+    const paramShowAll = urlParams.get('showAll') === 'true';
+    const oldParamCategory = urlParams.get('category'); // 兼容旧逻辑
+
+    state.showAll = paramShowAll;
+
+    if (paramShowAll) {
+        state.mainCategory = 'all';
+    } else if (paramMain) {
+        state.mainCategory = paramMain;
+    } else if (oldParamCategory) {
+        state.mainCategory = oldParamCategory; // 兼容旧URL
+    } else {
+        // 默认首页状态
+        state.mainCategory = 'featured';
+    }
+
+    state.subCategory = paramSub || null;
+}
+
+// --- 渲染：主分类导航 ---
+function renderCategories(categoriesTree) {
+    const categoryList = document.getElementById('category-list');
+    if (!categoryList) return;
+
+    categoryList.innerHTML = '';
+    const mainCategoriesContainer = document.createElement('div');
+    mainCategoriesContainer.className = 'main-categories-container';
+
+    for (const mainCategory in categoriesTree) {
+        const categoryLink = document.createElement('a');
+        // 为了SEO友好，保留href，但JS拦截点击
+        categoryLink.href = `index.html?mainCategory=${encodeURIComponent(mainCategory)}`;
+        categoryLink.textContent = mainCategory;
+
+        // 激活状态逻辑
+        const isActive = state.mainCategory === mainCategory;
+        if (isActive) categoryLink.classList.add('active');
+
+        categoryLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            updateState(mainCategory, null, false);
+        });
+
+        mainCategoriesContainer.appendChild(categoryLink);
+    }
+    categoryList.appendChild(mainCategoriesContainer);
+}
+
+// --- 渲染：子分类导航 ---
+function renderSubCategories(categoriesTree) {
+    const subCategoriesScroll = document.getElementById('sub-categories-scroll');
+    if (!subCategoriesScroll) return;
+
+    // 如果是“全部”或“推荐”视图，隐藏子菜单
+    if (state.mainCategory === 'featured' || state.mainCategory === 'all' || !categoriesTree[state.mainCategory]) {
+        subCategoriesScroll.style.display = 'none';
+        subCategoriesScroll.innerHTML = '';
+        return;
+    }
+
+    const currentSubCategories = Array.from(categoriesTree[state.mainCategory] || []);
+    if (currentSubCategories.length === 0) {
+        subCategoriesScroll.style.display = 'none';
+        return;
+    }
+
+    subCategoriesScroll.style.display = 'block';
+    subCategoriesScroll.innerHTML = '';
+
+    const subCategoriesList = document.createElement('ul');
+    subCategoriesList.className = 'sub-categories-list';
+
+    currentSubCategories.sort().forEach(subCategory => {
+        const subCategoryItem = document.createElement('li');
+        const subCategoryLink = document.createElement('a');
+        subCategoryLink.href = `index.html?mainCategory=${encodeURIComponent(state.mainCategory)}&subCategory=${encodeURIComponent(subCategory)}`;
+        subCategoryLink.textContent = subCategory;
+
+        if (subCategory === state.subCategory) {
+            subCategoryLink.classList.add('active');
+        }
+
+        subCategoryLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            updateState(state.mainCategory, subCategory, false);
+        });
+
+        subCategoryItem.appendChild(subCategoryLink);
+        subCategoriesList.appendChild(subCategoryItem);
+    });
+
+    subCategoriesScroll.appendChild(subCategoriesList);
+}
+
+// --- 渲染：文章列表 ---
+function renderArticles() {
+    const articlesContainer = document.getElementById('articles-container');
+    const currentCategoryTitle = document.getElementById('current-category');
+    if (!articlesContainer) return;
+
+    articlesContainer.innerHTML = '';
+    let filteredArticles = [];
+    let titleText = '文章列表';
+
+    // 筛选逻辑
+    if (state.mainCategory === 'featured') {
+        filteredArticles = articlesData.filter(article => article.featured);
+        titleText = '推荐阅读';
+    } else if (state.mainCategory === 'all') {
+        filteredArticles = articlesData;
+        titleText = '全部文章';
+    } else {
+        // 特定主分类
+        filteredArticles = articlesData.filter(article => article.mainCategory === state.mainCategory);
+        titleText = state.mainCategory;
+
+        // 如果有子分类，进一步筛选
+        if (state.subCategory) {
+            filteredArticles = filteredArticles.filter(article => article.subCategory === state.subCategory);
+            titleText = `${state.mainCategory} / ${state.subCategory}`;
+        }
+    }
+
+    if (currentCategoryTitle) currentCategoryTitle.textContent = titleText;
+
+    // 排序：最新在前
+    filteredArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (filteredArticles.length === 0) {
+        articlesContainer.innerHTML = '<div class="no-articles">该分类下暂无文章</div>';
+        return;
+    }
+
+    // 生成 HTML
+    filteredArticles.forEach((article, index) => {
+        const articleCard = document.createElement('div');
+        articleCard.className = 'article-card fade-in-up'; // 默认添加动画类
+        articleCard.dataset.delay = index * 0.1; // 用于交错动画
+
+        const categoryDisplay = article.subCategory
+            ? `${article.mainCategory} / ${article.subCategory}`
+            : article.mainCategory;
+
+        articleCard.innerHTML = `
+            <h2 class="article-title">
+                <a href="${article.link}" target="_blank">${article.title}</a>
+            </h2>
+            <div class="article-meta">
+                <span class="platform"><i class="bi bi-journal-text"></i> ${article.platform}</span>
+                <span class="date"><i class="bi bi-calendar3"></i> ${article.date}</span>
+                <span class="category">${categoryDisplay}</span>
+            </div>
+            <p class="article-summary">${article.summary}</p>
+            <a href="${article.link}" class="read-more" target="_blank">阅读全文</a>
+        `;
+        articlesContainer.appendChild(articleCard);
+    });
+
+    // 重新触发动画观察者
+    initScrollAnimation();
+}
+
+// --- 逻辑：状态更新与跳转 ---
+function updateState(main, sub, showAll) {
+    state.mainCategory = main;
+    state.subCategory = sub;
+    state.showAll = showAll;
+
+    // 构建 URL
+    const params = new URLSearchParams();
+    if (showAll) {
+        params.set('showAll', 'true');
+    } else if (main && main !== 'featured') {
+        params.set('mainCategory', main);
+        if (sub) params.set('subCategory', sub);
+    }
+    // featured 不带参数（默认首页）
+
+    const newUrl = params.toString() ? `index.html?${params.toString()}` : 'index.html';
+    window.history.pushState({}, '', newUrl);
+
+    // 重新渲染
+    const categoriesTree = buildCategoryTree();
+    renderCategories(categoriesTree);
+    renderSubCategories(categoriesTree);
+    renderArticles();
+    updateToggleUI();
+}
+
+// --- 组件：文章切换按钮 (Featured vs All) ---
+function setupArticleToggle() {
+    // 动态创建 toggle 结构（如果不存在）
+    let toggleCheckbox = document.getElementById('article-toggle-checkbox');
+    const titleAndToggle = document.querySelector('.title-and-toggle');
+
+    if (!toggleCheckbox && titleAndToggle) {
+        const toggleDiv = document.createElement('div');
+        toggleDiv.className = 'article-toggle';
+        toggleDiv.innerHTML = `
+            <label class="switch">
+                <input type="checkbox" id="article-toggle-checkbox">
+                <span class="slider round"></span>
+            </label>
+            <span id="toggle-label">显示全部</span>
+        `;
+        titleAndToggle.appendChild(toggleDiv);
+        toggleCheckbox = document.getElementById('article-toggle-checkbox');
+    }
+
+    if (!toggleCheckbox) return;
+
+    // 绑定事件 (使用 replaceWith 移除旧监听器，防止累积)
+    const newCheckbox = toggleCheckbox.cloneNode(true);
+    toggleCheckbox.parentNode.replaceChild(newCheckbox, toggleCheckbox);
+
+    newCheckbox.addEventListener('change', function(e) {
+        if (e.target.checked) {
+            updateState('all', null, true);
+        } else {
+            updateState('featured', null, false);
+        }
+    });
+
+    updateToggleUI();
+}
+
+function updateToggleUI() {
+    const checkbox = document.getElementById('article-toggle-checkbox');
+    const label = document.getElementById('toggle-label');
+    if (!checkbox || !label) return;
+
+    const isAll = state.mainCategory === 'all';
+    checkbox.checked = isAll;
+    label.textContent = isAll ? '切换到推荐' : '查看全部';
+
+    // 确保 UI 可见
+    if (checkbox.closest('.article-toggle')) {
+        checkbox.closest('.article-toggle').style.display = 'flex';
+    }
+}
+
+/**
+ * ====================================================================
+ * 5. 页面增强与视觉效果 (Interaction & Visuals)
+ * ====================================================================
+ */
+
+// --- 主题切换 (Dark Mode) ---
+function initTheme() {
+    const themeSwitch = document.querySelector('#theme-switch');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+
+    // 初始化
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (themeSwitch) themeSwitch.checked = true;
+    }
+
+    // 监听
+    if (themeSwitch) {
+        // 移除旧监听防止重复
+        const newSwitch = themeSwitch.cloneNode(true);
+        themeSwitch.parentNode.replaceChild(newSwitch, themeSwitch);
+
+        newSwitch.addEventListener('change', function(e) {
+            if (e.target.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    }
+}
+
+// --- 滚动动画 (Intersection Observer) ---
+function initScrollAnimation() {
+    const animateElements = document.querySelectorAll('.fade-in-up');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 动态设置延迟
+                const delay = entry.target.dataset.delay || 0;
+                entry.target.style.animationDelay = `${delay}s`;
+                entry.target.style.animationPlayState = 'running';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    animateElements.forEach(el => {
+        el.style.animationPlayState = 'paused';
+        observer.observe(el);
+    });
+}
+
+// --- 杂项交互增强 ---
+function enhancePageInteraction() {
+    // 1. 外链安全
+    document.querySelectorAll('a[href^="http"]').forEach(link => {
+        if (!link.hasAttribute('rel')) link.setAttribute('rel', 'noopener noreferrer');
+        if (!link.hasAttribute('target')) link.setAttribute('target', '_blank');
+    });
+
+    // 2. 图片处理
+    document.querySelectorAll('img').forEach(img => {
+        if (img.classList.contains('avatar-large') || img.classList.contains('avatar')) {
+            img.classList.add('loaded');
+        } else if (img.loading === 'lazy') {
+            img.addEventListener('load', () => img.classList.add('loaded'));
+        } else {
+            img.classList.add('loaded');
+        }
+    });
+
+    // 3. 平滑滚动
+    document.querySelectorAll('.scroll-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, href);
+                }
+            }
+        });
+    });
+}
