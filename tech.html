@@ -3,31 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEOCHAME // SOURCE_CODE</title>
+    <title>LEOCHAME // TECH_REGISTRY</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            /* 全局统一色板 */
             --bg-core: #000000;
-            --bg-panel: #0a0a0f;
+            --bg-sidebar: #050508;
             --border-color: #333;
 
-            /* 霓虹高亮色 (与首页一致) */
             --neon-cyan: #00f3ff;
-            --neon-purple: #bc13fe;
             --neon-green: #00ff9d;
-            --neon-pink: #ff007c;
-            --neon-yellow: #f9c80e;
+            --neon-purple: #bc13fe;
 
             --text-main: #ffffff;
-            --text-muted: #b0b0b0;
+            --text-dim: #666;
 
             --font-tech: 'Orbitron', sans-serif;
             --font-code: 'JetBrains Mono', monospace;
@@ -37,247 +33,305 @@
             background-color: var(--bg-core);
             color: var(--text-main);
             font-family: var(--font-code);
-            overflow: hidden; /* 应用级布局，禁止 body 滚动 */
-            height: 100vh;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            /* 背景纹理 */
-            background-image:
-                    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
+            overflow-x: hidden;
+            /* 背景扫描线 */
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 255, 255, 0.02) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 2px, 3px 100%;
         }
 
-        a { text-decoration: none; color: inherit; }
-
-        /* --- 1. 顶部导航栏 (Navbar) --- */
+        /* --- Navbar --- */
         .navbar {
             background: rgba(0, 0, 0, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(5px);
+            border-bottom: 1px solid var(--border-color);
             height: 70px;
-            flex-shrink: 0;
+            position: fixed;
+            top: 0; width: 100%;
             z-index: 1000;
+            backdrop-filter: blur(5px);
         }
         .navbar-brand {
             font-family: var(--font-tech);
             color: #fff !important;
             font-weight: 900;
             letter-spacing: 2px;
-            text-shadow: 0 0 8px var(--neon-cyan);
-        }
-        .nav-link {
-            color: #aaa !important;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-        .nav-link.active, .nav-link:hover {
-            color: var(--neon-cyan) !important;
             text-shadow: 0 0 5px var(--neon-cyan);
         }
+        .nav-link { color: #888 !important; transition: 0.3s; }
+        .nav-link.active, .nav-link:hover { color: var(--neon-cyan) !important; text-shadow: 0 0 5px var(--neon-cyan); }
 
-        /* --- 2. IDE 主布局 --- */
-        .ide-layout {
+        /* --- Layout --- */
+        .registry-container {
             display: flex;
-            flex: 1;
-            overflow: hidden;
-            position: relative;
+            min-height: 100vh;
+            padding-top: 70px;
         }
 
-        /* --- 左侧：资源管理器 (Sidebar) --- */
-        .ide-sidebar {
-            width: 260px;
-            background: rgba(10, 10, 15, 0.9);
+        /* --- Left Sidebar (Module Selector) --- */
+        .sidebar-panel {
+            width: 300px;
+            background: var(--bg-sidebar);
             border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 70px; bottom: 0; left: 0;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            flex-shrink: 0;
+            z-index: 100;
         }
 
         .sidebar-header {
-            padding: 15px 20px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #222;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 30px 20px 20px;
+            border-bottom: 1px dashed #333;
+        }
+        .sidebar-title {
+            font-family: var(--font-tech);
+            font-size: 1.2rem;
+            color: var(--neon-green);
+            margin-bottom: 5px;
+        }
+        .sidebar-subtitle {
+            font-size: 0.7rem;
+            color: var(--text-dim);
         }
 
-        .file-tree {
-            list-style: none;
-            padding: 10px 0;
-            margin: 0;
-            overflow-y: auto;
+        .module-list {
+            padding: 20px 0;
+            flex-grow: 1;
         }
 
-        .tree-item {
-            padding: 8px 20px;
+        .module-item {
+            padding: 15px 25px;
             cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             color: #888;
-            font-size: 0.85rem;
-            border-left: 2px solid transparent;
-            transition: 0.2s;
-        }
-
-        .tree-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-        }
-
-        .tree-item.active {
-            background: rgba(0, 243, 255, 0.05);
-            color: #fff;
-            border-left-color: var(--neon-cyan);
-        }
-
-        .icon-folder { color: var(--neon-yellow); margin-right: 10px; }
-        .icon-package { color: var(--neon-purple); margin-right: 10px; }
-        .icon-java { color: var(--neon-cyan); margin-right: 10px; }
-
-        /* --- 右侧：编辑区 (Main Content) --- */
-        .ide-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: rgba(0, 0, 0, 0.5);
+            border-left: 4px solid transparent;
+            transition: 0.3s;
+            font-size: 0.9rem;
             position: relative;
         }
 
-        /* 标签页栏 */
-        .editor-tabs {
-            height: 40px;
-            background: #050505;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-        }
-        .tab {
-            padding: 0 20px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            background: #111;
-            color: #666;
-            font-size: 0.85rem;
-            border-right: 1px solid #222;
-            cursor: pointer;
-        }
-        .tab.active {
-            background: #0a0a0f;
+        .module-item:hover {
+            background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            border-top: 2px solid var(--neon-cyan);
+            padding-left: 30px;
         }
-        .tab i { margin-right: 8px; color: var(--neon-cyan); }
 
-        /* 代码瀑布流区域 */
-        .code-scroll-area {
+        .module-item.active {
+            background: rgba(0, 243, 255, 0.05);
+            color: var(--neon-cyan);
+            border-left-color: var(--neon-cyan);
+            font-weight: bold;
+            box-shadow: inset 5px 0 15px rgba(0, 243, 255, 0.1);
+        }
+
+        .module-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 25px; right: 25px;
+            height: 1px;
+            background: #1a1a1a;
+        }
+
+        .module-count {
+            font-size: 0.7rem;
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+        .module-item.active .module-count {
+            color: #000;
+            background: var(--neon-cyan);
+        }
+
+        /* --- Right Content (Data Stream) --- */
+        .content-panel {
             flex: 1;
-            padding: 30px;
-            overflow-y: auto;
+            margin-left: 300px; /* Sidebar width */
+            padding: 40px 60px;
+            position: relative;
         }
 
-        .masonry-grid {
-            column-count: 3;
-            column-gap: 20px;
+        .stream-header {
+            margin-bottom: 40px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
         }
-        @media (max-width: 1200px) { .masonry-grid { column-count: 2; } }
-        @media (max-width: 768px) {
-            .masonry-grid { column-count: 1; }
-            .ide-sidebar { display: none; } /* 移动端隐藏侧边栏 */
+        .stream-title {
+            font-family: var(--font-tech);
+            font-size: 2rem;
+            color: #fff;
+            line-height: 1;
         }
+        .stream-status {
+            font-size: 0.8rem;
+            color: var(--neon-green);
+            animation: blink 2s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0.3; } }
 
-        /* --- 代码片段卡片 (Code Snippet Card) --- */
-        .snippet-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
+        /* Log Entries (Articles) */
+        .log-entry {
+            background: rgba(10, 10, 15, 0.6);
+            border: 1px solid #333;
             margin-bottom: 20px;
-            break-inside: avoid;
+            padding: 0;
+            display: flex;
             transition: 0.3s;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        .snippet-card:hover {
-            border-color: var(--neon-cyan);
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
-        }
-
-        .card-header {
-            background: #111;
-            padding: 8px 12px;
-            border-bottom: 1px solid #222;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .file-name { font-size: 0.75rem; color: #888; }
-        .window-controls span {
-            display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-left: 5px;
-        }
-        .bg-red { background: #ff5f56; } .bg-yellow { background: #ffbd2e; } .bg-green { background: #27c93f; }
-
-        .code-body {
-            padding: 15px;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: #d4d4d4;
-        }
-
-        /* 语法高亮 */
-        .kw { color: var(--neon-pink); }   /* 关键字 */
-        .cls { color: var(--neon-yellow); } /* 类名 */
-        .fn { color: var(--neon-cyan); }   /* 方法名 */
-        .str { color: var(--neon-green); } /* 字符串/注释 */
-        .var { color: var(--neon-purple); }/* 变量 */
-        .ln {
-            color: #444;
-            margin-right: 10px;
-            user-select: none;
-            border-right: 1px solid #333;
-            padding-right: 10px;
-        }
-
-        .run-btn {
-            display: block;
-            margin-top: 15px;
-            text-align: center;
-            background: rgba(0, 243, 255, 0.1);
-            border: 1px dashed var(--neon-cyan);
-            color: var(--neon-cyan);
-            padding: 6px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
+        .log-entry::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 0; width: 4px;
+            background: #333;
             transition: 0.3s;
         }
-        .run-btn:hover {
+
+        .log-entry:hover {
+            transform: translateX(10px);
+            border-color: #555;
+            background: rgba(20, 20, 25, 0.9);
+        }
+        .log-entry:hover::before {
             background: var(--neon-cyan);
-            color: #000;
             box-shadow: 0 0 10px var(--neon-cyan);
         }
 
-        /* --- 底部状态栏 --- */
-        .status-bar {
-            height: 25px;
+        /* Left Meta Block */
+        .log-meta {
+            width: 140px;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-right: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .log-date {
+            font-family: var(--font-tech);
+            font-size: 0.9rem;
+            color: #fff;
+        }
+        .log-cat {
+            font-size: 0.7rem;
+            color: var(--neon-purple);
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* Right Content Block */
+        .log-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .log-title {
+            font-family: var(--font-tech);
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+        .log-entry:hover .log-title {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+
+        .log-summary {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+            max-width: 800px;
+        }
+
+        /* Action Button */
+        .log-action {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .log-entry:hover .log-action {
+            opacity: 1;
+            right: 30px;
+        }
+        .btn-exec {
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-family: var(--font-tech);
+            font-size: 0.8rem;
+            padding: 5px 15px;
+            text-transform: uppercase;
+        }
+        .btn-exec:hover {
             background: var(--neon-cyan);
             color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            z-index: 1000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar-panel {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                border-right: none;
+                border-bottom: 1px solid #333;
+            }
+            .module-list {
+                display: flex;
+                overflow-x: auto;
+                padding: 10px;
+            }
+            .module-item {
+                border-left: none;
+                border-bottom: 2px solid transparent;
+                padding: 10px 15px;
+                white-space: nowrap;
+            }
+            .module-item:hover { padding-left: 15px; }
+            .module-item::after { display: none; }
+            .module-item.active {
+                border-left-color: transparent;
+                border-bottom-color: var(--neon-cyan);
+                box-shadow: none;
+            }
+
+            .content-panel {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+
+            .log-entry { flex-direction: column; }
+            .log-meta {
+                width: 100%;
+                flex-direction: row;
+                justify-content: flex-start;
+                gap: 15px;
+                text-align: left;
+                border-right: none;
+                border-bottom: 1px solid #333;
+                padding: 10px 20px;
+            }
+            .log-action { display: none; } /* Hide hover button on mobile */
         }
 
     </style>
@@ -286,7 +340,7 @@
 
 <header class="navbar navbar-expand-lg">
     <div class="container-fluid px-4">
-        <a class="navbar-brand" href="index.html">LEO_CHAME_</a>
+        <a class="navbar-brand" href="index.html">LEOCHAME_</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <i class="bi bi-list text-white"></i>
         </button>
@@ -301,61 +355,58 @@
     </div>
 </header>
 
-<div class="ide-layout">
-    <aside class="ide-sidebar">
+<div class="registry-container">
+    <aside class="sidebar-panel">
         <div class="sidebar-header">
-            <span>EXPLORER: REPOSITORY</span>
-            <i class="bi bi-three-dots"></i>
+            <div class="sidebar-title">MODULE_SELECTOR</div>
+            <div class="sidebar-subtitle">// SELECT SYSTEM COMPONENT</div>
         </div>
-        <ul class="file-tree">
-            <li class="tree-item active category-btn" data-category="all">
-                <i class="bi bi-hdd-stack icon-folder"></i> src (All)
-            </li>
-            <div id="category-list">
-                <li class="tree-item category-btn" data-category="Java">
-                    <span style="margin-left: 15px;"></span>
-                    <i class="bi bi-box-seam icon-package"></i> com.leochame.java
-                </li>
-                <li class="tree-item category-btn" data-category="操作系统">
-                    <span style="margin-left: 15px;"></span>
-                    <i class="bi bi-box-seam icon-package"></i> com.leochame.kernel
-                </li>
-                <li class="tree-item category-btn" data-category="数据库">
-                    <span style="margin-left: 15px;"></span>
-                    <i class="bi bi-box-seam icon-package"></i> com.leochame.db
-                </li>
-                <li class="tree-item category-btn" data-category="人工智能">
-                    <span style="margin-left: 15px;"></span>
-                    <i class="bi bi-box-seam icon-package"></i> com.leochame.ai
-                </li>
+
+        <div class="module-list">
+            <div class="module-item active" data-category="all">
+                <span><i class="bi bi-grid me-2"></i>ALL_LOGS</span>
+                <span class="module-count" id="count-all">--</span>
             </div>
-            <li class="tree-item" style="margin-top: 10px; border-top: 1px solid #222; padding-top: 10px;">
-                <i class="bi bi-file-earmark-text" style="color: #666; margin-right: 10px;"></i> README.md
-            </li>
-        </ul>
+            <div class="module-item" data-category="Java">
+                <span><i class="bi bi-cup-hot me-2"></i>JAVA_CORE</span>
+                <span class="module-count" id="count-java">0</span>
+            </div>
+            <div class="module-item" data-category="操作系统">
+                <span><i class="bi bi-cpu me-2"></i>KERNEL_SYS</span>
+                <span class="module-count" id="count-os">0</span>
+            </div>
+            <div class="module-item" data-category="数据库">
+                <span><i class="bi bi-database me-2"></i>DATABASE</span>
+                <span class="module-count" id="count-db">0</span>
+            </div>
+            <div class="module-item" data-category="计算机网络">
+                <span><i class="bi bi-router me-2"></i>NETWORK</span>
+                <span class="module-count" id="count-net">0</span>
+            </div>
+            <div class="module-item" data-category="人工智能">
+                <span><i class="bi bi-robot me-2"></i>AI_MODEL</span>
+                <span class="module-count" id="count-ai">0</span>
+            </div>
+        </div>
+
+        <div class="p-3 text-center">
+            <div style="border: 1px solid #333; padding: 10px; color: #555; font-size: 0.7rem;">
+                SYSTEM STATUS: OPTIMAL<br>
+                <span style="color: var(--neon-green)">● ONLINE</span>
+            </div>
+        </div>
     </aside>
 
-    <main class="ide-main">
-        <div class="editor-tabs">
-            <div class="tab active">
-                <i class="bi bi-filetype-java"></i> ArticleList.java
-            </div>
-            <div class="tab">
-                <i class="bi bi-terminal"></i> Terminal
-            </div>
+    <main class="content-panel">
+        <div class="stream-header">
+            <div class="stream-title" id="current-module-title">ALL_LOGS</div>
+            <div class="stream-status">> STREAMING DATA...</div>
         </div>
 
-        <div class="code-scroll-area">
-            <div class="masonry-grid" id="article-grid">
-                <div class="text-muted p-4">// System: Loading modules...</div>
-            </div>
+        <div id="article-stream">
+            <div class="text-muted py-5">> WAITING FOR INPUT...</div>
         </div>
     </main>
-</div>
-
-<div class="status-bar">
-    <div><i class="bi bi-git me-1"></i> master*</div>
-    <div>UTF-8 // Java // 0 Errors</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -363,109 +414,109 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const grid = document.getElementById('article-grid');
-        const categoryBtns = document.querySelectorAll('.category-btn');
+        const streamContainer = document.getElementById('article-stream');
+        const moduleItems = document.querySelectorAll('.module-item');
+        const titleDisplay = document.getElementById('current-module-title');
         let currentCategory = 'all';
 
         if (typeof articlesData === 'undefined') {
-            grid.innerHTML = '<span style="color: red;">Error: Data source not found.</span>';
+            streamContainer.innerHTML = '<div class="text-danger">DATA SOURCE NOT FOUND</div>';
             return;
         }
 
-        // URL 参数检查
-        const urlParams = new URLSearchParams(window.location.search);
-        const catParam = urlParams.get('category');
-        if(catParam) currentCategory = catParam;
+        // 1. Update Counts
+        function updateSidebarCounts() {
+            const counts = { 'Java': 0, '操作系统': 0, '数据库': 0, '计算机网络': 0, '人工智能': 0 };
+            let total = 0;
 
-        // 渲染主逻辑
-        function renderGrid(category) {
-            grid.innerHTML = '';
+            articlesData.forEach(a => {
+                if (!a.isResearch) {
+                    total++;
+                    if (counts.hasOwnProperty(a.mainCategory)) {
+                        counts[a.mainCategory]++;
+                    }
+                }
+            });
 
-            let filtered = articlesData.filter(a => !a.isResearch); // 仅技术文章
+            document.getElementById('count-all').innerText = total;
+            document.getElementById('count-java').innerText = counts['Java'];
+            document.getElementById('count-os').innerText = counts['操作系统'];
+            document.getElementById('count-db').innerText = counts['数据库'];
+            document.getElementById('count-net').innerText = counts['计算机网络'];
+            document.getElementById('count-ai').innerText = counts['人工智能'];
+        }
+        updateSidebarCounts();
+
+        // 2. Render Stream
+        function renderStream(category) {
+            streamContainer.innerHTML = '';
+            titleDisplay.innerText = category === 'all' ? 'ALL_LOGS' : category.toUpperCase();
+
+            // Filter for Tech Articles Only
+            let filtered = articlesData.filter(a => !a.isResearch);
             if (category !== 'all') {
                 filtered = filtered.filter(a => a.mainCategory === category);
             }
 
-            // 按日期倒序
+            // Sort by Date
             filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            if(filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="snippet-card" style="padding: 20px; text-align: center; color: #777;">
-                        // 404: No classes found in package '${category}'
-                    </div>
-                `;
+            if (filtered.length === 0) {
+                streamContainer.innerHTML = `
+                    <div class="text-muted p-5" style="border: 1px dashed #333; text-align: center;">
+                        > NO DATA FOUND IN MODULE [${category}]
+                    </div>`;
                 return;
             }
 
             filtered.forEach((article, index) => {
-                const card = document.createElement('div');
-                card.className = 'snippet-card fade-in';
-                // 瀑布流动画延迟
-                card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
-                card.style.opacity = '0';
+                const entry = document.createElement('div');
+                entry.className = 'log-entry fade-in';
+                entry.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+                entry.style.opacity = '0'; // Initial state for animation
 
-                // 伪代码生成
-                const className = article.title.replace(/[^\w]/g, '') || "MainClass";
-                const pkgName = "com.leochame." + (article.mainCategory === "操作系统" ? "kernel" : article.mainCategory.toLowerCase());
-                const dateStr = article.date.replace(/-/g, '.');
+                // Add animation CSS dynamically if not present
+                if (!document.getElementById('anim-style')) {
+                    const style = document.createElement('style');
+                    style.id = 'anim-style';
+                    style.innerHTML = `@keyframes fadeIn { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }`;
+                    document.head.appendChild(style);
+                }
 
-                card.innerHTML = `
-                    <div class="card-header">
-                        <span class="file-name">${article.title}.java</span>
-                        <div class="window-controls"><span class="bg-red"></span><span class="bg-yellow"></span><span class="bg-green"></span></div>
+                const subCat = article.subCategory ? ` // ${article.subCategory}` : '';
+
+                entry.innerHTML = `
+                    <div class="log-meta">
+                        <div class="log-date">${article.date}</div>
+                        <div class="log-cat">${article.mainCategory}</div>
                     </div>
-                    <div class="code-body">
-                        <div><span class="ln">1</span><span class="kw">package</span> ${pkgName};</div>
-                        <div><span class="ln">2</span></div>
-                        <div><span class="ln">3</span><span class="str">/**</span></div>
-                        <div><span class="ln">4</span><span class="str"> * ${article.summary}</span></div>
-                        <div><span class="ln">5</span><span class="str"> * @date ${dateStr}</span></div>
-                        <div><span class="ln">6</span><span class="str"> */</span></div>
-                        <div><span class="ln">7</span><span class="kw">public class</span> <span class="cls">${className}</span> {</div>
-                        <div><span class="ln">8</span>    <span class="kw">@Override</span></div>
-                        <div><span class="ln">9</span>    <span class="kw">public void</span> <span class="fn">execute</span>() {</div>
-                        <div><span class="ln">10</span>       <span class="var">System</span>.out.println(<span class="str">"Compiling..."</span>);</div>
-                        <div><span class="ln">11</span>   }</div>
-                        <div><span class="ln">12</span>}</div>
-
-                        <a href="${article.link}" target="_blank" class="run-btn">
-                            <i class="bi bi-play-fill"></i> RUN_CODE
-                        </a>
+                    <div class="log-content">
+                        <h3 class="log-title">${article.title}</h3>
+                        <p class="log-summary">
+                            <span style="color: #555;">></span> ${article.summary}
+                        </p>
+                    </div>
+                    <div class="log-action">
+                        <button class="btn-exec" onclick="window.open('${article.link}', '_blank')">
+                            EXECUTE_READ
+                        </button>
                     </div>
                 `;
-                grid.appendChild(card);
+                streamContainer.appendChild(entry);
             });
         }
 
-        // 动态添加关键帧动画
-        const styleSheet = document.createElement("style");
-        styleSheet.innerText = `
-            @keyframes fadeInUp {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
+        // 3. Init
+        renderStream('all');
 
-        // 初始化
-        renderGrid(currentCategory);
-
-        // 侧边栏点击事件
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
+        // 4. Events
+        moduleItems.forEach(item => {
+            item.addEventListener('click', function() {
+                moduleItems.forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
-
-                const cat = this.getAttribute('data-category');
-                renderGrid(cat);
+                renderStream(this.getAttribute('data-category'));
             });
         });
-
-        // 高亮当前分类
-        if(currentCategory !== 'all') {
-            document.querySelector(`.category-btn[data-category="${currentCategory}"]`)?.classList.add('active');
-        }
     });
 </script>
 </body>

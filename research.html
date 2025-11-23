@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEOCHAME // CHRONO_ARCHIVE</title>
+    <title>LEOCHAME // RESEARCH_SRC</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,385 +14,232 @@
 
     <style>
         :root {
-            --bg-color: #020205;
-            --card-bg: #0b0b10;
-            --sidebar-bg: #050508;
+            --bg-core: #000000;
+            --bg-panel: #0a0a0f;
+            --border-color: #333;
 
             --neon-cyan: #00f3ff;
             --neon-purple: #bc13fe;
             --neon-green: #00ff9d;
-            --neon-red: #ff3333;
+            --neon-pink: #ff007c;
+            --neon-yellow: #f9c80e;
 
-            --text-main: #e0e0e0;
-            --text-muted: #777;
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
 
             --font-tech: 'Orbitron', sans-serif;
             --font-code: 'JetBrains Mono', monospace;
-
-            --timeline-width: 4px;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-core);
             color: var(--text-main);
             font-family: var(--font-code);
-            overflow-x: hidden;
-            /* 复杂的背景纹理 */
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
             background-image:
-                    linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+                    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
         }
 
-        /* --- Navbar --- */
+        a { text-decoration: none; color: inherit; }
+
+        /* Navbar */
         .navbar {
-            background: rgba(0, 0, 0, 0.9);
-            border-bottom: 1px solid rgba(0, 243, 255, 0.15);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            height: 70px;
+            flex-shrink: 0;
             z-index: 1000;
         }
         .navbar-brand {
             font-family: var(--font-tech);
             color: #fff !important;
             font-weight: 900;
-            letter-spacing: 1px;
-            text-shadow: 0 0 5px var(--neon-cyan);
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px var(--neon-cyan);
         }
-        .nav-link { color: var(--text-muted) !important; transition: 0.3s; }
-        .nav-link.active { color: var(--neon-cyan) !important; font-weight: bold; text-shadow: 0 0 8px rgba(0, 243, 255, 0.4); }
+        .nav-link { color: #aaa !important; transition: 0.3s; }
+        .nav-link.active, .nav-link:hover { color: var(--neon-cyan) !important; text-shadow: 0 0 5px var(--neon-cyan); }
 
-        /* --- Main Layout --- */
-        .archive-layout {
+        /* IDE Layout */
+        .ide-layout {
             display: flex;
-            min-height: 100vh;
-            padding-top: 70px; /* Navbar height */
+            flex: 1;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* --- Sidebar HUD (左侧控制台) --- */
-        .sidebar-hud {
+        /* Sidebar */
+        .ide-sidebar {
             width: 280px;
-            background: var(--sidebar-bg);
-            border-right: 1px solid #222;
-            padding: 30px 20px;
-            position: fixed;
-            height: calc(100vh - 70px);
-            overflow-y: auto;
-            z-index: 100;
+            background: rgba(10, 10, 15, 0.9);
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
+            flex-shrink: 0;
         }
 
-        .hud-header {
-            font-family: var(--font-tech);
-            font-size: 1.2rem;
-            color: #fff;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--neon-purple);
-            padding-bottom: 10px;
+        .sidebar-header {
+            padding: 15px 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
             letter-spacing: 1px;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Filter Items */
-        .filter-group {
+        .file-tree {
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            overflow-y: auto;
+        }
+
+        .tree-item {
+            padding: 8px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #888;
+            font-size: 0.85rem;
+            border-left: 2px solid transparent;
+            transition: 0.2s;
+        }
+        .tree-item:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+        .tree-item.active { background: rgba(188, 19, 254, 0.1); color: #fff; border-left-color: var(--neon-purple); }
+
+        .icon-folder { color: var(--neon-yellow); margin-right: 10px; }
+        .icon-package { color: var(--neon-cyan); margin-right: 10px; }
+
+        /* Main Editor */
+        .ide-main {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
         }
 
-        .filter-item {
-            background: transparent;
-            border: 1px solid #333;
-            color: #888;
-            padding: 12px 15px;
-            text-align: left;
-            font-family: var(--font-code);
+        .editor-tabs {
+            height: 40px;
+            background: #050505;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+        .tab {
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            background: #111;
+            color: #666;
             font-size: 0.85rem;
+            border-right: 1px solid #222;
             cursor: pointer;
+        }
+        .tab.active { background: #0a0a0f; color: #fff; border-top: 2px solid var(--neon-purple); }
+        .tab i { margin-right: 8px; color: var(--neon-purple); }
+
+        .code-scroll-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .masonry-grid {
+            column-count: 3;
+            column-gap: 20px;
+        }
+        @media (max-width: 1200px) { .masonry-grid { column-count: 2; } }
+        @media (max-width: 768px) {
+            .masonry-grid { column-count: 1; }
+            .ide-sidebar { display: none; }
+        }
+
+        /* Snippet Card */
+        .snippet-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            break-inside: avoid;
             transition: 0.3s;
             position: relative;
             overflow: hidden;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .snippet-card:hover {
+            border-color: var(--neon-purple);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.15);
         }
 
-        .filter-item::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: #444;
-            transition: 0.3s;
-        }
-
-        .filter-item:hover {
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            border-color: #555;
-        }
-
-        .filter-item.active {
-            background: rgba(0, 243, 255, 0.05);
-            border-color: var(--neon-cyan);
-            color: var(--neon-cyan);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
-        }
-
-        .filter-item.active::before {
-            background: var(--neon-cyan);
-            box-shadow: 0 0 8px var(--neon-cyan);
-        }
-
-        .filter-count {
-            font-size: 0.7rem;
-            background: #222;
-            padding: 2px 6px;
-            border-radius: 2px;
-            color: #666;
-        }
-        .filter-item.active .filter-count {
-            color: var(--neon-cyan);
-            background: rgba(0,0,0,0.5);
-        }
-
-        /* Mini Stats in Sidebar */
-        .hud-stats {
-            margin-top: auto;
-            border: 1px solid #333;
-            padding: 15px;
-            background: #0a0a0f;
-        }
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            margin-bottom: 5px;
-            color: #666;
-        }
-        .stat-val { color: var(--neon-green); }
-
-        /* --- Content Area (Timeline) --- */
-        .archive-content {
-            flex-grow: 1;
-            margin-left: 280px; /* Offset for sidebar */
-            padding: 50px 60px;
-            position: relative;
-        }
-
-        .timeline-header {
-            margin-bottom: 60px;
-            padding-left: 30px;
-        }
-        .glitch-heading {
-            font-family: var(--font-tech);
-            font-size: 3rem;
-            color: #fff;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .timeline-desc {
-            color: var(--text-muted);
-            border-left: 3px solid var(--neon-purple);
-            padding-left: 15px;
-        }
-
-        /* Timeline Structure */
-        .timeline-wrapper {
-            position: relative;
-            padding-left: 30px;
-        }
-
-        /* The Main Vertical Line */
-        .timeline-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 30px;
-            width: 2px;
-            background: #333;
-            z-index: 0;
-        }
-        /* Glowing effect on the line */
-        .timeline-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 30px;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple), transparent);
-            opacity: 0.6;
-            z-index: 0;
-        }
-
-        /* Year Group */
-        .year-group {
-            margin-bottom: 60px;
-            position: relative;
-        }
-
-        .year-marker {
-            font-family: var(--font-tech);
-            font-size: 2rem;
-            color: rgba(255,255,255,0.1);
-            position: absolute;
-            left: -20px;
-            top: -40px;
-            font-weight: 900;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* Article Node */
-        .timeline-node {
-            position: relative;
-            margin-bottom: 40px;
-            padding-left: 50px; /* Space from line */
-            opacity: 0;
-            animation: slideIn 0.5s forwards;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* The Dot on the line */
-        .node-dot {
-            position: absolute;
-            left: 22px; /* Align with line center (30px) - half width */
-            top: 25px;
-            width: 16px;
-            height: 16px;
-            background: #000;
-            border: 2px solid var(--neon-cyan);
-            border-radius: 50%;
-            z-index: 2;
-            box-shadow: 0 0 10px var(--neon-cyan);
-            transition: 0.3s;
-        }
-
-        .timeline-node:hover .node-dot {
-            background: var(--neon-cyan);
-            box-shadow: 0 0 20px var(--neon-cyan);
-        }
-
-        /* Connection Line (Horizontal) */
-        .node-connector {
-            position: absolute;
-            left: 30px;
-            top: 33px;
-            width: 50px;
-            height: 1px;
-            background: var(--neon-cyan);
-            opacity: 0.3;
-        }
-
-        /* The Card */
-        .research-card-h {
-            background: rgba(15, 15, 20, 0.8);
-            border: 1px solid #333;
-            border-left: 4px solid var(--text-muted);
-            padding: 25px;
-            position: relative;
-            transition: 0.3s;
-            margin-left: 30px; /* Distance from connector */
-            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
-        }
-
-        .research-card-h:hover {
-            background: #15151e;
-            border-color: #555;
-            border-left-color: var(--neon-purple);
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            color: #666;
-        }
-        .security-badge {
-            border: 1px solid var(--neon-red);
-            color: var(--neon-red);
-            font-size: 0.6rem;
-            padding: 1px 4px;
-            letter-spacing: 1px;
-        }
-
-        .card-title {
-            font-family: var(--font-tech);
-            color: #fff;
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-        }
-        .research-card-h:hover .card-title {
-            color: var(--neon-cyan);
-        }
-
-        .card-summary {
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .card-footer {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .tech-tag-sm {
-            font-size: 0.75rem;
-            color: #888;
+        .card-header {
             background: #111;
-            padding: 2px 8px;
-            border: 1px solid #333;
+            padding: 8px 12px;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+        .file-name { font-size: 0.75rem; color: #888; }
+        .window-controls span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-left: 5px; }
+        .bg-red { background: #ff5f56; } .bg-yellow { background: #ffbd2e; } .bg-green { background: #27c93f; }
 
-        .access-btn {
-            margin-left: auto;
-            background: transparent;
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
+        .code-body { padding: 15px; font-size: 0.85rem; line-height: 1.6; color: #d4d4d4; }
+
+        /* Highlighting */
+        .kw { color: var(--neon-pink); }
+        .cls { color: var(--neon-yellow); }
+        .fn { color: var(--neon-cyan); }
+        .str { color: var(--neon-green); }
+        .var { color: var(--neon-purple); }
+        .ln { color: #444; margin-right: 10px; user-select: none; border-right: 1px solid #333; padding-right: 10px; }
+
+        .run-btn {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            background: rgba(188, 19, 254, 0.1);
+            border: 1px dashed var(--neon-purple);
+            color: var(--neon-purple);
+            padding: 6px;
+            border-radius: 4px;
             font-size: 0.8rem;
-            padding: 5px 15px;
-            cursor: pointer;
+            font-weight: bold;
             transition: 0.3s;
-            font-family: var(--font-tech);
         }
-        .access-btn:hover {
-            background: rgba(0, 243, 255, 0.1);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-        }
+        .run-btn:hover { background: var(--neon-purple); color: #000; box-shadow: 0 0 10px var(--neon-purple); }
 
-        /* --- Responsive --- */
-        @media (max-width: 992px) {
-            .sidebar-hud {
-                width: 100%;
-                height: auto;
-                position: relative;
-                border-right: none;
-                border-bottom: 1px solid #333;
-                overflow-x: auto;
-            }
-            .filter-group {
-                flex-direction: row;
-                flex-wrap: wrap;
-                margin-bottom: 20px;
-            }
-            .archive-content {
-                margin-left: 0;
-                padding: 30px 20px;
-            }
-            .hud-stats { display: none; } /* Hide stats on mobile */
+        /* Status Bar */
+        .status-bar {
+            height: 25px;
+            background: var(--neon-purple);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
 
-<header class="navbar navbar-expand-lg fixed-top">
+<header class="navbar navbar-expand-lg">
     <div class="container-fluid px-4">
         <a class="navbar-brand" href="index.html">LEO_CHAME_</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -400,7 +247,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">01_HOME</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.html">01_ROOT</a></li>
                 <li class="nav-item"><a class="nav-link" href="tech.html">02_TECH</a></li>
                 <li class="nav-item"><a class="nav-link active" href="research.html">03_RESEARCH</a></li>
                 <li class="nav-item"><a class="nav-link" href="about.html">04_ABOUT</a></li>
@@ -409,74 +256,65 @@
     </div>
 </header>
 
-<div class="archive-layout">
-
-    <aside class="sidebar-hud">
-        <div class="hud-header">
-            <i class="bi bi-database-lock me-2"></i>ARCHIVE_FILTER
+<div class="ide-layout">
+    <aside class="ide-sidebar">
+        <div class="sidebar-header">
+            <span>EXPLORER: RESEARCH_LAB</span>
+            <i class="bi bi-three-dots"></i>
         </div>
-
-        <div class="filter-group">
-            <button class="filter-item active" data-category="all">
-                <span>[ ALL_DATA ]</span> <span class="filter-count">--</span>
-            </button>
-            <button class="filter-item" data-category="经典论文">
-                <span>PAPER_DECODE</span> <span class="filter-count" id="count-paper">0</span>
-            </button>
-            <button class="filter-item" data-category="MIT6.1810">
-                <span>MIT_KERNEL</span> <span class="filter-count" id="count-mit">0</span>
-            </button>
-            <button class="filter-item" data-category="操作系统">
-                <span>OS_CORE</span> <span class="filter-count" id="count-os">0</span>
-            </button>
-            <button class="filter-item" data-category="计算机基础">
-                <span>CS_BASE</span> <span class="filter-count" id="count-cs">0</span>
-            </button>
-            <button class="filter-item" data-category="人工智能">
-                <span>AI_LAB</span> <span class="filter-count" id="count-ai">0</span>
-            </button>
-        </div>
-
-        <div class="hud-stats">
-            <div class="text-white small mb-2 font-monospace" style="border-bottom: 1px solid #333; padding-bottom: 5px;">SYSTEM_STATUS</div>
-            <div class="stat-row">
-                <span>DATABASE:</span> <span class="stat-val">CONNECTED</span>
+        <ul class="file-tree">
+            <li class="tree-item active category-btn" data-category="all">
+                <i class="bi bi-hdd-stack icon-folder"></i> library (All)
+            </li>
+            <div id="category-list">
+                <li class="tree-item category-btn" data-category="经典论文">
+                    <span style="margin-left: 15px;"></span>
+                    <i class="bi bi-journal-code icon-package"></i> papers.classic
+                </li>
+                <li class="tree-item category-btn" data-category="MIT6.1810">
+                    <span style="margin-left: 15px;"></span>
+                    <i class="bi bi-cpu icon-package"></i> mit.kernel
+                </li>
+                <li class="tree-item category-btn" data-category="操作系统">
+                    <span style="margin-left: 15px;"></span>
+                    <i class="bi bi-cpu icon-package"></i> system.os
+                </li>
+                <li class="tree-item category-btn" data-category="人工智能">
+                    <span style="margin-left: 15px;"></span>
+                    <i class="bi bi-robot icon-package"></i> ai.deep_learning
+                </li>
+                <li class="tree-item category-btn" data-category="计算机基础">
+                    <span style="margin-left: 15px;"></span>
+                    <i class="bi bi-motherboard icon-package"></i> cs.fundamentals
+                </li>
             </div>
-            <div class="stat-row">
-                <span>LATENCY:</span> <span class="stat-val">12ms</span>
-            </div>
-            <div class="stat-row">
-                <span>SECURITY:</span> <span class="stat-val" style="color: var(--neon-red)">HIGH</span>
-            </div>
-            <div class="mt-3 text-muted" style="font-size: 0.65rem;">
-                // ACCESS GRANTED<br>
-                // USER: GUEST
-            </div>
-        </div>
+            <li class="tree-item" style="margin-top: 10px; border-top: 1px solid #222; padding-top: 10px;">
+                <i class="bi bi-file-earmark-lock" style="color: #666; margin-right: 10px;"></i> CONFIDENTIAL.md
+            </li>
+        </ul>
     </aside>
 
-    <main class="archive-content">
-        <div class="timeline-header">
-            <h1 class="glitch-heading">RESEARCH_LOGS</h1>
-            <p class="timeline-desc">
-                按时间轴归档的深度技术分析。<br>
-                包含 <span style="color: var(--neon-green)">Kernel Trap</span> 机制源码拆解与 <span style="color: var(--neon-purple)">Attention</span> 论文复现记录。
-            </p>
-        </div>
-
-        <div id="timeline-wrapper" class="timeline-wrapper">
-            <div class="text-center py-5 text-muted">
-                > DECRYPTING ARCHIVES...
+    <main class="ide-main">
+        <div class="editor-tabs">
+            <div class="tab active">
+                <i class="bi bi-file-earmark-code"></i> ResearchNotes.java
+            </div>
+            <div class="tab">
+                <i class="bi bi-terminal"></i> Analysis_Log
             </div>
         </div>
 
-        <div class="mt-5 pt-4 border-top border-dark d-flex justify-content-center">
-            <nav aria-label="Page navigation">
-                <ul class="pagination pagination-sm" id="pagination"></ul>
-            </nav>
+        <div class="code-scroll-area">
+            <div class="masonry-grid" id="article-grid">
+                <div class="text-muted p-4">// System: Decrypting research archives...</div>
+            </div>
         </div>
     </main>
+</div>
 
+<div class="status-bar">
+    <div><i class="bi bi-shield-lock me-1"></i> SECURE_MODE</div>
+    <div>UTF-8 // READ_ONLY // 0 Warnings</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -484,121 +322,98 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const timelineWrapper = document.getElementById('timeline-wrapper');
-        const filterItems = document.querySelectorAll('.filter-item');
+        const grid = document.getElementById('article-grid');
+        const categoryBtns = document.querySelectorAll('.category-btn');
         let currentCategory = 'all';
 
-        // 模拟数据加载
         if (typeof articlesData === 'undefined') {
-            console.error("Data Error");
+            grid.innerHTML = '<span style="color: red;">Error: Data source not found.</span>';
             return;
         }
 
-        // 1. 预处理数据：统计分类数量
-        function updateCounts() {
-            const counts = {
-                '经典论文': 0, 'MIT6.1810': 0, '操作系统': 0,
-                '计算机基础': 0, '人工智能': 0
-            };
+        const urlParams = new URLSearchParams(window.location.search);
+        const catParam = urlParams.get('category');
+        if(catParam) currentCategory = catParam;
 
-            articlesData.forEach(article => {
-                if (!article.isResearch) return;
-                if (article.mainCategory && counts.hasOwnProperty(article.mainCategory)) {
-                    counts[article.mainCategory]++;
-                }
-                if (article.subCategory && article.subCategory.includes('MIT6.1810')) {
-                    counts['MIT6.1810']++;
-                }
-            });
+        function renderGrid(category) {
+            grid.innerHTML = '';
 
-            document.getElementById('count-paper').innerText = counts['经典论文'];
-            document.getElementById('count-mit').innerText = counts['MIT6.1810'];
-            document.getElementById('count-os').innerText = counts['操作系统'];
-            document.getElementById('count-cs').innerText = counts['计算机基础'];
-            document.getElementById('count-ai').innerText = counts['人工智能'];
-        }
-        updateCounts();
-
-        // 2. 渲染时间轴逻辑
-        function renderTimeline(category) {
-            timelineWrapper.innerHTML = '';
-
-            // 筛选数据
+            // 筛选研究类文章 (isResearch = true)
             let filtered = articlesData.filter(a => a.isResearch);
+
             if (category !== 'all') {
-                filtered = filtered.filter(article =>
-                    article.mainCategory === category ||
-                    (article.subCategory && article.subCategory.includes(category))
+                filtered = filtered.filter(a =>
+                    a.mainCategory === category ||
+                    (a.subCategory && a.subCategory.includes(category))
                 );
             }
-
-            // 按时间倒序
             filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            if (filtered.length === 0) {
-                timelineWrapper.innerHTML = `<div class="text-muted pt-5">> NO RECORDS IN SECTOR [${category}]</div>`;
+            if(filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="snippet-card" style="padding: 20px; text-align: center; color: #777;">
+                        // 404: No research found in package '${category}'
+                    </div>
+                `;
                 return;
             }
 
-            // 按年份分组
-            const grouped = {};
-            filtered.forEach(article => {
-                const year = article.date.split('-')[0];
-                if (!grouped[year]) grouped[year] = [];
-                grouped[year].push(article);
-            });
+            filtered.forEach((article, index) => {
+                const card = document.createElement('div');
+                card.className = 'snippet-card fade-in';
+                card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
+                card.style.opacity = '0';
 
-            // 渲染 HTML
-            Object.keys(grouped).sort((a, b) => b - a).forEach(year => {
-                // 年份标记
-                const yearDiv = document.createElement('div');
-                yearDiv.className = 'year-group';
-                yearDiv.innerHTML = `<div class="year-marker">${year}</div>`;
-                timelineWrapper.appendChild(yearDiv);
+                const className = "Doc_" + (article.title.replace(/[^\w]/g, '').substring(0,15) || "Note");
+                const pkgName = "com.research." + (article.subCategory || "general").replace(/\./g, '_').toLowerCase();
+                const dateStr = article.date.replace(/-/g, '.');
 
-                // 文章节点
-                grouped[year].forEach((article, index) => {
-                    const node = document.createElement('div');
-                    node.className = 'timeline-node';
-                    node.style.animationDelay = `${index * 0.1}s`; // 瀑布流动画
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="file-name">${className}.java</span>
+                        <div class="window-controls"><span class="bg-red"></span><span class="bg-yellow"></span><span class="bg-green"></span></div>
+                    </div>
+                    <div class="code-body">
+                        <div><span class="ln">1</span><span class="kw">package</span> ${pkgName};</div>
+                        <div><span class="ln">2</span></div>
+                        <div><span class="ln">3</span><span class="str">/**</span></div>
+                        <div><span class="ln">4</span><span class="str"> * TOPIC: ${article.title}</span></div>
+                        <div><span class="ln">5</span><span class="str"> * SUMMARY: ${article.summary}</span></div>
+                        <div><span class="ln">6</span><span class="str"> * @date ${dateStr}</span></div>
+                        <div><span class="ln">7</span><span class="str"> */</span></div>
+                        <div><span class="ln">8</span><span class="kw">public class</span> <span class="cls">${className}</span> <span class="kw">extends</span> <span class="cls">Paper</span> {</div>
+                        <div><span class="ln">9</span>    <span class="kw">@Override</span></div>
+                        <div><span class="ln">10</span>   <span class="kw">public void</span> <span class="fn">analyze</span>() {</div>
+                        <div><span class="ln">11</span>       <span class="var">Brain</span>.load(<span class="str">"Understanding..."</span>);</div>
+                        <div><span class="ln">12</span>   }</div>
+                        <div><span class="ln">13</span>}</div>
 
-                    // 生成随机的安全等级
-                    const levels = ['LV.1 PUBLIC', 'LV.2 RESTRICTED', 'LV.3 CLASSIFIED'];
-                    const secLevel = levels[Math.floor(Math.random() * levels.length)];
-
-                    node.innerHTML = `
-                        <div class="node-connector"></div>
-                        <div class="node-dot"></div>
-                        <div class="research-card-h" onclick="window.open('${article.link}', '_blank')">
-                            <div class="card-meta">
-                                <span style="color: var(--neon-cyan)">${article.date}</span>
-                                <span class="security-badge">${secLevel}</span>
-                            </div>
-                            <h3 class="card-title">${article.title}</h3>
-                            <p class="card-summary">${article.summary}</p>
-                            <div class="card-footer">
-                                <span class="tech-tag-sm">${article.mainCategory}</span>
-                                ${article.subCategory ? `<span class="tech-tag-sm">${article.subCategory}</span>` : ''}
-                                <button class="access-btn">ACCESS_FILE ></button>
-                            </div>
-                        </div>
-                    `;
-                    timelineWrapper.appendChild(node);
-                });
+                        <a href="${article.link}" target="_blank" class="run-btn">
+                            <i class="bi bi-eye-fill"></i> DECRYPT_FILE
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
         }
 
-        // 3. 初始化与事件绑定
-        renderTimeline('all');
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }`;
+        document.head.appendChild(styleSheet);
 
-        filterItems.forEach(btn => {
+        renderGrid(currentCategory);
+
+        categoryBtns.forEach(btn => {
             btn.addEventListener('click', function() {
-                filterItems.forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
                 this.classList.add('active');
-                currentCategory = this.getAttribute('data-category');
-                renderTimeline(currentCategory);
+                renderGrid(this.getAttribute('data-category'));
             });
         });
+
+        if(currentCategory !== 'all') {
+            document.querySelector(`.category-btn[data-category="${currentCategory}"]`)?.classList.add('active');
+        }
     });
 </script>
 </body>
