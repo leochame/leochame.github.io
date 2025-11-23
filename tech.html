@@ -7,335 +7,355 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Orbitron:wght@500;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            --bg-ide: #1e1e1e;
-            --bg-sidebar: #252526;
-            --bg-active: #37373d;
-            --border-ide: #333;
+            /* 全局统一色板 */
+            --bg-core: #000000;
+            --bg-panel: #0a0a0f;
+            --border-color: #333;
 
-            /* Synthwave / IDE Palette */
-            --syntax-pink: #ff007c;
-            --syntax-blue: #2de2e6;
-            --syntax-yellow: #f9c80e;
-            --syntax-purple: #9d4edd;
-            --syntax-comment: #6a9955;
-            --syntax-text: #d4d4d4;
+            /* 霓虹高亮色 (与首页一致) */
+            --neon-cyan: #00f3ff;
+            --neon-purple: #bc13fe;
+            --neon-green: #00ff9d;
+            --neon-pink: #ff007c;
+            --neon-yellow: #f9c80e;
 
-            --font-code: 'Fira Code', monospace; /* 连字字体 */
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
+
             --font-tech: 'Orbitron', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
         }
 
         body {
-            background-color: var(--bg-ide);
-            color: var(--syntax-text);
+            background-color: var(--bg-core);
+            color: var(--text-main);
             font-family: var(--font-code);
-            overflow: hidden; /* 整个页面作为应用容器 */
+            overflow: hidden; /* 应用级布局，禁止 body 滚动 */
             height: 100vh;
             margin: 0;
             display: flex;
             flex-direction: column;
+            /* 背景纹理 */
+            background-image:
+                    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
         }
 
         a { text-decoration: none; color: inherit; }
 
-        /* --- Top Status Bar --- */
-        .ide-statusbar {
-            height: 30px;
-            background: #007acc;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-            font-size: 0.75rem;
-            justify-content: space-between;
+        /* --- 1. 顶部导航栏 (Navbar) --- */
+        .navbar {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            height: 70px;
+            flex-shrink: 0;
             z-index: 1000;
         }
-        .status-item { margin-right: 15px; display: flex; align-items: center; gap: 5px; }
+        .navbar-brand {
+            font-family: var(--font-tech);
+            color: #fff !important;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+        .nav-link {
+            color: #aaa !important;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
 
-        /* --- Main Layout --- */
-        .ide-container {
+        /* --- 2. IDE 主布局 --- */
+        .ide-layout {
             display: flex;
             flex: 1;
             overflow: hidden;
+            position: relative;
         }
 
-        /* --- Activity Bar (Leftmost icon strip) --- */
-        .activity-bar {
-            width: 50px;
-            background: #333333;
+        /* --- 左侧：资源管理器 (Sidebar) --- */
+        .ide-sidebar {
+            width: 260px;
+            background: rgba(10, 10, 15, 0.9);
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding-top: 10px;
+            flex-shrink: 0;
         }
-        .activity-icon {
-            width: 50px;
-            height: 50px;
+
+        .sidebar-header {
+            padding: 15px 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #222;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            color: #858585;
-            font-size: 1.5rem;
+        }
+
+        .file-tree {
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            overflow-y: auto;
+        }
+
+        .tree-item {
+            padding: 8px 20px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #888;
+            font-size: 0.85rem;
             border-left: 2px solid transparent;
             transition: 0.2s;
         }
-        .activity-icon:hover { color: #fff; }
-        .activity-icon.active { color: #fff; border-left-color: #fff; }
 
-        /* --- Sidebar (Project Explorer) --- */
-        .ide-sidebar {
-            width: 250px;
-            background: var(--bg-sidebar);
-            border-right: 1px solid #000;
-            display: flex;
-            flex-direction: column;
-            transition: 0.3s;
+        .tree-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
         }
 
-        .sidebar-title {
-            padding: 10px 20px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #bbb;
-            display: flex;
-            justify-content: space-between;
+        .tree-item.active {
+            background: rgba(0, 243, 255, 0.05);
+            color: #fff;
+            border-left-color: var(--neon-cyan);
         }
 
-        /* Tree View */
-        .file-tree {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .tree-item {
-            padding: 5px 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            color: #ccc;
-            font-size: 0.85rem;
-            border-left: 3px solid transparent;
-        }
-        .tree-item:hover { background: #2a2d2e; }
-        .tree-item.active { background: #37373d; color: #fff; border-left-color: var(--syntax-blue); }
+        .icon-folder { color: var(--neon-yellow); margin-right: 10px; }
+        .icon-package { color: var(--neon-purple); margin-right: 10px; }
+        .icon-java { color: var(--neon-cyan); margin-right: 10px; }
 
-        .folder-icon { color: var(--syntax-yellow); margin-right: 8px; font-size: 0.9rem; }
-        .file-icon { color: var(--syntax-blue); margin-right: 8px; font-size: 0.9rem; }
-        .indent { margin-left: 15px; }
-
-        /* --- Main Editor Area (Masonry Grid) --- */
-        .editor-area {
+        /* --- 右侧：编辑区 (Main Content) --- */
+        .ide-main {
             flex: 1;
-            background: #1e1e1e;
             display: flex;
             flex-direction: column;
+            background: rgba(0, 0, 0, 0.5);
             position: relative;
         }
 
-        /* Tabs */
+        /* 标签页栏 */
         .editor-tabs {
-            height: 35px;
-            background: #252526;
-            display: flex;
-            overflow-x: auto;
-        }
-        .tab {
-            padding: 0 15px;
+            height: 40px;
+            background: #050505;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            background: #2d2d2d;
-            color: #969696;
-            font-size: 0.8rem;
-            border-right: 1px solid #1e1e1e;
-            min-width: 120px;
+        }
+        .tab {
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            background: #111;
+            color: #666;
+            font-size: 0.85rem;
+            border-right: 1px solid #222;
             cursor: pointer;
         }
-        .tab.active { background: #1e1e1e; color: #fff; border-top: 2px solid var(--syntax-blue); }
-        .tab i { margin-right: 8px; color: var(--syntax-yellow); }
+        .tab.active {
+            background: #0a0a0f;
+            color: #fff;
+            border-top: 2px solid var(--neon-cyan);
+        }
+        .tab i { margin-right: 8px; color: var(--neon-cyan); }
 
-        /* Scrollable Content */
-        .editor-content {
+        /* 代码瀑布流区域 */
+        .code-scroll-area {
             flex: 1;
             padding: 30px;
             overflow-y: auto;
-            /* Matrix Background */
-            background-image:
-                    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 20px 20px;
         }
 
-        /* --- Code Snippet Cards (Masonry) --- */
-        .code-grid {
-            column-count: 3; /* 瀑布流列数 */
+        .masonry-grid {
+            column-count: 3;
             column-gap: 20px;
         }
-        @media (max-width: 1200px) { .code-grid { column-count: 2; } }
+        @media (max-width: 1200px) { .masonry-grid { column-count: 2; } }
         @media (max-width: 768px) {
-            .code-grid { column-count: 1; }
-            .ide-sidebar, .activity-bar { display: none; } /* Mobile simplified */
+            .masonry-grid { column-count: 1; }
+            .ide-sidebar { display: none; } /* 移动端隐藏侧边栏 */
         }
 
+        /* --- 代码片段卡片 (Code Snippet Card) --- */
         .snippet-card {
-            background: #252526;
-            border: 1px solid #444;
-            border-radius: 6px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
             margin-bottom: 20px;
             break-inside: avoid;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             transition: 0.3s;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         .snippet-card:hover {
+            border-color: var(--neon-cyan);
             transform: translateY(-5px);
-            border-color: var(--syntax-blue);
-            box-shadow: 0 15px 40px rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
         }
 
-        /* Code Header (Window Controls) */
-        .snippet-header {
+        .card-header {
+            background: #111;
             padding: 8px 12px;
-            background: #2d2d2d;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #222;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .dots span {
-            display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px;
+        .file-name { font-size: 0.75rem; color: #888; }
+        .window-controls span {
+            display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-left: 5px;
         }
-        .dots span:nth-child(1) { background: #ff5f56; }
-        .dots span:nth-child(2) { background: #ffbd2e; }
-        .dots span:nth-child(3) { background: #27c93f; }
+        .bg-red { background: #ff5f56; } .bg-yellow { background: #ffbd2e; } .bg-green { background: #27c93f; }
 
-        .filename { font-size: 0.75rem; color: #aaa; }
-
-        /* Code Body */
         .code-body {
             padding: 15px;
             font-size: 0.85rem;
             line-height: 1.6;
+            color: #d4d4d4;
         }
 
-        .keyword { color: var(--syntax-pink); }
-        .class-name { color: var(--syntax-yellow); }
-        .method { color: var(--syntax-blue); }
-        .string { color: var(--syntax-comment); } /* Green for strings/comments */
-        .var { color: var(--syntax-purple); }
-
-        .line-num {
-            color: #555;
+        /* 语法高亮 */
+        .kw { color: var(--neon-pink); }   /* 关键字 */
+        .cls { color: var(--neon-yellow); } /* 类名 */
+        .fn { color: var(--neon-cyan); }   /* 方法名 */
+        .str { color: var(--neon-green); } /* 字符串/注释 */
+        .var { color: var(--neon-purple); }/* 变量 */
+        .ln {
+            color: #444;
             margin-right: 10px;
             user-select: none;
-            border-right: 1px solid #444;
+            border-right: 1px solid #333;
             padding-right: 10px;
         }
 
-        /* Execution Button */
         .run-btn {
             display: block;
             margin-top: 15px;
             text-align: center;
-            background: #333;
-            color: var(--syntax-blue);
-            padding: 5px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px dashed var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 6px;
             border-radius: 4px;
             font-size: 0.8rem;
-            transition: 0.2s;
-            border: 1px dashed #444;
+            font-weight: bold;
+            transition: 0.3s;
         }
         .run-btn:hover {
-            background: var(--syntax-blue);
+            background: var(--neon-cyan);
             color: #000;
-            font-weight: bold;
+            box-shadow: 0 0 10px var(--neon-cyan);
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #1e1e1e; }
-        ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        /* --- 底部状态栏 --- */
+        .status-bar {
+            height: 25px;
+            background: var(--neon-cyan);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            z-index: 1000;
+        }
 
     </style>
 </head>
 <body>
 
-<div class="ide-statusbar">
-    <div class="d-flex">
-        <div class="status-item"><i class="bi bi-hdd-network"></i> LEOCHAME_ENV</div>
-        <div class="status-item"><i class="bi bi-git"></i> master*</div>
+<header class="navbar navbar-expand-lg">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand" href="index.html">LEO_CHAME_</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="bi bi-list text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">01_ROOT</a></li>
+                <li class="nav-item"><a class="nav-link active" href="tech.html">02_TECH</a></li>
+                <li class="nav-item"><a class="nav-link" href="research.html">03_RESEARCH</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">04_ABOUT</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="d-flex">
-        <div class="status-item">UTF-8</div>
-        <div class="status-item">Java</div>
-        <div class="status-item"><i class="bi bi-bell"></i> 0 Errors</div>
-    </div>
-</div>
+</header>
 
-<div class="ide-container">
-    <div class="activity-bar">
-        <a href="index.html" class="activity-icon" title="Home"><i class="bi bi-house"></i></a>
-        <div class="activity-icon active" title="Explorer"><i class="bi bi-files"></i></div>
-        <a href="research.html" class="activity-icon" title="Research"><i class="bi bi-search"></i></a>
-        <a href="about.html" class="activity-icon" title="Profile"><i class="bi bi-person"></i></a>
-        <div style="margin-top: auto; margin-bottom: 10px;" class="activity-icon"><i class="bi bi-gear"></i></div>
-    </div>
-
-    <div class="ide-sidebar">
-        <div class="sidebar-title">
-            <span>EXPLORER: TECH_LOGS</span>
+<div class="ide-layout">
+    <aside class="ide-sidebar">
+        <div class="sidebar-header">
+            <span>EXPLORER: REPOSITORY</span>
             <i class="bi bi-three-dots"></i>
         </div>
         <ul class="file-tree">
-            <li class="tree-item active" data-category="all">
-                <i class="bi bi-chevron-down folder-icon"></i> src
+            <li class="tree-item active category-btn" data-category="all">
+                <i class="bi bi-hdd-stack icon-folder"></i> src (All)
             </li>
             <div id="category-list">
-                <li class="tree-item indent category-btn" data-category="Java">
-                    <i class="bi bi-folder-fill folder-icon"></i> com.leochame.java
+                <li class="tree-item category-btn" data-category="Java">
+                    <span style="margin-left: 15px;"></span>
+                    <i class="bi bi-box-seam icon-package"></i> com.leochame.java
                 </li>
-                <li class="tree-item indent category-btn" data-category="操作系统">
-                    <i class="bi bi-folder-fill folder-icon"></i> com.leochame.kernel
+                <li class="tree-item category-btn" data-category="操作系统">
+                    <span style="margin-left: 15px;"></span>
+                    <i class="bi bi-box-seam icon-package"></i> com.leochame.kernel
                 </li>
-                <li class="tree-item indent category-btn" data-category="数据库">
-                    <i class="bi bi-folder-fill folder-icon"></i> com.leochame.db
+                <li class="tree-item category-btn" data-category="数据库">
+                    <span style="margin-left: 15px;"></span>
+                    <i class="bi bi-box-seam icon-package"></i> com.leochame.db
                 </li>
-                <li class="tree-item indent category-btn" data-category="人工智能">
-                    <i class="bi bi-folder-fill folder-icon"></i> com.leochame.ai
+                <li class="tree-item category-btn" data-category="人工智能">
+                    <span style="margin-left: 15px;"></span>
+                    <i class="bi bi-box-seam icon-package"></i> com.leochame.ai
                 </li>
             </div>
-            <li class="tree-item">
-                <i class="bi bi-file-earmark-text file-icon"></i> README.md
+            <li class="tree-item" style="margin-top: 10px; border-top: 1px solid #222; padding-top: 10px;">
+                <i class="bi bi-file-earmark-text" style="color: #666; margin-right: 10px;"></i> README.md
             </li>
         </ul>
-    </div>
+    </aside>
 
-    <div class="editor-area">
+    <main class="ide-main">
         <div class="editor-tabs">
             <div class="tab active">
-                <i class="bi bi-filetype-java"></i> TechStack.java
+                <i class="bi bi-filetype-java"></i> ArticleList.java
             </div>
             <div class="tab">
-                <i class="bi bi-markdown"></i> notes.md
+                <i class="bi bi-terminal"></i> Terminal
             </div>
         </div>
 
-        <div class="editor-content">
-            <div class="code-grid" id="article-grid">
-                <div class="text-muted p-4">// Loading modules...</div>
+        <div class="code-scroll-area">
+            <div class="masonry-grid" id="article-grid">
+                <div class="text-muted p-4">// System: Loading modules...</div>
             </div>
         </div>
-    </div>
+    </main>
+</div>
+
+<div class="status-bar">
+    <div><i class="bi bi-git me-1"></i> master*</div>
+    <div>UTF-8 // Java // 0 Errors</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -352,20 +372,21 @@
             return;
         }
 
-        // URL Param Check
+        // URL 参数检查
         const urlParams = new URLSearchParams(window.location.search);
         const catParam = urlParams.get('category');
         if(catParam) currentCategory = catParam;
 
+        // 渲染主逻辑
         function renderGrid(category) {
             grid.innerHTML = '';
 
-            let filtered = articlesData.filter(a => !a.isResearch); // Only tech articles
+            let filtered = articlesData.filter(a => !a.isResearch); // 仅技术文章
             if (category !== 'all') {
                 filtered = filtered.filter(a => a.mainCategory === category);
             }
 
-            // Sort by date desc
+            // 按日期倒序
             filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             if(filtered.length === 0) {
@@ -380,37 +401,36 @@
             filtered.forEach((article, index) => {
                 const card = document.createElement('div');
                 card.className = 'snippet-card fade-in';
-                // Staggered animation
+                // 瀑布流动画延迟
                 card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
                 card.style.opacity = '0';
 
-                // Generate pseudo-code content
-                const className = article.title.replace(/\s+/g, '') + "Controller";
-                const subCat = article.subCategory || "Core";
+                // 伪代码生成
+                const className = article.title.replace(/[^\w]/g, '') || "MainClass";
+                const pkgName = "com.leochame." + (article.mainCategory === "操作系统" ? "kernel" : article.mainCategory.toLowerCase());
                 const dateStr = article.date.replace(/-/g, '.');
 
                 card.innerHTML = `
-                    <div class="snippet-header">
-                        <span class="filename">${article.title}.java</span>
-                        <div class="dots"><span></span><span></span><span></span></div>
+                    <div class="card-header">
+                        <span class="file-name">${article.title}.java</span>
+                        <div class="window-controls"><span class="bg-red"></span><span class="bg-yellow"></span><span class="bg-green"></span></div>
                     </div>
                     <div class="code-body">
-                        <div><span class="line-num">1</span><span class="keyword">package</span> com.leochame.${article.mainCategory.toLowerCase()};</div>
-                        <div><span class="line-num">2</span></div>
-                        <div><span class="line-num">3</span><span class="string">/**</span></div>
-                        <div><span class="line-num">4</span><span class="string"> * ${article.summary}</span></div>
-                        <div><span class="line-num">5</span><span class="string"> * @date ${dateStr}</span></div>
-                        <div><span class="line-num">6</span><span class="string"> */</span></div>
-                        <div><span class="line-num">7</span><span class="keyword">public class</span> <span class="class-name">${article.title}</span> {</div>
-                        <div><span class="line-num">8</span></div>
-                        <div><span class="line-num">9</span>    <span class="keyword">@Override</span></div>
-                        <div><span class="line-num">10</span>   <span class="keyword">public void</span> <span class="method">execute</span>() {</div>
-                        <div><span class="line-num">11</span>       <span class="var">System</span>.out.println(<span class="string">"Loading..."</span>);</div>
-                        <div><span class="line-num">12</span>   }</div>
-                        <div><span class="line-num">13</span>}</div>
+                        <div><span class="ln">1</span><span class="kw">package</span> ${pkgName};</div>
+                        <div><span class="ln">2</span></div>
+                        <div><span class="ln">3</span><span class="str">/**</span></div>
+                        <div><span class="ln">4</span><span class="str"> * ${article.summary}</span></div>
+                        <div><span class="ln">5</span><span class="str"> * @date ${dateStr}</span></div>
+                        <div><span class="ln">6</span><span class="str"> */</span></div>
+                        <div><span class="ln">7</span><span class="kw">public class</span> <span class="cls">${className}</span> {</div>
+                        <div><span class="ln">8</span>    <span class="kw">@Override</span></div>
+                        <div><span class="ln">9</span>    <span class="kw">public void</span> <span class="fn">execute</span>() {</div>
+                        <div><span class="ln">10</span>       <span class="var">System</span>.out.println(<span class="str">"Compiling..."</span>);</div>
+                        <div><span class="ln">11</span>   }</div>
+                        <div><span class="ln">12</span>}</div>
 
                         <a href="${article.link}" target="_blank" class="run-btn">
-                            <i class="bi bi-play-fill"></i> RUN CONFIGURATION
+                            <i class="bi bi-play-fill"></i> RUN_CODE
                         </a>
                     </div>
                 `;
@@ -418,7 +438,7 @@
             });
         }
 
-        // Add Keyframes for animation dynamically
+        // 动态添加关键帧动画
         const styleSheet = document.createElement("style");
         styleSheet.innerText = `
             @keyframes fadeInUp {
@@ -428,13 +448,12 @@
         `;
         document.head.appendChild(styleSheet);
 
-        // Initial Render
+        // 初始化
         renderGrid(currentCategory);
 
-        // Event Listeners
+        // 侧边栏点击事件
         categoryBtns.forEach(btn => {
             btn.addEventListener('click', function() {
-                // Visual update sidebar
                 document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
                 this.classList.add('active');
 
@@ -443,11 +462,9 @@
             });
         });
 
-        // Highlight initial category in sidebar
+        // 高亮当前分类
         if(currentCategory !== 'all') {
             document.querySelector(`.category-btn[data-category="${currentCategory}"]`)?.classList.add('active');
-        } else {
-            document.querySelector('.tree-item[data-category="all"]').classList.add('active');
         }
     });
 </script>
