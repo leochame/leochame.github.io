@@ -3,521 +3,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEOCHAME // TECH_REGISTRY</title>
+    <title>Library — Leochame</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            --bg-core: #000000;
-            --bg-sidebar: #050508;
-            --border-color: #333;
+            /* Anthropic-inspired Warm Palette */
+            --bg-color: #F3F1E8;       /* 暖沙色 */
+            --text-primary: #191919;   /* 深炭黑 */
+            --text-secondary: #6E6D69; /* 暖灰 */
+            --text-tertiary: #9E9D99;  /* 浅灰 */
+            --accent-color: #C05838;   /* 陶土红 */
+            --border-color: #D1D1C7;   /* 边框色 */
 
-            --neon-cyan: #00f3ff;
-            --neon-green: #00ff9d;
-            --neon-purple: #bc13fe;
-
-            --text-main: #ffffff;
-            --text-dim: #666;
-
-            --font-tech: 'Orbitron', sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
+            --font-serif: "Noto Serif SC", "Merriweather", serif;
+            --font-sans: "Inter", system-ui, sans-serif;
         }
 
         body {
-            background-color: var(--bg-core);
-            color: var(--text-main);
-            font-family: var(--font-code);
-            margin: 0;
-            overflow-x: hidden;
-            /* 背景扫描线 */
-            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 255, 255, 0.02) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 2px, 3px 100%;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- Navbar --- */
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        a:hover { color: var(--accent-color); }
+
+        /* --- 1. Navbar: Clean & Aligned --- */
         .navbar {
-            background: rgba(0, 0, 0, 0.95);
+            padding: 1.5rem 0;
             border-bottom: 1px solid var(--border-color);
-            height: 70px;
-            position: fixed;
-            top: 0; width: 100%;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
+            background-color: var(--bg-color); /* Opaque background for sticky */
         }
+
         .navbar-brand {
-            font-family: var(--font-tech);
-            color: #fff !important;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-shadow: 0 0 5px var(--neon-cyan);
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary) !important;
         }
-        .nav-link { color: #888 !important; transition: 0.3s; }
-        .nav-link.active, .nav-link:hover { color: var(--neon-cyan) !important; text-shadow: 0 0 5px var(--neon-cyan); }
 
-        /* --- Layout --- */
-        .registry-container {
+        .nav-link {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            margin-left: 2rem;
+        }
+        .nav-link.active { color: var(--text-primary) !important; font-weight: 600; }
+
+        /* --- 2. Page Header: The Manifesto --- */
+        .page-header {
+            padding: 5rem 0 4rem;
+            /* 取消底部边框，改用布局中的分割线 */
+        }
+
+        .page-title {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .page-desc {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        /* --- 3. Layout Grid & Controls --- */
+        /* 分割线：关键视觉元素 */
+        .layout-divider {
+            border-top: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
+
+        /* Filters */
+        .filter-group { margin-bottom: 3rem; }
+
+        .filter-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        .filter-list { list-style: none; padding: 0; margin: 0; }
+
+        .filter-item {
             display: flex;
-            min-height: 100vh;
-            padding-top: 70px;
-        }
-
-        /* --- Left Sidebar (Module Selector) --- */
-        .sidebar-panel {
-            width: 300px;
-            background: var(--bg-sidebar);
-            border-right: 1px solid var(--border-color);
-            position: fixed;
-            top: 70px; bottom: 0; left: 0;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            z-index: 100;
-        }
-
-        .sidebar-header {
-            padding: 30px 20px 20px;
-            border-bottom: 1px dashed #333;
-        }
-        .sidebar-title {
-            font-family: var(--font-tech);
-            font-size: 1.2rem;
-            color: var(--neon-green);
-            margin-bottom: 5px;
-        }
-        .sidebar-subtitle {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-        }
-
-        .module-list {
-            padding: 20px 0;
-            flex-grow: 1;
-        }
-
-        .module-item {
-            padding: 15px 25px;
+            justify-content: space-between;
+            padding: 6px 0;
             cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border-right: 2px solid transparent; /* Right border indicator */
+        }
+
+        .filter-item:hover { color: var(--text-primary); }
+
+        .filter-item.active {
+            color: var(--text-primary);
+            font-weight: 600;
+            border-right-color: var(--accent-color);
+        }
+
+        .count { font-size: 0.8rem; opacity: 0.5; }
+
+        /* --- 4. Content Feed --- */
+
+        /* Search Bar - Integrated into the flow */
+        .feed-header {
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            color: #888;
-            border-left: 4px solid transparent;
-            transition: 0.3s;
-            font-size: 0.9rem;
-            position: relative;
         }
 
-        .module-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            padding-left: 30px;
-        }
-
-        .module-item.active {
-            background: rgba(0, 243, 255, 0.05);
-            color: var(--neon-cyan);
-            border-left-color: var(--neon-cyan);
-            font-weight: bold;
-            box-shadow: inset 5px 0 15px rgba(0, 243, 255, 0.1);
-        }
-
-        .module-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 25px; right: 25px;
-            height: 1px;
-            background: #1a1a1a;
-        }
-
-        .module-count {
-            font-size: 0.7rem;
-            background: #1a1a1a;
-            padding: 2px 6px;
-            border-radius: 2px;
-        }
-        .module-item.active .module-count {
-            color: #000;
-            background: var(--neon-cyan);
-        }
-
-        /* --- Right Content (Data Stream) --- */
-        .content-panel {
-            flex: 1;
-            margin-left: 300px; /* Sidebar width */
-            padding: 40px 60px;
-            position: relative;
-        }
-
-        .stream-header {
-            margin-bottom: 40px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            border-bottom: 1px solid #333;
-            padding-bottom: 15px;
-        }
-        .stream-title {
-            font-family: var(--font-tech);
-            font-size: 2rem;
-            color: #fff;
-            line-height: 1;
-        }
-        .stream-status {
-            font-size: 0.8rem;
-            color: var(--neon-green);
-            animation: blink 2s infinite;
-        }
-        @keyframes blink { 50% { opacity: 0.3; } }
-
-        /* Log Entries (Articles) */
-        .log-entry {
-            background: rgba(10, 10, 15, 0.6);
-            border: 1px solid #333;
-            margin-bottom: 20px;
-            padding: 0;
-            display: flex;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .log-entry::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 0; width: 4px;
-            background: #333;
-            transition: 0.3s;
-        }
-
-        .log-entry:hover {
-            transform: translateX(10px);
-            border-color: #555;
-            background: rgba(20, 20, 25, 0.9);
-        }
-        .log-entry:hover::before {
-            background: var(--neon-cyan);
-            box-shadow: 0 0 10px var(--neon-cyan);
-        }
-
-        /* Left Meta Block */
-        .log-meta {
-            width: 140px;
-            padding: 20px;
-            background: rgba(0,0,0,0.3);
-            border-right: 1px solid #333;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: right;
-            flex-shrink: 0;
-        }
-        .log-date {
-            font-family: var(--font-tech);
-            font-size: 0.9rem;
-            color: #fff;
-        }
-        .log-cat {
-            font-size: 0.7rem;
-            color: var(--neon-purple);
-            margin-top: 5px;
-            text-transform: uppercase;
-        }
-
-        /* Right Content Block */
-        .log-content {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .log-title {
-            font-family: var(--font-tech);
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 10px;
-            transition: 0.3s;
-        }
-        .log-entry:hover .log-title {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
-        }
-
-        .log-summary {
-            color: #aaa;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 0;
-            max-width: 800px;
-        }
-
-        /* Action Button */
-        .log-action {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0;
-            transition: 0.3s;
-        }
-        .log-entry:hover .log-action {
-            opacity: 1;
-            right: 30px;
-        }
-        .btn-exec {
+        .search-input {
+            width: 100%;
             background: transparent;
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            font-family: var(--font-tech);
-            font-size: 0.8rem;
-            padding: 5px 15px;
+            border: none;
+            font-family: var(--font-serif); /* Search feels like a title */
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            outline: none;
+        }
+        .search-input::placeholder { color: #D1D1C7; }
+
+        /* Article Item */
+        .article-item {
+            display: block;
+            margin-bottom: 4rem;
+            transition: opacity 0.3s;
+        }
+
+        .article-meta {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Type Badges - Small, Minimal */
+        .badge-type {
+            font-size: 0.7rem;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
         }
-        .btn-exec:hover {
-            background: var(--neon-cyan);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-cyan);
+        .badge-tech { background: #E6EAEF; color: #2A4B6A; } /* Cool Blue/Grey */
+        .badge-res { background: #EFEEE6; color: #8A3A3A; border: 1px solid #E0DCD0; } /* Warm Red/Grey */
+
+        .article-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 400; /* Elegant Regular weight */
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            transition: color 0.2s;
+        }
+        .article-item:hover .article-title { color: var(--accent-color); }
+
+        .article-summary {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 720px;
+            margin-bottom: 0;
         }
 
-        /* Responsive */
+        /* Footer */
+        .footer {
+            margin-top: 6rem;
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 992px) {
-            .sidebar-panel {
-                width: 100%;
-                height: auto;
-                position: relative;
-                top: 0;
-                border-right: none;
-                border-bottom: 1px solid #333;
-            }
-            .module-list {
-                display: flex;
-                overflow-x: auto;
-                padding: 10px;
-            }
-            .module-item {
-                border-left: none;
-                border-bottom: 2px solid transparent;
-                padding: 10px 15px;
-                white-space: nowrap;
-            }
-            .module-item:hover { padding-left: 15px; }
-            .module-item::after { display: none; }
-            .module-item.active {
-                border-left-color: transparent;
-                border-bottom-color: var(--neon-cyan);
-                box-shadow: none;
-            }
-
-            .content-panel {
-                margin-left: 0;
-                padding: 30px 20px;
-            }
-
-            .log-entry { flex-direction: column; }
-            .log-meta {
-                width: 100%;
-                flex-direction: row;
-                justify-content: flex-start;
-                gap: 15px;
-                text-align: left;
-                border-right: none;
-                border-bottom: 1px solid #333;
-                padding: 10px 20px;
-            }
-            .log-action { display: none; } /* Hide hover button on mobile */
+            .page-title { font-size: 2.5rem; }
+            .sidebar-col { display: none; } /* Mobile: Hide sidebar, use simple stack */
+            .search-input { font-size: 1.2rem; }
         }
-
     </style>
 </head>
 <body>
 
-<header class="navbar navbar-expand-lg">
-    <div class="container-fluid px-4">
-        <a class="navbar-brand" href="index.html">LEOCHAME_</a>
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Leochame.</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <i class="bi bi-list text-white"></i>
+            <i class="bi bi-list" style="color:var(--text-primary)"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">01_ROOT</a></li>
-                <li class="nav-item"><a class="nav-link active" href="tech.html">02_TECH</a></li>
-                <li class="nav-item"><a class="nav-link" href="research.html">03_RESEARCH</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.html">04_ABOUT</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.html">Index</a></li>
+                <li class="nav-item"><a class="nav-link active" href="articles.html">Library</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">Profile</a></li>
             </ul>
         </div>
     </div>
-</header>
+</nav>
 
-<div class="registry-container">
-    <aside class="sidebar-panel">
-        <div class="sidebar-header">
-            <div class="sidebar-title">MODULE_SELECTOR</div>
-            <div class="sidebar-subtitle">// SELECT SYSTEM COMPONENT</div>
-        </div>
+<div class="container" style="margin-top: 70px;">
 
-        <div class="module-list">
-            <div class="module-item active" data-category="all">
-                <span><i class="bi bi-grid me-2"></i>ALL_LOGS</span>
-                <span class="module-count" id="count-all">--</span>
-            </div>
-            <div class="module-item" data-category="Java">
-                <span><i class="bi bi-cup-hot me-2"></i>JAVA_CORE</span>
-                <span class="module-count" id="count-java">0</span>
-            </div>
-            <div class="module-item" data-category="操作系统">
-                <span><i class="bi bi-cpu me-2"></i>KERNEL_SYS</span>
-                <span class="module-count" id="count-os">0</span>
-            </div>
-            <div class="module-item" data-category="数据库">
-                <span><i class="bi bi-database me-2"></i>DATABASE</span>
-                <span class="module-count" id="count-db">0</span>
-            </div>
-            <div class="module-item" data-category="计算机网络">
-                <span><i class="bi bi-router me-2"></i>NETWORK</span>
-                <span class="module-count" id="count-net">0</span>
-            </div>
-            <div class="module-item" data-category="人工智能">
-                <span><i class="bi bi-robot me-2"></i>AI_MODEL</span>
-                <span class="module-count" id="count-ai">0</span>
+    <header class="page-header">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="page-title">The Archive</h1>
+                <p class="page-desc">
+                    A collection of engineering logs and research papers. <br>
+                    Decoding the deterministic nature of systems and the probabilistic nature of intelligence.
+                </p>
             </div>
         </div>
+    </header>
 
-        <div class="p-3 text-center">
-            <div style="border: 1px solid #333; padding: 10px; color: #555; font-size: 0.7rem;">
-                SYSTEM STATUS: OPTIMAL<br>
-                <span style="color: var(--neon-green)">● ONLINE</span>
+    <div class="layout-divider"></div>
+
+    <div class="row">
+        <div class="col-lg-3 sidebar-col">
+            <div class="sidebar-sticky">
+
+                <div class="filter-group">
+                    <span class="filter-label">Collection</span>
+                    <ul class="filter-list">
+                        <li class="filter-item active" data-type="all">
+                            <span>View All</span>
+                        </li>
+                        <li class="filter-item" data-type="tech">
+                            <span>Engineering</span>
+                        </li>
+                        <li class="filter-item" data-type="research">
+                            <span>Research</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="filter-group">
+                    <span class="filter-label">Topics</span>
+                    <ul class="filter-list" id="topic-list">
+                        <li class="filter-item active" data-category="all">
+                            <span>All Topics</span>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
-    </aside>
 
-    <main class="content-panel">
-        <div class="stream-header">
-            <div class="stream-title" id="current-module-title">ALL_LOGS</div>
-            <div class="stream-status">> STREAMING DATA...</div>
-        </div>
+        <div class="col-lg-9">
 
-        <div id="article-stream">
-            <div class="text-muted py-5">> WAITING FOR INPUT...</div>
+            <div class="feed-header">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+                <i class="bi bi-search" style="color: var(--text-tertiary); font-size: 1.2rem;"></i>
+            </div>
+
+            <div id="feed-container">
+                <div class="py-5 text-secondary">Loading library...</div>
+            </div>
+
         </div>
-    </main>
+    </div>
 </div>
+
+<footer class="footer container">
+    <div class="row">
+        <div class="col-md-6">© 2025 Liu Longchang</div>
+        <div class="col-md-6 text-md-end">Designed with precision.</div>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/articles.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const streamContainer = document.getElementById('article-stream');
-        const moduleItems = document.querySelectorAll('.module-item');
-        const titleDisplay = document.getElementById('current-module-title');
-        let currentCategory = 'all';
+        const container = document.getElementById('feed-container');
+        const topicListEl = document.getElementById('topic-list');
+        const searchInput = document.getElementById('searchInput');
+        const typeFilters = document.querySelectorAll('[data-type]');
+
+        let state = {
+            type: 'all',
+            category: 'all',
+            search: ''
+        };
 
         if (typeof articlesData === 'undefined') {
-            streamContainer.innerHTML = '<div class="text-danger">DATA SOURCE NOT FOUND</div>';
+            container.innerHTML = 'Data not loaded.';
             return;
         }
 
-        // 1. Update Counts
-        function updateSidebarCounts() {
-            const counts = { 'Java': 0, '操作系统': 0, '数据库': 0, '计算机网络': 0, '人工智能': 0 };
-            let total = 0;
+        // 1. Init Topics Sidebar
+        function initTopics() {
+            const cats = new Set();
+            articlesData.forEach(a => cats.add(a.mainCategory));
 
-            articlesData.forEach(a => {
-                if (!a.isResearch) {
-                    total++;
-                    if (counts.hasOwnProperty(a.mainCategory)) {
-                        counts[a.mainCategory]++;
-                    }
-                }
+            Array.from(cats).sort().forEach(cat => {
+                const li = document.createElement('li');
+                li.className = 'filter-item';
+                li.setAttribute('data-category', cat);
+                li.innerHTML = `<span>${cat}</span>`;
+
+                li.addEventListener('click', () => {
+                    document.querySelectorAll('[data-category]').forEach(el => el.classList.remove('active'));
+                    li.classList.add('active');
+                    state.category = cat;
+                    render();
+                });
+                topicListEl.appendChild(li);
             });
 
-            document.getElementById('count-all').innerText = total;
-            document.getElementById('count-java').innerText = counts['Java'];
-            document.getElementById('count-os').innerText = counts['操作系统'];
-            document.getElementById('count-db').innerText = counts['数据库'];
-            document.getElementById('count-net').innerText = counts['计算机网络'];
-            document.getElementById('count-ai').innerText = counts['人工智能'];
+            // Bind 'All Topics'
+            document.querySelector('[data-category="all"]').addEventListener('click', function() {
+                document.querySelectorAll('[data-category]').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+                state.category = 'all';
+                render();
+            });
         }
-        updateSidebarCounts();
 
-        // 2. Render Stream
-        function renderStream(category) {
-            streamContainer.innerHTML = '';
-            titleDisplay.innerText = category === 'all' ? 'ALL_LOGS' : category.toUpperCase();
+        // 2. Render
+        function render() {
+            container.innerHTML = '';
 
-            // Filter for Tech Articles Only
-            let filtered = articlesData.filter(a => !a.isResearch);
-            if (category !== 'all') {
-                filtered = filtered.filter(a => a.mainCategory === category);
-            }
+            const filtered = articlesData.filter(article => {
+                if (state.type === 'tech' && article.isResearch) return false;
+                if (state.type === 'research' && !article.isResearch) return false;
+                if (state.category !== 'all' && article.mainCategory !== state.category) return false;
+                if (state.search) {
+                    const q = state.search.toLowerCase();
+                    return article.title.toLowerCase().includes(q) || article.summary.toLowerCase().includes(q);
+                }
+                return true;
+            });
 
-            // Sort by Date
             filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             if (filtered.length === 0) {
-                streamContainer.innerHTML = `
-                    <div class="text-muted p-5" style="border: 1px dashed #333; text-align: center;">
-                        > NO DATA FOUND IN MODULE [${category}]
-                    </div>`;
+                container.innerHTML = `<div class="py-5 text-secondary">No entries found.</div>`;
                 return;
             }
 
             filtered.forEach((article, index) => {
-                const entry = document.createElement('div');
-                entry.className = 'log-entry fade-in';
-                entry.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
-                entry.style.opacity = '0'; // Initial state for animation
+                const item = document.createElement('a');
+                item.href = article.link;
+                item.target = "_blank";
+                item.className = "article-item";
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(10px)';
 
-                // Add animation CSS dynamically if not present
-                if (!document.getElementById('anim-style')) {
-                    const style = document.createElement('style');
-                    style.id = 'anim-style';
-                    style.innerHTML = `@keyframes fadeIn { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }`;
-                    document.head.appendChild(style);
-                }
+                setTimeout(() => {
+                    item.style.transition = 'all 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 30);
 
-                const subCat = article.subCategory ? ` // ${article.subCategory}` : '';
+                // Date Logic
+                const d = new Date(article.date);
+                const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-                entry.innerHTML = `
-                    <div class="log-meta">
-                        <div class="log-date">${article.date}</div>
-                        <div class="log-cat">${article.mainCategory}</div>
+                // Type Badge
+                const badgeHtml = article.isResearch
+                    ? `<span class="badge-type badge-res">Research</span>`
+                    : `<span class="badge-type badge-tech">Log</span>`;
+
+                item.innerHTML = `
+                    <div class="article-meta">
+                        <span style="font-variant-numeric: tabular-nums;">${dateStr}</span>
+                        ${badgeHtml}
+                        <span>${article.mainCategory}</span>
                     </div>
-                    <div class="log-content">
-                        <h3 class="log-title">${article.title}</h3>
-                        <p class="log-summary">
-                            <span style="color: #555;">></span> ${article.summary}
-                        </p>
-                    </div>
-                    <div class="log-action">
-                        <button class="btn-exec" onclick="window.open('${article.link}', '_blank')">
-                            EXECUTE_READ
-                        </button>
-                    </div>
+                    <h2 class="article-title">${article.title}</h2>
+                    <p class="article-summary">${article.summary}</p>
                 `;
-                streamContainer.appendChild(entry);
+                container.appendChild(item);
             });
         }
 
-        // 3. Init
-        renderStream('all');
-
-        // 4. Events
-        moduleItems.forEach(item => {
-            item.addEventListener('click', function() {
-                moduleItems.forEach(i => i.classList.remove('active'));
+        // Events
+        typeFilters.forEach(btn => {
+            btn.addEventListener('click', function() {
+                typeFilters.forEach(el => el.classList.remove('active'));
                 this.classList.add('active');
-                renderStream(this.getAttribute('data-category'));
+                state.type = this.getAttribute('data-type');
+                render();
             });
         });
+
+        searchInput.addEventListener('input', (e) => {
+            state.search = e.target.value;
+            render();
+        });
+
+        initTopics();
+        render();
     });
 </script>
+
 </body>
 </html>

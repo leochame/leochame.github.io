@@ -3,311 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEOCHAME // SYSTEM_ROOT</title>
+    <title>Leochame — Engineering & Intelligence</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            --bg-color: #000000;
-            --card-bg: #0a0a0f;
-            --border-color: #333;
-            --neon-cyan: #00f3ff;
-            --neon-purple: #bc13fe;
-            --neon-green: #00ff9d;
-            --neon-red: #ff3333;
-            --text-main: #ffffff;
-            --text-muted: #b0b0b0;
-            --font-tech: 'Orbitron', sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
+            /* Anthropic-inspired Palette */
+            --bg-color: #F3F1E8;       /* 核心暖沙色 */
+            --text-primary: #191919;   /* 深炭黑 */
+            --text-secondary: #6E6D69; /* 暖灰 */
+            --accent-color: #D96C46;   /* 陶土色 */
+            --border-color: #D3D1C8;   /* 浅灰边框 */
+
+            /* Fonts */
+            --font-serif: "Noto Serif SC", "Merriweather", serif;
+            --font-sans: "Inter", system-ui, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-code);
-            overflow-x: hidden;
-            margin: 0;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            /* Fix 1: Ensure content starts below fixed navbar */
+            padding-top: 80px;
         }
 
-        #bg-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; opacity: 0.3;
-        }
+        a { text-decoration: none; color: inherit; transition: color 0.2s ease; }
+        a:hover { color: var(--accent-color); }
 
         /* --- Navbar --- */
         .navbar {
-            background: rgba(0, 0, 0, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(5px);
+            padding: 1.5rem 0;
+            background-color: rgba(243, 241, 232, 0.95); /* High backdrop opacity */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
         }
+
         .navbar-brand {
-            font-family: var(--font-tech);
-            color: #fff !important;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-shadow: 0 0 8px var(--neon-cyan);
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary) !important;
         }
-        .nav-link { color: #aaa !important; font-weight: 500; transition: 0.3s; }
-        .nav-link.active, .nav-link:hover {
-            color: var(--neon-cyan) !important;
-            text-shadow: 0 0 5px var(--neon-cyan);
+
+        .nav-link {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            margin-left: 2.5rem;
         }
+        .nav-link.active, .nav-link:hover { color: var(--text-primary) !important; }
 
         /* --- Hero Section --- */
         .hero-section {
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            padding-top: 80px;
-            padding-bottom: 40px;
-        }
-
-        .hero-title {
-            font-family: var(--font-tech);
-            font-size: 5rem;
-            font-weight: 900;
-            color: #fff;
-            letter-spacing: 5px;
-            position: relative;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-        .hero-title:hover {
-            text-shadow: 2px 2px var(--neon-red), -2px -2px var(--neon-cyan);
-            animation: shake 0.5s infinite;
-        }
-
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-
-        /* --- Terminal Window --- */
-        .terminal-window {
-            background: rgba(10, 10, 15, 0.95);
-            border: 1px solid #444;
-            border-top: 20px solid #222;
-            border-radius: 5px;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            text-align: left;
-            position: relative;
-        }
-        .terminal-window::before {
-            content: '•••'; position: absolute; top: -22px; left: 10px; color: #555; font-size: 24px; line-height: 20px;
-        }
-        .terminal-window::after {
-            content: 'root@leochame:~'; position: absolute; top: -18px; left: 0; width: 100%; text-align: center; color: #888; font-size: 0.8rem; font-family: sans-serif;
-        }
-        .terminal-body {
-            padding: 20px;
-            font-family: var(--font-code);
-            color: var(--neon-green);
-            font-size: 1rem;
-            line-height: 1.6;
-            min-height: 120px;
-        }
-        .cursor {
-            display: inline-block; width: 8px; height: 15px; background: var(--neon-green);
-            animation: blink 1s infinite; vertical-align: middle;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* --- System Manifest (自我介绍区) --- */
-        .manifest-box {
-            max-width: 800px;
+            padding-top: 5rem; /* Visual balance */
+            padding-bottom: 5rem;
+            max-width: 920px;
             margin: 0 auto;
-            text-align: left;
-            border-left: 2px solid var(--neon-purple);
-            padding-left: 20px;
-            position: relative;
-            background: linear-gradient(90deg, rgba(188, 19, 254, 0.05), transparent);
         }
 
-        .manifest-title {
-            font-family: var(--font-tech);
-            color: #fff;
+        .hero-heading {
+            font-family: var(--font-serif);
+            font-size: 3.4rem;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .hero-sub {
+            font-family: var(--font-sans);
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 700px;
+            margin-bottom: 3rem;
+            text-align: justify;
+        }
+
+        .hero-sub strong { color: var(--text-primary); font-weight: 600; }
+
+        /* Buttons */
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--text-primary);
+            color: #fff !important;
+            padding: 0.9rem 2rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-cta:hover { background-color: #333; transform: translateY(-1px); }
+
+        .btn-link-cta {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.9rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: transparent;
+        }
+        .btn-link-cta i { margin-left: 8px; transition: transform 0.2s; }
+        .btn-link-cta:hover { color: var(--accent-color); }
+        .btn-link-cta:hover i { transform: translateX(4px); }
+
+        /* --- Divider --- */
+        .divider {
+            border-top: 1px solid var(--border-color);
+            margin: 3rem 0 5rem;
+        }
+
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        /* --- Focus Cards (2-Column Layout) --- */
+        .focus-card {
+            border-top: 1px solid var(--border-color);
+            background: transparent;
+            padding: 2.5rem 0; /* Increased padding for grander look */
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .focus-card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: 0; width: 0; height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .focus-card:hover::before { width: 100%; }
+        .focus-card:hover .focus-title { color: var(--accent-color); }
+        .focus-card:hover .arrow-link i { transform: translateX(5px); opacity: 1; }
+
+        .focus-number {
+            font-family: var(--font-serif);
             font-size: 1.2rem;
-            margin-bottom: 15px;
+            color: #C0BEB5;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .focus-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem; /* Larger title for 2-col layout */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            transition: color 0.3s;
+        }
+
+        .focus-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 90%;
+        }
+
+        .arrow-link {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 10px;
+        }
+        .arrow-link i { margin-left: 8px; opacity: 0.5; transition: all 0.3s; }
+
+        /* --- Article List --- */
+        .article-item {
+            display: flex;
+            align-items: baseline;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--border-color);
+            transition: background 0.2s;
+        }
+        .article-item:last-child { border-bottom: 1px solid var(--border-color); }
+
+        .article-item:hover .article-title { color: var(--accent-color); }
+
+        .article-meta {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            width: 160px;
+            flex-shrink: 0;
+            font-variant-numeric: tabular-nums;
         }
 
-        .manifest-text {
-            color: #d0d0d0;
-            font-size: 1.05rem;
-            line-height: 1.8;
+        .article-content { flex-grow: 1; padding-right: 20px; }
+
+        .article-category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+            display: block;
+            font-weight: 600;
         }
 
-        .highlight-text {
-            color: #fff;
-            font-weight: bold;
-            text-decoration: underline;
-            text-decoration-color: var(--neon-cyan);
-            text-underline-offset: 4px;
+        .article-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text-primary);
+            transition: color 0.2s;
         }
 
-        /* --- Dashboard Grid --- */
-        .dashboard-section { padding: 60px 0; }
-        .nav-card {
-            background: var(--card-bg); border: 1px solid #333; padding: 2rem; height: 100%;
-            transition: 0.3s; position: relative; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; cursor: pointer;
+        .article-summary {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            opacity: 0.8;
         }
-        .nav-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-            background: #333; transition: 0.3s;
-        }
-        .nav-card:hover {
-            transform: translateY(-5px); background: #111; box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
-        }
-        .nav-card.tech:hover { border-color: var(--neon-cyan); } .nav-card.tech:hover::before { background: var(--neon-cyan); }
-        .nav-card.research:hover { border-color: var(--neon-purple); } .nav-card.research:hover::before { background: var(--neon-purple); }
-        .nav-card.about:hover { border-color: var(--neon-green); } .nav-card.about:hover::before { background: var(--neon-green); }
-
-        .nav-icon { font-size: 3rem; margin-bottom: 1rem; color: #fff; transition: 0.3s; }
-        .nav-card:hover .nav-icon { transform: scale(1.1); }
-        .nav-title { font-family: var(--font-tech); font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem; }
-        .nav-desc { color: #888; font-size: 0.9rem; }
-
-        /* --- Featured --- */
-        .featured-section { padding: 40px 0 80px; border-top: 1px dashed #222; }
-        .section-header {
-            font-family: var(--font-tech); color: #fff; border-left: 4px solid var(--neon-cyan);
-            padding-left: 15px; margin-bottom: 30px; display: flex; align-items: center;
-        }
-        .featured-article-row { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 20px; }
-        .featured-card {
-            min-width: 300px; background: #0e0e13; border: 1px solid #333; padding: 20px; transition: 0.3s;
-        }
-        .featured-card:hover { border-color: var(--neon-cyan); }
-        .f-title { font-family: var(--font-tech); color: #fff; margin-bottom: 10px; font-size: 1.1rem; }
-        .f-meta { color: #666; font-size: 0.8rem; }
 
         /* Footer */
-        .footer { background: #000; border-top: 1px solid #222; padding: 3rem 0; text-align: center; color: #555; }
+        .footer { padding: 5rem 0 3rem; border-top: 1px solid var(--border-color); margin-top: 5rem; }
+        .footer-text { color: var(--text-secondary); font-size: 0.85rem; }
 
-        @media (max-width: 768px) { .hero-title { font-size: 2.5rem; } }
+        @media (max-width: 768px) {
+            .hero-heading { font-size: 2.4rem; }
+            .hero-section { padding-top: 2rem; }
+            .article-item { flex-direction: column; }
+            .article-meta { margin-bottom: 0.5rem; }
+        }
     </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
-
-<header class="navbar navbar-expand-lg fixed-top">
+<nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">LEO_CHAME_</a>
+        <a class="navbar-brand" href="#">Leochame.</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <i class="bi bi-list text-white"></i>
+            <i class="bi bi-list" style="font-size: 1.5rem; color: var(--text-primary);"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active" href="#home">01_ROOT</a></li>
-                <li class="nav-item"><a class="nav-link" href="tech.html">02_TECH</a></li>
-                <li class="nav-item"><a class="nav-link" href="research.html">03_RESEARCH</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.html">04_ABOUT</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#">index</a></li>
+                <li class="nav-item"><a class="nav-link" href="articles.html">Library</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">Profile</a></li>
             </ul>
         </div>
     </div>
-</header>
+</nav>
 
-<section id="home" class="hero-section container">
-    <div class="glitch-wrapper">
-        <h1 class="hero-title" data-text="LEOCHAME">LEOCHAME</h1>
-    </div>
+<div class="container">
 
-    <div class="terminal-window">
-        <div class="terminal-body">
-            <span id="typewriter"></span><span class="cursor"></span>
+    <section class="hero-section">
+        <h1 class="hero-heading">
+            构建可扩展的系统基石，<br>
+            追求极致的工程确定性。
+        </h1>
+        <p class="hero-sub">
+            我是一名笃信<strong>“工程至上”</strong>的后端开发者。相较于追逐热点，我更热衷于解决高并发架构下的稳定性难题，以及深挖 <strong>JVM 与 OS 内核</strong>的底层机制。
+            <br><br>
+            拥有在<strong>阿里与腾讯</strong>的实战经验，我致力于交付健壮、优雅的代码。对我而言，AI 等前沿技术并非黑魔法，而是下一个需要用严谨工程思维去落地的战场。
+        </p>
+        <div class="d-flex gap-2 align-items-center">
+            <a href="tech.html" class="btn-cta">进入知识库</a>
+            </a>
         </div>
-    </div>
+    </section>
 
-    <div class="manifest-box fade-in">
-        <div class="manifest-title">
-            <i class="bi bi-terminal-fill" style="color: var(--neon-purple)"></i>
-            <span>SYSTEM_MANIFEST.md</span>
-        </div>
-        <div class="manifest-text">
+    <div class="divider"></div>
 
-            <p class="mb-3">
-                比起单纯的调用 API，我更热衷于拆解黑盒。无论是为了搞懂操作系统发生了什么而手动实现过 <strong>OS 内核</strong>。
-                在盯着 GC 日志分析内存碎片的同时，我总想知道引擎盖底下到底发生了什么。
-            </p>
-            <p class="mb-0">
-                最近正沉迷于 <span class="highlight-text">Agentic Workflow</span>，试图用确定性的 Java 代码去约束不可控的概率模型。
-                这有点像是在试图玩一种极限运动，虽然充满挑战，但当逻辑闭环的那一刻，感觉棒极了。
-            </p>
-            <p class="mb-3">
-                我认为那些内核精密复杂、稳定的系统，其优秀的设计是互通的，是可以借鉴的。 <span class="highlight-text">计算机里没有黑魔法，只有严谨的工程化”</span>......以及大量的咖啡。
-            </p>
-        </div>
-    </div>
-</section>
+    <div class="row g-5 mb-5">
+        <div class="col-12"><span class="section-label">Core Focus</span></div>
 
-<section class="dashboard-section container">
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="nav-card tech" onclick="window.location.href='tech.html'">
-                <i class="bi bi-terminal nav-icon" style="color: var(--neon-cyan)"></i>
-                <h3 class="nav-title">TECH_LOGS</h3>
-                <p class="nav-desc">// Java Architecture & <br>High Concurrency</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="nav-card research" onclick="window.location.href='research.html'">
-                <i class="bi bi-radioactive nav-icon" style="color: var(--neon-purple)"></i>
-                <h3 class="nav-title">ARCHIVES</h3>
-                <p class="nav-desc">// Kernel Deep Dive <br>& Paper Decoding</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="nav-card about" onclick="window.location.href='about.html'">
-                <i class="bi bi-person-bounding-box nav-icon" style="color: var(--neon-green)"></i>
-                <h3 class="nav-title">PROFILE</h3>
-                <p class="nav-desc">// Engineer Bio <br>& Skill Radar</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="featured-section container">
-    <h2 class="section-header">
-        SYSTEM_UPDATES
-        <span style="font-size: 0.8rem; color: #666; margin-left: 15px; font-family: var(--font-code)">
-            [ Latest Activity ]
-        </span>
-    </h2>
-
-    <div class="featured-article-row" id="featured-container">
-        <div class="text-muted p-3">> Fetching data streams...</div>
-    </div>
-</section>
-
-<footer class="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <p class="font-monospace mb-2">SYSTEM ONLINE // VERSION 3.0.1</p>
-                <div class="d-flex justify-content-center gap-4 fs-4 mb-3">
-                    <a href="https://github.com/leochame" class="text-white"><i class="bi bi-github"></i></a>
-                    <a href="mailto:liulch.cn@gmail.com" class="text-white"><i class="bi bi-envelope-fill"></i></a>
+        <div class="col-md-6">
+            <a href="articles.html" class="focus-card">
+                <div>
+                    <div class="focus-number">01</div>
+                    <h3 class="focus-title">The Library</h3>
+                    <p class="focus-desc">
+                        我的工程日志与研究档案。包含 Java 架构实践、并发编程笔记、以及对 OS 内核与 AI 智能本质的深度解读。
+                    </p>
                 </div>
-                <small class="text-muted">COPYRIGHT © 2025 LEOCHAME. ALL SYSTEMS OPERATIONAL.</small>
-            </div>
+                <div class="arrow-link">Browse Archive <i class="bi bi-arrow-right"></i></div>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a href="about.html" class="focus-card">
+                <div>
+                    <div class="focus-number">02</div>
+                    <h3 class="focus-title">The Profile</h3>
+                    <p class="focus-desc">
+                        关于我。阿里与腾讯的实战履历、个人技术雷达、以及我对工程价值观的完整阐述。
+                    </p>
+                </div>
+                <div class="arrow-link">Read Bio <i class="bi bi-arrow-right"></i></div>
+            </a>
+        </div>
+    </div>
+
+    <section>
+        <div class="d-flex justify-content-between align-items-end mb-4 pt-5">
+            <span class="section-label" style="margin-bottom:0">Latest Thinking</span>
+            <a href="articles.html" style="font-size: 0.9rem; font-weight: 500; color: var(--text-primary);">View all <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        <div id="latest-articles-list">
+            <div class="text-secondary py-5">Loading content...</div>
+        </div>
+    </section>
+
+</div>
+
+<footer class="footer container">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <span style="font-family: var(--font-serif); font-weight: 700; font-size: 1.1rem;">Leochame.</span>
+            <p class="footer-text mt-2">Engineering clarity in a complex world.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <a href="https://github.com/leochame" target="_blank" class="text-secondary me-4" style="font-size: 0.9rem;">GitHub</a>
+            <a href="mailto:liulch.cn@gmail.com" class="text-secondary" style="font-size: 0.9rem;">Email</a>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 footer-text" style="opacity: 0.6;">
+            © 2025 Liu Longchang. Designed with Anthropic ethos.
         </div>
     </div>
 </footer>
@@ -316,120 +365,38 @@
 <script src="js/articles.js"></script>
 
 <script>
-    // --- 1. 粒子背景动画 ---
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    const particles = [];
-
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    class Particle {
-        constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * 0.3;
-            this.vy = (Math.random() - 0.5) * 0.3;
-            this.size = Math.random() * 2;
-        }
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            if (this.x < 0) this.x = width;
-            if (this.x > width) this.x = 0;
-            if (this.y < 0) this.y = height;
-            if (this.y > height) this.y = 0;
-        }
-        draw() {
-            ctx.fillStyle = '#fff';
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-
-    for(let i = 0; i < 60; i++) particles.push(new Particle());
-
-    function animate() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach((p, index) => {
-            p.update();
-            p.draw();
-            for (let j = index + 1; j < particles.length; j++) {
-                const p2 = particles[j];
-                const dx = p.x - p2.x;
-                const dy = p.y - p2.y;
-                const dist = Math.sqrt(dx*dx + dy*dy);
-                if (dist < 100) {
-                    ctx.strokeStyle = `rgba(0, 243, 255, ${1 - dist/100 * 0.5})`;
-                    ctx.lineWidth = 0.2;
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.stroke();
-                }
-            }
-        });
-        requestAnimationFrame(animate);
-    }
-    animate();
-
-    // --- 2. 打字机效果 (文案：专业且直接) ---
-    const textToType = [
-        "> IDENTITY: LEOCHAME (Backend Engineer / CS Explorer)",
-        "> CURRENT_STACK: Java Ecosystem + Large Language Models.",
-        "> MISSION: Decoding the layers between Hardware and AI.",
-        "> STATUS: Compiling knowledge..."
-    ];
-
-    const typeWriterElement = document.getElementById('typewriter');
-    let lineIndex = 0;
-    let charIndex = 0;
-
-    function typeWriter() {
-        if (lineIndex < textToType.length) {
-            if (charIndex < textToType[lineIndex].length) {
-                typeWriterElement.innerHTML += textToType[lineIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(typeWriter, 30);
-            } else {
-                typeWriterElement.innerHTML += "<br>";
-                lineIndex++;
-                charIndex = 0;
-                setTimeout(typeWriter, 500);
-            }
-        }
-    }
-    setTimeout(typeWriter, 800);
-
-    // --- 3. 加载推荐文章 ---
     document.addEventListener('DOMContentLoaded', () => {
-        const container = document.getElementById('featured-container');
+        const listContainer = document.getElementById('latest-articles-list');
+
         if (typeof articlesData !== 'undefined') {
-            container.innerHTML = '';
-            const featured = articlesData.filter(a => a.featured).slice(0, 5);
+            listContainer.innerHTML = '';
+
+            // Filter featured, sort by date, take top 5
+            const featured = articlesData
+                .filter(a => a.featured)
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 5);
+
             featured.forEach(article => {
-                const card = document.createElement('div');
-                card.className = 'featured-card';
-                card.innerHTML = `
-                    <div class="f-meta mb-2">
-                        <span style="color: var(--neon-cyan)">${article.mainCategory}</span>
-                        // ${article.date}
+                const item = document.createElement('div');
+                item.className = 'article-item';
+
+                // Date Format
+                const dateStr = article.date.replace(/-/g, '.');
+
+                item.innerHTML = `
+                    <div class="article-meta">${dateStr}</div>
+                    <div class="article-content">
+                        <span class="article-category">${article.mainCategory}</span>
+                        <a href="${article.link}" target="_blank" class="article-title">${article.title}</a>
+                        <p class="article-summary">${article.summary}</p>
                     </div>
-                    <h3 class="f-title">
-                        <a href="${article.link}" target="_blank" class="text-white text-decoration-none">${article.title}</a>
-                    </h3>
-                    <div class="text-muted small text-truncate">${article.summary}</div>
                 `;
-                container.appendChild(card);
+                listContainer.appendChild(item);
             });
         }
     });
 </script>
+
 </body>
 </html>

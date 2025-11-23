@@ -3,430 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEOCHAME // PROFILE_DATA</title>
+    <title>Profile — Liu Longchang</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            --bg-color: #000000;
-            --card-bg: #0a0a0e;
-            --card-border: #333;
+            /* Anthropic Palette */
+            --bg-color: #F3F1E8;
+            --text-primary: #191919;
+            --text-secondary: #5E5D59;
+            --text-tertiary: #9E9D99;
+            --accent-color: #D96C46;
+            --border-color: #D1D1C7;
 
-            --neon-blue: #00f3ff;
-            --neon-purple: #d56fff;
-            --neon-green: #00ff9d;
-            --neon-red: #ff3333; /* 新增红色，用于保密标记 */
-
-            --text-main: #ffffff;
-            --text-muted: #d0d0d0;
-
-            --font-tech: 'Orbitron', sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
+            --font-serif: "Noto Serif SC", "Merriweather", serif;
+            --font-sans: "Inter", system-ui, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-code);
-            overflow-x: hidden;
-            background-image:
-                    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.7;
             -webkit-font-smoothing: antialiased;
+            padding-top: 80px;
         }
 
-        a { text-decoration: none; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        a:hover { color: var(--accent-color); }
 
-        /* --- 导航栏 --- */
+        /* --- Navbar --- */
         .navbar {
-            background: rgba(0, 0, 0, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+            background-color: rgba(243, 241, 232, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
         }
         .navbar-brand {
-            font-family: var(--font-tech);
-            color: #fff !important;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-shadow: 0 0 5px var(--neon-blue);
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary) !important;
         }
-        .nav-link { color: #aaa !important; font-weight: 500; }
-        .nav-link.active { color: var(--neon-blue) !important; font-weight: 700; }
-
-        /* --- ID Card --- */
-        .profile-section { padding: 100px 0 50px; }
-
-        .id-card {
-            background: #0d0d12;
-            border: 1px solid var(--neon-blue);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
-            z-index: 1;
-        }
-        .id-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: #fff;
-            opacity: 0.3;
-            box-shadow: 0 0 10px var(--neon-blue);
-            animation: scan 4s linear infinite;
-            pointer-events: none;
-        }
-        @keyframes scan {
-            0% { top: -10%; opacity: 0; }
-            10% { opacity: 1; }
-            100% { top: 110%; opacity: 0; }
-        }
-
-        .avatar-frame {
-            width: 150px; height: 150px;
-            border: 2px solid #fff;
-            padding: 4px;
-            margin-bottom: 1rem;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-        }
-        .avatar-frame img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: contrast(1.1) brightness(1.1);
-        }
-
-        .stat-row {
-            display: flex; justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 10px 0;
-        }
-        .stat-label { color: var(--neon-blue); font-size: 0.85rem; font-weight: 600; }
-        .stat-value { color: #fff; font-weight: 700; font-size: 0.95rem; }
-
-        /* --- Timeline --- */
-        .timeline-container { position: relative; padding-left: 30px; }
-        .timeline-line {
-            position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: #333;
-        }
-        .timeline-line::after {
-            content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(to bottom, var(--neon-blue), var(--neon-purple)); opacity: 0.7;
-        }
-
-        .timeline-item { position: relative; margin-bottom: 3rem; }
-        .timeline-node {
-            position: absolute; left: -29px; top: 5px; width: 16px; height: 16px;
-            background: #000; border: 3px solid var(--neon-blue); border-radius: 50%;
-            z-index: 2; box-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .log-card {
-            background: #0e0e13;
-            border: 1px solid #333;
-            border-left: 4px solid var(--text-muted);
-            padding: 1.8rem;
-            transition: 0.3s;
-            position: relative;
-        }
-        .log-card:hover {
-            background: #14141a;
-            border-color: #555;
-            border-left-color: var(--neon-blue);
-            transform: translateX(5px);
-        }
-
-        .log-date {
-            font-family: var(--font-code);
-            color: var(--neon-blue);
-            font-weight: bold;
+        .nav-link {
+            font-family: var(--font-sans);
             font-size: 0.9rem;
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            margin-left: 2.5rem;
+        }
+        .nav-link.active, .nav-link:hover { color: var(--text-primary) !important; }
+
+        /* --- Layout --- */
+        .profile-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 0;
+        }
+
+        /* Left Column: Identity */
+        .identity-col { padding-right: 4rem; }
+        .identity-sticky { position: sticky; top: 8rem; }
+
+        .profile-name {
+            font-family: var(--font-sans);
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .profile-role {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 3rem;
+        }
+
+        .meta-block { margin-bottom: 2.5rem; }
+        .meta-label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-tertiary);
             margin-bottom: 0.8rem;
-            display: inline-block;
-            background: rgba(0, 243, 255, 0.1);
-            padding: 4px 10px;
-            border-radius: 2px;
+            font-weight: 600;
+            display: block;
+        }
+        .meta-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+        .meta-list li { margin-bottom: 0.4rem; }
+        .meta-list a { border-bottom: 1px solid var(--border-color); }
+
+        /* Right Column: Content */
+        .narrative-col {
+            border-left: 1px solid var(--border-color);
+            padding-left: 4rem;
+            padding-top: 0.5rem;
         }
 
-        .log-title {
-            font-family: var(--font-tech);
-            font-size: 1.6rem;
-            color: #fff;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
+        /* Bio Text */
+        .bio-text {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 4rem;
         }
+        .bio-text p { margin-bottom: 1.5rem; }
 
-        .log-role {
-            color: var(--neon-purple);
-            font-weight: 700;
-            margin-bottom: 1.2rem;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
-        }
-
-        /* 保密条样式 */
-        .redacted-bar {
-            background: repeating-linear-gradient(
-                    45deg,
-                    #222,
-                    #222 10px,
-                    #333 10px,
-                    #333 20px
-            );
-            color: #888;
-            padding: 8px 12px;
-            font-size: 0.85rem;
-            border: 1px dashed #555;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .tech-tag {
-            display: inline-block;
-            font-size: 0.8rem;
-            color: var(--neon-green);
-            border: 1px solid var(--neon-green);
-            padding: 2px 8px;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            opacity: 0.9;
-        }
-
-        /* --- Skills --- */
-        .tech-spec-box { border: 1px solid #333; padding: 25px; background: #0e0e13; }
-        .progress-label {
-            display: flex; justify-content: space-between; font-size: 0.9rem;
-            font-weight: 600; margin-bottom: 8px; color: #fff;
-        }
-        .cyber-progress { height: 8px; background: #222; }
-        .cyber-bar { height: 100%; background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); }
-
-        /* --- Footer --- */
-        .footer {
-            border-top: 1px solid #222; padding: 3rem 0; margin-top: 5rem;
-            background: #050505; color: #666;
-        }
-
+        /* Section Headers */
         .section-header {
-            font-family: var(--font-tech); font-size: 2.2rem; font-weight: 700; color: #fff;
-            border-bottom: 4px solid var(--neon-blue); display: inline-block;
-            margin-bottom: 3rem; padding-right: 20px; text-transform: uppercase;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+        .section-header::after {
+            content: ""; flex-grow: 1; height: 1px; background: var(--border-color); margin-left: 1rem;
         }
 
-        .terminal-box {
-            background: #000; border: 1px solid #444; border-left: 4px solid var(--neon-green);
-            padding: 2rem; font-size: 1rem; color: #ccc;
+        /* Experience Items */
+        .exp-item { margin-bottom: 3.5rem; }
+        .exp-header {
+            display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;
+        }
+        .exp-role-title {
+            font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; color: var(--text-primary);
+        }
+        .exp-company {
+            font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 0.5rem;
+        }
+        .exp-date {
+            font-family: var(--font-sans); font-size: 0.85rem; color: var(--text-tertiary); font-variant-numeric: tabular-nums;
+        }
+        .exp-desc {
+            font-family: var(--font-serif); font-size: 1rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6;
+        }
+        .tech-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .tech-tag {
+            font-family: var(--font-sans); font-size: 0.75rem; padding: 3px 8px; background: #EBE9E0; color: var(--text-secondary); border-radius: 4px;
         }
 
+        /* Research/Focus List */
+        .focus-list { list-style: none; padding: 0; margin-bottom: 4rem; }
+        .focus-item {
+            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            align-items: baseline;
+        }
+        .focus-label {
+            font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; color: var(--text-primary);
+        }
+        .focus-content {
+            font-family: var(--font-serif); font-size: 1rem; color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 5rem; padding-top: 3rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-tertiary);
+        }
+
+        @media (max-width: 992px) {
+            .narrative-col { border-left: none; padding-left: 0; padding-top: 3rem; }
+            .identity-sticky { position: relative; top: 0; }
+            .focus-item { grid-template-columns: 1fr; gap: 0.5rem; }
+        }
     </style>
 </head>
 <body>
 
-<header class="navbar navbar-expand-lg sticky-top">
+<nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html">LEO_CHAME_</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <i class="bi bi-list text-white"></i>
+        <a class="navbar-brand" href="#">Leochame.</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="bi bi-list" style="color: var(--text-primary)"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">01_HOME</a></li>
-                <li class="nav-item"><a class="nav-link" href="tech.html">02_TECH</a></li>
-                <li class="nav-item"><a class="nav-link" href="research.html">03_RESEARCH</a></li>
-                <li class="nav-item"><a class="nav-link active" href="about.html">04_ABOUT_ME</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="tech.html">Library</a></li>
+                <li class="nav-item"><a class="nav-link active" href="about.html">Profile</a></li>
             </ul>
         </div>
     </div>
-</header>
+</nav>
 
-<section class="profile-section container">
-    <div class="row g-5">
-        <div class="col-lg-4">
-            <div class="sticky-lg-top" style="top: 100px; z-index: 1;">
-                <div class="id-card p-4">
-                    <div class="text-center">
-                        <div class="avatar-frame mx-auto">
-                            <img src="images/avatar.svg" alt="Avatar">
-                        </div>
-                        <h2 class="mt-3 fw-bold text-white" style="font-family: var(--font-tech);">LEOCHAME</h2>
-                        <div class="badge bg-dark border border-info text-info mb-4 rounded-0 p-2">LV.2026 UNDERGRADUATE</div>
-                    </div>
+<div class="container profile-container">
+    <div class="row">
 
-                    <div class="stats-box mt-2">
-                        <div class="stat-row">
-                            <span class="stat-label">CLASS:</span>
-                            <span class="stat-value">Backend Engineer</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">AFFILIATION:</span>
-                            <span class="stat-value">HDU (Hangzhou Dianzi Univ)</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">STATUS:</span>
-                            <span class="stat-value" style="color: var(--neon-green)">ONLINE / CODING</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">LOCATION:</span>
-                            <span class="stat-value">Hangzhou, CN</span>
-                        </div>
-                    </div>
+        <div class="col-lg-4 identity-col">
+            <div class="identity-sticky">
+                <h1 class="profile-name">Liu Longchang</h1>
+                <div class="profile-role">Backend Engineer</div>
 
-                    <div class="mt-4">
-                        <div class="d-grid gap-3">
-                            <a href="mailto:liulch.cn@gmail.com" class="btn btn-info fw-bold rounded-0 text-dark">
-                                <i class="bi bi-envelope-fill me-2"></i> SEND_MESSAGE
-                            </a>
-                            <a href="https://github.com/leochame" target="_blank" class="btn btn-outline-light fw-bold rounded-0">
-                                <i class="bi bi-github me-2"></i> ACCESS_GITHUB
-                            </a>
-                        </div>
-                    </div>
+                <div style="margin: 3rem 0; width: 40px; height: 2px; background: var(--text-primary);"></div>
+
+                <div class="meta-block">
+                    <span class="meta-label">Education</span>
+                    <ul class="meta-list">
+                        <li>Hangzhou Dianzi Univ.</li>
+                        <li style="color: var(--text-secondary);">Computer Science, 2026</li>
+                    </ul>
                 </div>
 
-                <div class="mt-4">
-                    <h4 class="text-white mb-3 fw-bold" style="font-family: var(--font-tech)">// SKILL_MODULES</h4>
-                    <div class="tech-spec-box">
-                        <div class="progress-container mb-3">
-                            <div class="progress-label">
-                                <span>JAVA ECOSYSTEM</span>
-                                <span style="color:var(--neon-blue)">90%</span>
-                            </div>
-                            <div class="cyber-progress"><div class="cyber-bar" style="width: 90%"></div></div>
-                        </div>
+                <div class="meta-block">
+                    <span class="meta-label">Connect</span>
+                    <ul class="meta-list">
+                        <li><a href="mailto:liulch.cn@gmail.com">liulch.cn@gmail.com</a></li>
+                        <li><a href="https://github.com/leochame" target="_blank">GitHub Profile</a></li>
+                    </ul>
+                </div>
 
-                        <div class="progress-container mb-3">
-                            <div class="progress-label">
-                                <span>AI AGENT & LLM</span>
-                                <span style="color:var(--neon-purple)">85%</span>
-                            </div>
-                            <div class="cyber-progress"><div class="cyber-bar" style="width: 85%; background: var(--neon-purple); box-shadow: 0 0 8px var(--neon-purple);"></div></div>
-                        </div>
-
-                        <div class="progress-container">
-                            <div class="progress-label">
-                                <span>KERNEL / INFRA</span>
-                                <span style="color:var(--neon-green)">75%</span>
-                            </div>
-                            <div class="cyber-progress"><div class="cyber-bar" style="width: 75%; background: var(--neon-green); box-shadow: 0 0 8px var(--neon-green);"></div></div>
-                        </div>
-                    </div>
+                <div class="meta-block">
+                    <span class="meta-label">Location</span>
+                    <ul class="meta-list">
+                        <li>Hangzhou, China</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-8">
-            <h2 class="section-header">CAREER_PATH_LOG</h2>
+        <div class="col-lg-8 narrative-col">
 
-            <div class="timeline-container">
-                <div class="timeline-line"></div>
-
-                <div class="timeline-item">
-                    <div class="timeline-node"></div>
-                    <div class="log-card">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <span class="log-date">2025.10 - PRESENT</span>
-                            <span class="badge bg-danger rounded-0" style="font-family: var(--font-code)">CONFIDENTIAL</span>
-                        </div>
-                        <h3 class="log-title">ALIBABA GROUP</h3>
-                        <div class="log-role">Backend Dev Intern | AutoNavi (Amap)</div>
-
-                        <div class="mb-3">
-                            <div class="redacted-bar">// MISSION DETAILS ENCRYPTED BY NDA PROTOCOL</div>
-                        </div>
-
-                        <div>
-                            <div class="text-white mb-2 small fw-bold">CORE TECHNOLOGIES:</div>
-                            <div>
-                                <span class="tech-tag">Large Model Agents</span>
-                                <span class="tech-tag">System Diagnosis</span>
-                                <span class="tech-tag">High Availability</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-node" style="border-color: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple)"></div>
-                    <div class="log-card" style="border-left-color: var(--neon-purple)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <span class="log-date" style="color: var(--neon-purple); background: rgba(213, 111, 255, 0.1)">2025.04 - 2025.09</span>
-                            <span class="badge bg-danger rounded-0" style="font-family: var(--font-code)">CONFIDENTIAL</span>
-                        </div>
-                        <h3 class="log-title">TENCENT</h3>
-                        <div class="log-role" style="color: var(--neon-purple)">Data Engineer Intern | Ads Marketing</div>
-
-                        <div class="mb-3">
-                            <div class="redacted-bar">// MISSION DETAILS ENCRYPTED BY NDA PROTOCOL</div>
-                        </div>
-
-                        <div>
-                            <div class="text-white mb-2 small fw-bold">CORE TECHNOLOGIES:</div>
-                            <div>
-                                <span class="tech-tag" style="color:var(--neon-purple); border-color:var(--neon-purple)">Data Pipeline</span>
-                                <span class="tech-tag" style="color:var(--neon-purple); border-color:var(--neon-purple)">RAG Architecture</span>
-                                <span class="tech-tag" style="color:var(--neon-purple); border-color:var(--neon-purple)">Text-to-Chart</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-node" style="border-color: #fff; box-shadow: 0 0 10px #fff"></div>
-                    <div class="log-card" style="border-left-color: #fff">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <span class="log-date" style="color: #fff; background: rgba(255,255,255,0.1)">2024.09 - 2025.02</span>
-                        </div>
-                        <h3 class="log-title">iMILE LOGISTICS</h3>
-                        <div class="log-role" style="color: #fff">Backend Dev Intern | R&D Center</div>
-
-                        <div class="mb-3">
-                            <div class="redacted-bar">// PROJECT DETAILS ARCHIVED</div>
-                        </div>
-
-                        <div>
-                            <div class="text-white mb-2 small fw-bold">CORE TECHNOLOGIES:</div>
-                            <div>
-                                <span class="tech-tag" style="color:#fff; border-color:#fff">Distributed Consistency</span>
-                                <span class="tech-tag" style="color:#fff; border-color:#fff">High Concurrency</span>
-                                <span class="tech-tag" style="color:#fff; border-color:#fff">Data Services</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="bio-text">
+                <p>
+                    后端开发工程师，主攻 <strong>Java </strong> 与 <strong>工程实践</strong>。
+                    具备从应用层向下穿透至内核层的技术视野。
+                </p>
+                <p>
+                    在 <strong>阿里巴巴</strong> 与 <strong>腾讯</strong> 的工程实践中，专注于解决Ai 落地中的工程问题。
+                    在业务开发之外，持续投入于底层机制的复现与研究（如 MIT 6.1810），并致力于 LLM Agent 在企业级环境下的工程化落地实践。
+                </p>
             </div>
 
-            <div class="mt-5">
-                <h2 class="section-header">SYSTEM_DESCRIPTION</h2>
-                <div class="terminal-box">
-                    <p class="mb-3" style="color: #fff; font-weight: bold;">
-                        <span style="color: var(--neon-green)">root@leochame:~#</span> cat about_me.txt
-                    </p>
-                    <p>
-                        不仅仅是一个 API 调用者。我着迷于探究 <strong class="text-white">"Why it works"</strong>。<br><br>
+            <div class="section-header">Research & Engineering Focus</div>
+            <ul class="focus-list">
+                <li class="focus-item">
+                    <span class="focus-label">Core Infrastructure</span>
+                    <span class="focus-content">深入 JVM 内存模型与垃圾回收机制；基于 MIT 6.1810 (xv6) 进行操作系统内核功能的复现与研究。</span>
+                </li>
+<!--                <li class="focus-item">-->
+<!--                    <span class="focus-label">System Stability</span>-->
+<!--                    <span class="focus-content">高并发场景下的流量治理、故障诊断体系建设以及分布式一致性协议（Raft/Paxos）的工程应用。</span>-->
+<!--                </li>-->
+                <li class="focus-item">
+                    <span class="focus-label">AI Engineering</span>
+                    <span class="focus-content">探索 LLM Agent 的确定性编排；RAG 架构中的数据链路优化与向量检索实践。</span>
+                </li>
+            </ul>
 
-                        从手动实现 <span class="text-white">MIT 6.S081</span> 的内核 Trap 机制，到构建基于 <span class="text-white">Transformer</span> 的 Agent 工作流，
-                        我致力于打通“底层原理”与“上层智能”的壁垒。<br><br>
+            <div class="section-header">Professional Experience</div>
 
-                        目前正专注于研究如何将 <strong class="text-white" style="border-bottom: 2px solid var(--neon-blue)">Agentic Workflow</strong> 与传统的 <strong class="text-white">Java 后端架构</strong> 融合，以解决真实世界的复杂问题。
-                    </p>
-                    <p class="mb-0 mt-4" style="color: var(--neon-blue)">
-                        // End of stream.
-                    </p>
+            <div class="exp-item">
+                <div class="exp-header">
+                    <span class="exp-role-title">Alibaba Group (Amap)</span>
+                    <span class="exp-date">2025.10 — Present</span>
+                </div>
+                <div class="exp-company">Backend Engineer Intern</div>
+                <p class="exp-desc">
+                    负责高德打车交易链路后端研发。主要工作包括系统高可用建设、全链路故障诊断工具开发，以及基于 Large Model 的 AIOps 场景落地。
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">System Stability</span>
+                    <span class="tech-tag">Agentic Workflow</span>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <span class="exp-role-title">Tencent (Ads Marketing)</span>
+                    <span class="exp-date">2025.04 — 2025.09</span>
+                </div>
+                <div class="exp-company">Data Engineer Intern</div>
+                <p class="exp-desc">
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Data Pipeline</span>
+                    <span class="tech-tag">RAG Architecture</span>
+                    <span class="tech-tag">LangChain</span>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <span class="exp-role-title">iMile Logistics</span>
+                    <span class="exp-date">2024.09 — 2025.02</span>
+                </div>
+                <div class="exp-company">R&D Engineer Intern</div>
+                <p class="exp-desc">
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">High Concurrency</span>
+                    <span class="tech-tag">MySQL Tuning</span>
+                    <span class="tech-tag">Distributed Systems</span>
                 </div>
             </div>
 
         </div>
     </div>
-</section>
 
-<footer class="footer text-center">
-    <div class="container">
-        <p class="mb-0 font-monospace" style="color: #555">SYSTEM STATUS: STABLE // COPYRIGHT © 2026 LEOCHAME</p>
-    </div>
-</footer>
+    <footer class="footer">
+        <div class="row">
+            <div class="col-md-6">© 2025 Liu Longchang</div>
+            <div class="col-md-6 text-md-end">Designed with precision.</div>
+        </div>
+    </footer>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
