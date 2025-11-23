@@ -101,6 +101,18 @@ const articlesData = [
         isResearch: false
     },
     {
+        id: 16,
+        title: "论文速读 - DeepSeek OCR",
+        summary: "这篇论文主要阐述了 Anthropic 科学家如何追踪大语言模型（LLM）的思考过程。具体来说，就是当模型接收到一个提示词后，其内部神经元是如何运作的。",
+        link: "https://mp.weixin.qq.com/s/DZiS26gMiqKxgLXarBLp5Q",
+        platform: "微信公众号",
+        date: "2025-10-24",
+        mainCategory: "人工智能",
+        subCategory: "AI论文简报",
+        featured: true,
+        isResearch: true
+    },
+    {
         id: 15,
         title: "Tracing the thoughts of a large language model",
         summary: "这篇论文主要阐述了 Anthropic 科学家如何追踪大语言模型（LLM）的思考过程。具体来说，就是当模型接收到一个提示词后，其内部神经元是如何运作的。",
