@@ -103,7 +103,9 @@ const articlesData = [
     {
         id: 16,
         title: "论文速读 - DeepSeek OCR",
-        summary: "这篇论文主要阐述了 Anthropic 科学家如何追踪大语言模型（LLM）的思考过程。具体来说，就是当模型接收到一个提示词后，其内部神经元是如何运作的。",
+        summary: "当前的大语言模型 (LLM) 面临一个普遍的挑战：随着处理的文本序列越来越长，其计算和内存成本会呈平方级增长 。这使得它们在处理整本书、长篇报告或漫长的对话历史时不堪重负。\n" +
+            "\n" +
+            "为应对这一难题，DeepSeek-OCR 提出了一种新方法：不再逐字“阅读”文本，而是通过“看图”的方式来高效压缩和处理长上下文。",
         link: "https://mp.weixin.qq.com/s/DZiS26gMiqKxgLXarBLp5Q",
         platform: "微信公众号",
         date: "2025-10-24",
