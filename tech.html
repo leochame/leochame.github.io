@@ -1,437 +1,296 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library — Leochame</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
-
+    <title>The Archive — Leochame</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            /* Anthropic-inspired Warm Palette */
-            --bg-color: #F3F1E8;       /* 暖沙色 */
-            --text-primary: #191919;   /* 深炭黑 */
-            --text-secondary: #6E6D69; /* 暖灰 */
-            --text-tertiary: #9E9D99;  /* 浅灰 */
-            --accent-color: #C05838;   /* 陶土红 */
-            --border-color: #D1D1C7;   /* 边框色 */
-
-            --font-serif: "Noto Serif SC", "Merriweather", serif;
-            --font-sans: "Inter", system-ui, sans-serif;
+            --bg-color: #F3F1E8;
+            --text-primary: #191919;
+            --text-secondary: #6E6D69;
+            --accent-color: #C05838;
+            --border-color: rgba(25, 25, 25, 0.1);
+            --font-serif: "Noto Serif", serif;
+            --font-sans: "Inter", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-sans); line-height: 1.6; margin: 0; overflow-x: hidden; }
 
-        a { text-decoration: none; color: inherit; transition: color 0.2s; }
-        a:hover { color: var(--accent-color); }
+        /* --- Background --- */
+        #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.35; }
 
-        /* --- 1. Navbar: Clean & Aligned --- */
+        .page-container { max-width: 1140px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 10; }
+
+        /* --- Unified Navigation Bar --- */
         .navbar {
-            padding: 1.5rem 0;
+            padding: 1.2rem 0;
+            background: rgba(243, 241, 232, 0.7);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
             border-bottom: 1px solid var(--border-color);
-            background-color: var(--bg-color); /* Opaque background for sticky */
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
         }
-
+        .navbar.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(243, 241, 232, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
         .navbar-brand {
-            font-family: var(--font-serif);
-            font-weight: 700;
-            font-size: 1.3rem;
-            letter-spacing: -0.5px;
-            color: var(--text-primary) !important;
+            font-family: var(--font-serif); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px;
+            color: var(--text-primary) !important; display: flex; align-items: center;
         }
-
-        .nav-link {
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            color: var(--text-secondary) !important;
-            font-weight: 500;
-            margin-left: 2rem;
+        .navbar-brand::after {
+            content: ""; display: inline-block; width: 6px; height: 6px;
+            background-color: var(--accent-color); border-radius: 50%; margin-left: 8px;
+            animation: blink 2s infinite;
         }
-        .nav-link.active { color: var(--text-primary) !important; font-weight: 600; }
+        @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
 
-        /* --- 2. Page Header: The Manifesto --- */
-        .page-header {
-            padding: 5rem 0 4rem;
-            /* 取消底部边框，改用布局中的分割线 */
+        .nav-link-custom {
+            font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--text-secondary) !important; font-weight: 500;
+            padding: 0.5rem 0; position: relative; transition: color 0.3s ease;
         }
-
-        .page-title {
-            font-family: var(--font-serif);
-            font-size: 3.5rem;
-            font-weight: 400;
-            letter-spacing: -1px;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            line-height: 1.1;
+        .nav-link-custom:hover, .nav-link-custom.active { color: var(--text-primary) !important; }
+        .nav-link-custom::after {
+            content: ""; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background-color: var(--accent-color); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .nav-link-custom:hover::after, .nav-link-custom.active::after { width: 100%; }
 
-        .page-desc {
-            font-family: var(--font-sans);
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            line-height: 1.7;
-        }
+        /* --- Layout --- */
+        .page-header { padding: 140px 0 60px; }
+        .page-title { font-family: var(--font-serif); font-size: clamp(2.5rem, 7vw, 4.5rem); letter-spacing: -0.04em; }
 
-        /* --- 3. Layout Grid & Controls --- */
-        /* 分割线：关键视觉元素 */
-        .layout-divider {
-            border-top: 1px solid var(--border-color);
-            margin-bottom: 3rem;
-        }
-
-        .sidebar-sticky {
-            position: sticky;
-            top: 2rem;
-        }
-
-        /* Filters */
-        .filter-group { margin-bottom: 3rem; }
-
-        .filter-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            display: block;
-            font-weight: 600;
-        }
-
-        .filter-list { list-style: none; padding: 0; margin: 0; }
-
+        /* --- Sidebar Card Style --- */
+        .sidebar-sticky { position: sticky; top: 120px; padding-right: 20px; }
+        .filter-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent-color); margin-bottom: 1.5rem; display: block; }
+        .filter-list { list-style: none; padding: 0; }
         .filter-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            border-right: 2px solid transparent; /* Right border indicator */
+            position: relative; display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 16px; margin-bottom: 6px; font-size: 0.95rem; color: var(--text-secondary);
+            cursor: pointer; border-radius: 8px; transition: 0.3s;
         }
+        .filter-item:hover { background: rgba(0, 0, 0, 0.04); color: var(--text-primary); transform: translateX(5px); }
+        .filter-item.active { background: #fff; color: var(--text-primary); font-weight: 600; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); }
+        .filter-item.active::before { content: ""; position: absolute; left: 0; top: 20%; height: 60%; width: 4px; background: var(--accent-color); border-radius: 0 4px 4px 0; }
 
-        .filter-item:hover { color: var(--text-primary); }
+        .item-count { font-family: var(--font-mono); font-size: 0.75rem; background: rgba(0, 0, 0, 0.05); padding: 2px 10px; border-radius: 12px; opacity: 0.6; }
+        .filter-item.active .item-count { background: var(--accent-color); color: #fff; opacity: 1; }
 
-        .filter-item.active {
-            color: var(--text-primary);
-            font-weight: 600;
-            border-right-color: var(--accent-color);
+        /* --- Search Bar --- */
+        .search-wrap { border-bottom: 2px solid var(--text-primary); margin-bottom: 4rem; position: relative; }
+        .search-input { width: 100%; background: transparent; border: none; padding: 15px 0; font-family: var(--font-serif); font-size: 1.8rem; outline: none; }
+
+        /* --- Article Entries --- */
+        .article-entry {
+            display: block; text-decoration: none; color: inherit; padding: 3rem 0; border-bottom: 1px solid var(--border-color);
+            opacity: 0; transform: translateY(20px); transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1); cursor: pointer;
         }
+        .article-entry.visible { opacity: 1; transform: translateY(0); }
+        .article-entry:hover { transform: translateX(12px); background: rgba(0,0,0,0.01); }
+        .article-entry.is-series { border-left: 4px solid var(--accent-color); padding-left: 30px; background: rgba(192, 88, 56, 0.02); }
 
-        .count { font-size: 0.8rem; opacity: 0.5; }
+        .meta-line { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem; }
+        .tag-pill { padding: 2px 8px; border-radius: 2px; font-weight: 600; font-size: 0.65rem; }
+        .tag-platform { background: var(--text-primary); color: white; }
+        .tag-series { background: var(--accent-color); color: white; }
 
-        /* --- 4. Content Feed --- */
+        .entry-title { font-family: var(--font-serif); font-size: 1.9rem; font-weight: 400; margin-bottom: 1rem; }
+        .entry-summary { font-size: 1.05rem; color: var(--text-secondary); max-width: 850px; }
 
-        /* Search Bar - Integrated into the flow */
-        .feed-header {
-            margin-bottom: 3rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
+        /* --- Overlay Drawer --- */
+        .series-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(243, 241, 232, 0.98); z-index: 2000;
+            display: none; align-items: center; justify-content: center; padding: 20px;
         }
-
-        .search-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            font-family: var(--font-serif); /* Search feels like a title */
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            outline: none;
+        .series-overlay.active { display: flex; animation: fadeIn 0.4s ease; }
+        .overlay-content {
+            max-width: 700px; width: 100%; max-height: 80vh; overflow-y: auto;
+            background: #fff; padding: 50px; border: 1px solid var(--border-color);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
         }
-        .search-input::placeholder { color: #D1D1C7; }
-
-        /* Article Item */
-        .article-item {
-            display: block;
-            margin-bottom: 4rem;
-            transition: opacity 0.3s;
+        .step-item {
+            display: flex; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--border-color);
+            text-decoration: none; color: var(--text-primary); transition: 0.3s;
         }
+        .step-item:hover { color: var(--accent-color); padding-left: 15px; }
+        .step-num { font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.3; margin-right: 25px; }
 
-        .article-meta {
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* Type Badges - Small, Minimal */
-        .badge-type {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-        .badge-tech { background: #E6EAEF; color: #2A4B6A; } /* Cool Blue/Grey */
-        .badge-res { background: #EFEEE6; color: #8A3A3A; border: 1px solid #E0DCD0; } /* Warm Red/Grey */
-
-        .article-title {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            font-weight: 400; /* Elegant Regular weight */
-            line-height: 1.3;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            transition: color 0.2s;
-        }
-        .article-item:hover .article-title { color: var(--accent-color); }
-
-        .article-summary {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            max-width: 720px;
-            margin-bottom: 0;
-        }
-
-        /* Footer */
-        .footer {
-            margin-top: 6rem;
-            padding: 4rem 0;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-tertiary);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 992px) {
-            .page-title { font-size: 2.5rem; }
-            .sidebar-col { display: none; } /* Mobile: Hide sidebar, use simple stack */
-            .search-input { font-size: 1.2rem; }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @media (max-width: 991px) { .sidebar-col { display: none; } .overlay-content { padding: 30px; } .hero-section { padding-top: 150px; } }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
+<canvas id="canvas-bg"></canvas>
+
+<div class="series-overlay" id="seriesOverlay">
+    <div class="overlay-content">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h3 class="font-serif mb-0" id="overlayTitle">Series Index</h3>
+            <button class="btn-close" onclick="closeOverlay()"></button>
+        </div>
+        <div id="overlayList"></div>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+    <div class="page-container d-flex justify-content-between align-items-center w-100">
         <a class="navbar-brand" href="index.html">Leochame.</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <i class="bi bi-list" style="color:var(--text-primary)"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">Index</a></li>
-                <li class="nav-item"><a class="nav-link active" href="articles.html">Library</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.html">Profile</a></li>
-            </ul>
+        <div class="d-flex gap-5">
+            <a href="index.html" class="nav-link-custom text-decoration-none">/ Index</a>
+            <a href="tech.html" class="nav-link-custom text-decoration-none active">/ Library</a>
         </div>
     </div>
 </nav>
 
-<div class="container" style="margin-top: 70px;">
-
+<div class="page-container">
     <header class="page-header">
-        <div class="row">
-            <div class="col-lg-8">
-                <h1 class="page-title">The Archive</h1>
-                <p class="page-desc">
-                    A collection of engineering logs and research papers. <br>
-                    Decoding the deterministic nature of systems and the probabilistic nature of intelligence.
-                </p>
-            </div>
-        </div>
+        <h1 class="page-title">The Archive</h1>
+        <p class="page-desc text-secondary">A unified repository of <span id="article-count" class="text-accent fw-bold font-mono">0</span> technical records.</p>
     </header>
 
-    <div class="layout-divider"></div>
-
     <div class="row">
-        <div class="col-lg-3 sidebar-col">
+        <aside class="col-lg-3 sidebar-col">
             <div class="sidebar-sticky">
-
-                <div class="filter-group">
-                    <span class="filter-label">Collection</span>
-                    <ul class="filter-list">
-                        <li class="filter-item active" data-type="all">
-                            <span>View All</span>
-                        </li>
-                        <li class="filter-item" data-type="tech">
-                            <span>Engineering</span>
-                        </li>
-                        <li class="filter-item" data-type="research">
-                            <span>Research</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="filter-group">
-                    <span class="filter-label">Topics</span>
-                    <ul class="filter-list" id="topic-list">
-                        <li class="filter-item active" data-category="all">
-                            <span>All Topics</span>
-                        </li>
-                    </ul>
-                </div>
-
+                <span class="filter-label">Explore Topics</span>
+                <ul class="filter-list" id="category-filters">
+                    <li class="filter-item active" data-cat="all">
+                        <span>All Systems</span>
+                        <span class="item-count" id="total-count">0</span>
+                    </li>
+                </ul>
             </div>
-        </div>
+        </aside>
 
-        <div class="col-lg-9">
-
-            <div class="feed-header">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search...">
-                <i class="bi bi-search" style="color: var(--text-tertiary); font-size: 1.2rem;"></i>
+        <main class="col-lg-9">
+            <div class="search-wrap">
+                <input type="text" id="searchInput" class="search-input" placeholder="Query archives...">
+                <i class="bi bi-search" style="position:absolute; right:0; bottom:20px; opacity:0.2;"></i>
             </div>
-
-            <div id="feed-container">
-                <div class="py-5 text-secondary">Loading library...</div>
-            </div>
-
-        </div>
+            <div id="feed-container"></div>
+        </main>
     </div>
 </div>
 
-<footer class="footer container">
-    <div class="row">
-        <div class="col-md-6">© 2025 Liu Longchang</div>
-        <div class="col-md-6 text-md-end">Designed with precision.</div>
+<footer class="py-5 mt-5 border-top">
+    <div class="page-container text-center text-secondary small font-mono opacity-50">
+        [ KERNEL_ARCHIVE: READY ] — © 2025 LIU LONGCHANG
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/articles.js"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    const state = { cat: 'all', q: '' };
+
+    // --- Overlay Control ---
+    function openOverlay(id) {
+        const s = articlesData.find(a => a.id === id);
+        document.getElementById('overlayTitle').innerText = s.title;
+        document.getElementById('overlayList').innerHTML = s.children.map((c, i) => `
+            <a href="${c.link}" target="_blank" class="step-item">
+                <span class="step-num">${(i+1).toString().padStart(2,'0')}</span>
+                <span class="flex-grow-1">${c.title}</span>
+                <i class="bi bi-arrow-up-right small opacity-50"></i>
+            </a>`).join('');
+        document.getElementById('seriesOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeOverlay() {
+        document.getElementById('seriesOverlay').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    // --- Core Rendering ---
+    function render() {
         const container = document.getElementById('feed-container');
-        const topicListEl = document.getElementById('topic-list');
-        const searchInput = document.getElementById('searchInput');
-        const typeFilters = document.querySelectorAll('[data-type]');
+        container.innerHTML = '';
+        const filtered = articlesData.filter(a => {
+            const cMatch = state.cat === 'all' || a.mainCategory === state.cat;
+            const qMatch = a.title.toLowerCase().includes(state.q.toLowerCase());
+            return cMatch && qMatch;
+        }).sort((a,b) => new Date(b.date) - new Date(a.date));
 
-        let state = {
-            type: 'all',
-            category: 'all',
-            search: ''
-        };
+        document.getElementById('article-count').innerText = filtered.length;
 
-        if (typeof articlesData === 'undefined') {
-            container.innerHTML = 'Data not loaded.';
-            return;
-        }
-
-        // 1. Init Topics Sidebar
-        function initTopics() {
-            const cats = new Set();
-            articlesData.forEach(a => cats.add(a.mainCategory));
-
-            Array.from(cats).sort().forEach(cat => {
-                const li = document.createElement('li');
-                li.className = 'filter-item';
-                li.setAttribute('data-category', cat);
-                li.innerHTML = `<span>${cat}</span>`;
-
-                li.addEventListener('click', () => {
-                    document.querySelectorAll('[data-category]').forEach(el => el.classList.remove('active'));
-                    li.classList.add('active');
-                    state.category = cat;
-                    render();
-                });
-                topicListEl.appendChild(li);
-            });
-
-            // Bind 'All Topics'
-            document.querySelector('[data-category="all"]').addEventListener('click', function() {
-                document.querySelectorAll('[data-category]').forEach(el => el.classList.remove('active'));
-                this.classList.add('active');
-                state.category = 'all';
-                render();
-            });
-        }
-
-        // 2. Render
-        function render() {
-            container.innerHTML = '';
-
-            const filtered = articlesData.filter(article => {
-                if (state.type === 'tech' && article.isResearch) return false;
-                if (state.type === 'research' && !article.isResearch) return false;
-                if (state.category !== 'all' && article.mainCategory !== state.category) return false;
-                if (state.search) {
-                    const q = state.search.toLowerCase();
-                    return article.title.toLowerCase().includes(q) || article.summary.toLowerCase().includes(q);
-                }
-                return true;
-            });
-
-            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="py-5 text-secondary">No entries found.</div>`;
-                return;
-            }
-
-            filtered.forEach((article, index) => {
-                const item = document.createElement('a');
-                item.href = article.link;
-                item.target = "_blank";
-                item.className = "article-item";
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(10px)';
-
-                setTimeout(() => {
-                    item.style.transition = 'all 0.5s ease';
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateY(0)';
-                }, index * 30);
-
-                // Date Logic
-                const d = new Date(article.date);
-                const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-                // Type Badge
-                const badgeHtml = article.isResearch
-                    ? `<span class="badge-type badge-res">Research</span>`
-                    : `<span class="badge-type badge-tech">Log</span>`;
-
-                item.innerHTML = `
-                    <div class="article-meta">
-                        <span style="font-variant-numeric: tabular-nums;">${dateStr}</span>
-                        ${badgeHtml}
-                        <span>${article.mainCategory}</span>
-                    </div>
-                    <h2 class="article-title">${article.title}</h2>
-                    <p class="article-summary">${article.summary}</p>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        // Events
-        typeFilters.forEach(btn => {
-            btn.addEventListener('click', function() {
-                typeFilters.forEach(el => el.classList.remove('active'));
-                this.classList.add('active');
-                state.type = this.getAttribute('data-type');
-                render();
-            });
+        filtered.forEach((a, i) => {
+            const entry = document.createElement('div');
+            entry.className = `article-entry ${a.isSeries ? 'is-series' : ''}`;
+            entry.onclick = a.isSeries ? () => openOverlay(a.id) : () => window.open(a.link, '_blank');
+            entry.innerHTML = `
+                <div class="meta-line">
+                    <span class="tag-pill tag-platform">${a.platform}</span>
+                    <span style="font-variant-numeric: tabular-nums;">${a.date.replace(/-/g,'.')}</span>
+                    ${a.isSeries ? `<span class="tag-pill tag-series">${a.children.length} PARTS</span>` : ''}
+                    <span>// ${a.subCategory}</span>
+                </div>
+                <h2 class="entry-title">${a.title}</h2>
+                <p class="entry-summary text-secondary">${a.summary}</p>`;
+            container.appendChild(entry);
+            setTimeout(() => entry.classList.add('visible'), i * 60);
         });
+    }
 
-        searchInput.addEventListener('input', (e) => {
-            state.search = e.target.value;
-            render();
+    // --- Sidebar & Filter Logic ---
+    const initFilters = () => {
+        document.getElementById('total-count').innerText = articlesData.length;
+        const cats = [...new Set(articlesData.map(a => a.mainCategory))].sort();
+        cats.forEach(c => {
+            const count = articlesData.filter(a => a.mainCategory === c).length;
+            const li = document.createElement('li');
+            li.className = 'filter-item';
+            li.innerHTML = `<span>${c}</span><span class="item-count">${count}</span>`;
+            li.onclick = () => {
+                document.querySelectorAll('.filter-item').forEach(el=>el.classList.remove('active'));
+                li.classList.add('active');
+                state.cat = c;
+                render();
+            };
+            document.getElementById('category-filters').appendChild(li);
         });
+    }
 
-        initTopics();
-        render();
+    // --- Unified Navbar Scroll Handler ---
+    window.addEventListener('scroll', function() {
+        const nav = document.getElementById('mainNav');
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
     });
-</script>
 
+    // --- Canvas Background ---
+    const canvas = document.getElementById('canvas-bg'); const ctx = canvas.getContext('2d');
+    let pts = [];
+    const initCanvas = () => {
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        pts = []; for(let i=0; i<45; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.2, vy:(Math.random()-0.5)*0.2});
+    };
+    const draw = () => {
+        ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(192,88,56,0.3)"; ctx.strokeStyle="rgba(192,88,56,0.08)";
+        pts.forEach((p, i) => {
+            p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
+            ctx.beginPath(); ctx.arc(p.x,p.y,1.5,0,Math.PI*2); ctx.fill();
+            for(let j=i+1; j<pts.length; j++) {
+                let d = Math.hypot(p.x-pts[j].x, p.y-pts[j].y); if(d<200) { ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); }
+            }
+        }); requestAnimationFrame(draw);
+    };
+
+    window.onresize = initCanvas; initCanvas(); draw();
+    document.getElementById('searchInput').oninput = (e) => { state.q = e.target.value; render(); };
+    initFilters(); render();
+</script>
 </body>
 </html>

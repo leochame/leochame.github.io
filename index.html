@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leochame — Engineering & Intelligence</title>
+    <title>Longchang Liu — Backend Systems & AI Infrastructure</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            /* Anthropic-inspired Palette */
-            --bg-color: #F3F1E8;       /* 核心暖沙色 */
-            --text-primary: #191919;   /* 深炭黑 */
-            --text-secondary: #6E6D69; /* 暖灰 */
-            --accent-color: #D96C46;   /* 陶土色 */
-            --border-color: #D3D1C8;   /* 浅灰边框 */
-
-            /* Fonts */
-            --font-serif: "Noto Serif SC", "Merriweather", serif;
-            --font-sans: "Inter", system-ui, sans-serif;
+            --bg-color: #F3F1E8;
+            --text-primary: #191919;
+            --text-secondary: #5E5D59;
+            --accent-color: #D96C46;
+            --border-color: rgba(25, 25, 25, 0.1);
+            --font-serif: "Noto Serif", serif;
+            --font-sans: "Inter", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
         }
 
         body {
@@ -31,367 +28,358 @@
             color: var(--text-primary);
             font-family: var(--font-sans);
             line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            /* Fix 1: Ensure content starts below fixed navbar */
-            padding-top: 80px;
+            margin: 0;
+            overflow-x: hidden;
         }
 
-        a { text-decoration: none; color: inherit; transition: color 0.2s ease; }
-        a:hover { color: var(--accent-color); }
+        /* --- Background Isolation --- */
+        #canvas-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.5;
+        }
 
-        /* --- Navbar --- */
+        .page-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        section { padding: 100px 0; clear: both; }
+
+        /* --- Navigation: Refined Header --- */
         .navbar {
-            padding: 1.5rem 0;
-            background-color: rgba(243, 241, 232, 0.95); /* High backdrop opacity */
-            backdrop-filter: blur(10px);
+            padding: 1.2rem 0;
+            background: rgba(243, 241, 232, 0.7);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
             border-bottom: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        .navbar.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(243, 241, 232, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
         }
 
         .navbar-brand {
             font-family: var(--font-serif);
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             letter-spacing: -0.5px;
             color: var(--text-primary) !important;
-        }
-
-        .nav-link {
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            color: var(--text-secondary) !important;
-            font-weight: 500;
-            margin-left: 2.5rem;
-        }
-        .nav-link.active, .nav-link:hover { color: var(--text-primary) !important; }
-
-        /* --- Hero Section --- */
-        .hero-section {
-            padding-top: 5rem; /* Visual balance */
-            padding-bottom: 5rem;
-            max-width: 920px;
-            margin: 0 auto;
-        }
-
-        .hero-heading {
-            font-family: var(--font-serif);
-            font-size: 3.4rem;
-            font-weight: 700;
-            line-height: 1.25;
-            letter-spacing: -0.03em;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
-
-        .hero-sub {
-            font-family: var(--font-sans);
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            max-width: 700px;
-            margin-bottom: 3rem;
-            text-align: justify;
-        }
-
-        .hero-sub strong { color: var(--text-primary); font-weight: 600; }
-
-        /* Buttons */
-        .btn-cta {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            background-color: var(--text-primary);
-            color: #fff !important;
-            padding: 0.9rem 2rem;
-            border-radius: 4px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        .btn-cta:hover { background-color: #333; transform: translateY(-1px); }
-
-        .btn-link-cta {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.9rem 1.5rem;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            background: transparent;
-        }
-        .btn-link-cta i { margin-left: 8px; transition: transform 0.2s; }
-        .btn-link-cta:hover { color: var(--accent-color); }
-        .btn-link-cta:hover i { transform: translateX(4px); }
-
-        /* --- Divider --- */
-        .divider {
-            border-top: 1px solid var(--border-color);
-            margin: 3rem 0 5rem;
         }
 
-        .section-label {
-            font-family: var(--font-sans);
+        .navbar-brand::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            margin-left: 8px;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        .nav-link-custom {
+            font-family: var(--font-mono);
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            display: block;
-            font-weight: 600;
-        }
-
-        /* --- Focus Cards (2-Column Layout) --- */
-        .focus-card {
-            border-top: 1px solid var(--border-color);
-            background: transparent;
-            padding: 2.5rem 0; /* Increased padding for grander look */
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            padding: 0.5rem 0;
             position: relative;
+            transition: color 0.3s ease;
         }
 
-        .focus-card::before {
-            content: '';
+        .nav-link-custom:hover { color: var(--text-primary) !important; }
+
+        .nav-link-custom::after {
+            content: "";
             position: absolute;
-            top: -1px; left: 0; width: 0; height: 2px;
-            background: var(--accent-color);
-            transition: width 0.3s ease;
+            bottom: 0; left: 0; width: 0; height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .focus-card:hover::before { width: 100%; }
-        .focus-card:hover .focus-title { color: var(--accent-color); }
-        .focus-card:hover .arrow-link i { transform: translateX(5px); opacity: 1; }
+        .nav-link-custom:hover::after { width: 100%; }
 
-        .focus-number {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            color: #C0BEB5;
-            margin-bottom: 1.5rem;
-            font-style: italic;
+        /* --- Hero Section --- */
+        .hero-section { padding-top: 200px; min-height: 85vh; display: flex; align-items: flex-start; }
+        .hero-name { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+        .hero-bio { font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.8; color: var(--text-primary); margin-bottom: 3rem; max-width: 650px; }
+        .hero-bio strong { border-bottom: 2px solid var(--accent-color); }
+
+        /* --- Terminal --- */
+        .terminal-box {
+            background: #1e1e1e; border-radius: 12px; padding: 25px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            font-family: var(--font-mono); font-size: 0.85rem; color: #d4d4d4;
         }
 
-        .focus-title {
-            font-family: var(--font-serif);
-            font-size: 1.8rem; /* Larger title for 2-col layout */
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            transition: color 0.3s;
-        }
-
-        .focus-desc {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            max-width: 90%;
-        }
-
-        .arrow-link {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-        }
-        .arrow-link i { margin-left: 8px; opacity: 0.5; transition: all 0.3s; }
-
-        /* --- Article List --- */
-        .article-item {
-            display: flex;
-            align-items: baseline;
-            padding: 1.5rem 0;
-            border-top: 1px solid var(--border-color);
-            transition: background 0.2s;
-        }
-        .article-item:last-child { border-bottom: 1px solid var(--border-color); }
-
-        .article-item:hover .article-title { color: var(--accent-color); }
-
-        .article-meta {
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            width: 160px;
-            flex-shrink: 0;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .article-content { flex-grow: 1; padding-right: 20px; }
-
-        .article-category {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-            margin-bottom: 0.4rem;
+        /* --- Article Preview --- */
+        .preview-card {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+            text-decoration: none;
+            color: inherit;
             display: block;
-            font-weight: 600;
+        }
+        .preview-card:hover {
+            transform: translateY(-8px);
+            background: #fff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border-color: var(--accent-color);
+        }
+        .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* --- CV / Timeline --- */
+        .cv-grid { display: grid; grid-template-columns: 320px 1fr; gap: 80px; border-top: 1px solid var(--border-color); padding-top: 80px; }
+        .cv-sidebar { position: sticky; top: 120px; height: fit-content; }
+        .timeline { border-left: 1px solid var(--text-primary); padding-left: 30px; }
+        .timeline-item { position: relative; margin-bottom: 4rem; }
+        .timeline-item::before {
+            content: ""; position: absolute; left: -35px; top: 8px;
+            width: 10px; height: 10px; background: var(--bg-color);
+            border: 2px solid var(--text-primary); border-radius: 50%;
         }
 
-        .article-title {
-            font-family: var(--font-serif);
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.4rem;
-            color: var(--text-primary);
-            transition: color 0.2s;
-        }
+        .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-color); margin-bottom: 1.5rem; display: block; }
 
-        .article-summary {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            opacity: 0.8;
-        }
-
-        /* Footer */
-        .footer { padding: 5rem 0 3rem; border-top: 1px solid var(--border-color); margin-top: 5rem; }
-        .footer-text { color: var(--text-secondary); font-size: 0.85rem; }
-
-        @media (max-width: 768px) {
-            .hero-heading { font-size: 2.4rem; }
-            .hero-section { padding-top: 2rem; }
-            .article-item { flex-direction: column; }
-            .article-meta { margin-bottom: 0.5rem; }
+        @media (max-width: 991px) {
+            .cv-grid { grid-template-columns: 1fr; gap: 40px; }
+            .cv-sidebar { position: static; }
+            .hero-section { padding-top: 150px; }
         }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="#">Leochame.</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <i class="bi bi-list" style="font-size: 1.5rem; color: var(--text-primary);"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active" href="#">index</a></li>
-                <li class="nav-item"><a class="nav-link" href="tech.html">Library</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.html">Profile</a></li>
-            </ul>
+<canvas id="canvas-bg"></canvas>
+
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+    <div class="page-container d-flex justify-content-between align-items-center w-100">
+        <a class="navbar-brand" href="index.html">Leochame.</a>
+
+        <div class="d-flex gap-5">
+            <a href="tech.html" class="nav-link-custom text-decoration-none">/ Library</a>
+            <a href="#profile" class="nav-link-custom text-decoration-none">/ Profile</a>
         </div>
     </div>
 </nav>
 
-<div class="container">
+<div class="page-container">
 
     <section class="hero-section">
-        <h1 class="hero-heading">
-            "Talk is cheap. Show me the code." <br>
-        </h1>
-        <p class="hero-sub">
-            我是一名推崇<strong>“工程思维”</strong>的后端开发者。相较于追逐热点与高并发，我更善于发现和思考日常需求中稳定性难题，以及深挖 <strong>JVM 与 OS 内核</strong>的底层机制。
-            <br><br>
-            我坚信的是<strong>优秀的架构总是千篇一律的</strong>。善于发现和借鉴是工程师的必修之课。
-        </p>
-        <div class="d-flex gap-2 align-items-center">
-            <a href="tech.html" class="btn-cta">归档文章</a>
-            </a>
+        <div class="row align-items-center w-100">
+            <div class="col-lg-7">
+                <span class="section-label">Software Engineer / System Architect</span>
+                <h1 class="hero-name">Longchang Liu</h1>
+                <div class="hero-bio">
+                    Currently a Backend Engineer Intern at <strong>Alibaba (Amap)</strong>, traversing the stack from <strong>Java JVM internals</strong> to <strong>OS kernels</strong>. I am passionate about building deterministic, resilient infrastructures for the next generation of <strong>AI Agentic Workflows</strong>.
+                    <br><br>
+                    With prior experience at <strong>Tencent</strong> and <strong>iMile</strong>, I specialize in solving high-concurrency challenges and optimizing RAG pipelines for enterprise-grade performance.
+                </div>
+                <div class="d-flex gap-3 mt-2">
+                    <a href="mailto:liulch.cn@gmail.com" class="btn btn-dark rounded-0 px-4 py-2">Get in Touch</a>
+                    <a href="tech.html" class="btn btn-outline-dark rounded-0 px-4 py-2">View Library <i class="bi bi-book ms-1"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="terminal-box">
+                    <div style="color: #6a9955">// Engineering Philosophy</div>
+                    <div><span style="color: #569cd6">const</span> mission = {</div>
+                    <div style="padding-left: 20px;">stability: <span style="color: #ce9178">"First Priority"</span>,</div>
+                    <div style="padding-left: 20px;">abstraction: <span style="color: #ce9178">"Leaky but Necessary"</span>,</div>
+                    <div style="padding-left: 20px;">code: <span style="color: #ce9178">"The Ultimate Truth"</span></div>
+                    <div>};</div>
+                    <br>
+                    <div style="color: #dcdcaa">System.out.println</div>(mission.code);
+                </div>
+            </div>
         </div>
     </section>
 
-    <div class="divider"></div>
+    <section id="library-preview" class="border-top">
+        <div class="d-flex justify-content-between align-items-end mb-5">
+            <div>
+                <span class="section-label">Journal</span>
+                <h3 class="font-serif h2 mb-0">Latest Thinking</h3>
+            </div>
+            <a href="tech.html" class="text-dark text-decoration-none small fw-bold">SEE ALL ARCHIVES →</a>
+        </div>
 
-    <div class="row g-5 mb-5">
-        <div class="col-12"><span class="section-label">Core Focus</span></div>
+        <div id="latest-posts-grid" class="row">
+            <div class="col-12 text-secondary font-mono small">Loading_system_logs...</div>
+        </div>
+    </section>
 
-        <div class="col-md-6">
-            <a href="articles.html" class="focus-card">
-                <div>
-                    <div class="focus-number">01</div>
-                    <h3 class="focus-title">The Library</h3>
-                    <p class="focus-desc">
-                        我的工程日志与研究档案。包含 Java 架构实践、并发编程笔记、以及对 OS 内核与 AI 智能本质的深度解读。
-                    </p>
+    <section id="profile">
+        <div class="cv-grid">
+            <div class="cv-sidebar">
+                <div class="mb-5">
+                    <span class="section-label">Education</span>
+                    <h5 class="fw-bold mb-1">Hangzhou Dianzi University</h5>
+                    <p class="text-secondary small">B.S. in Computer Science<br>Expected 2026</p>
                 </div>
-                <div class="arrow-link">Browse Archive <i class="bi bi-arrow-right"></i></div>
-            </a>
-        </div>
 
-        <div class="col-md-6">
-            <a href="about.html" class="focus-card">
-                <div>
-                    <div class="focus-number">02</div>
-                    <h3 class="focus-title">The Profile</h3>
-                    <p class="focus-desc">
-                        关于我。实战履历、个人技术雷达、以及我对工程价值观的完整阐述。
-                    </p>
+                <div class="mb-5">
+                    <span class="section-label">Core Tech</span>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge border text-dark font-mono fw-normal">Java / JVM</span>
+                        <span class="badge border text-dark font-mono fw-normal">OS / xv6</span>
+                        <span class="badge border text-dark font-mono fw-normal">RAG Architecture</span>
+                        <span class="badge border text-dark font-mono fw-normal">MySQL Tuning</span>
+                        <span class="badge border text-dark font-mono fw-normal">Agentic Workflow</span>
+                    </div>
                 </div>
-                <div class="arrow-link">Read Bio <i class="bi bi-arrow-right"></i></div>
-            </a>
-        </div>
-    </div>
 
-    <section>
-        <div class="d-flex justify-content-between align-items-end mb-4 pt-5">
-            <span class="section-label" style="margin-bottom:0">Latest Thinking</span>
-            <a href="articles.html" style="font-size: 0.9rem; font-weight: 500; color: var(--text-primary);">View all <i class="bi bi-arrow-right"></i></a>
-        </div>
+                <div>
+                    <span class="section-label">Connect</span>
+                    <div class="d-flex gap-3 fs-5">
+                        <a href="https://www.linkedin.com/in/longchang-liu-770211387/" target="_blank" class="text-dark"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://github.com/leochame" target="_blank" class="text-dark"><i class="bi bi-github"></i></a>
+                        <a href="mailto:liulch.cn@gmail.com" class="text-dark"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
 
-        <div id="latest-articles-list">
-            <div class="text-secondary py-5">Loading content...</div>
+            <div class="cv-content">
+                <h3 class="font-serif h2 mb-5">Professional Journey</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h4 class="fw-bold mb-0">Alibaba Group (Amap)</h4>
+                            <span class="text-secondary small font-mono">Oct 2025 — Present</span>
+                        </div>
+                        <div class="text-dark small fw-600 mb-3">Backend Engineer Intern</div>
+                        <p class="text-secondary small">
+                            Driving service resilience and high-concurrency traffic governance for map-based ecosystems. Actively architecting <strong>deterministic Agentic Workflows</strong> to bridge LLM capabilities with production-grade reliability.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h4 class="fw-bold mb-0">Tencent</h4>
+                            <span class="text-secondary small font-mono">Apr 2025 — Sep 2025</span>
+                        </div>
+                        <div class="text-dark small fw-600 mb-3">Data Engineer Intern (Ads Marketing)</div>
+                        <p class="text-secondary small">
+                            Optimized data pipelines for advertising intelligence. Leveraged <strong>RAG (Retrieval-Augmented Generation)</strong> to ensure that creative AI outputs are grounded in verifiable performance metrics.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h4 class="fw-bold mb-0">iMile Logistics</h4>
+                            <span class="text-secondary small font-mono">Sep 2024 — Feb 2025</span>
+                        </div>
+                        <div class="text-dark small fw-600 mb-3">R&D Engineer Intern</div>
+                        <p class="text-secondary small">
+                            Deep-dived into large-scale logistics systems, focusing on MySQL database tuning and high-concurrency order processing for cross-border e-commerce scenarios.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
 </div>
 
-<footer class="footer container">
-    <div class="row align-items-center">
-        <div class="col-md-6">
-            <span style="font-family: var(--font-serif); font-weight: 700; font-size: 1.1rem;">Leochame.</span>
-            <p class="footer-text mt-2">Engineering clarity in a complex world.</p>
-        </div>
-        <div class="col-md-6 text-md-end">
-            <a href="https://github.com/leochame" target="_blank" class="text-secondary me-4" style="font-size: 0.9rem;">GitHub</a>
-            <a href="mailto:liulch.cn@gmail.com" class="text-secondary" style="font-size: 0.9rem;">Email</a>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-12 footer-text" style="opacity: 0.6;">
-            © 2025 Liu Longchang. Designed with Anthropic ethos.
-        </div>
+<footer class="py-5 border-top">
+    <div class="page-container text-center">
+        <p class="text-secondary small mb-0">© 2025 Longchang Liu. Crafted for clarity and engineering excellence.</p>
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/articles.js"></script>
 
 <script>
+    // --- Scroll Handler for Navbar ---
+    window.addEventListener('scroll', function() {
+        const nav = document.getElementById('mainNav');
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    });
+
+    // --- Canvas Animation ---
+    const canvas = document.getElementById('canvas-bg');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function init() {
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, r: Math.random() * 2
+            });
+        }
+    }
+    function draw() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(217, 108, 70, 0.4)";
+        ctx.strokeStyle = "rgba(217, 108, 70, 0.1)";
+        particles.forEach((p, i) => {
+            p.x += p.vx; p.y += p.vy;
+            if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+            if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+            for(let j=i+1; j<particles.length; j++) {
+                let p2 = particles[j];
+                let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                if(dist < 200) {
+                    ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+                }
+            }
+        });
+        requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', init);
+    init(); draw();
+
+    // --- Dynamic Article Loading ---
     document.addEventListener('DOMContentLoaded', () => {
-        const listContainer = document.getElementById('latest-articles-list');
-
+        const grid = document.getElementById('latest-posts-grid');
         if (typeof articlesData !== 'undefined') {
-            listContainer.innerHTML = '';
-
-            // Filter featured, sort by date, take top 5
-            const featured = articlesData
+            grid.innerHTML = '';
+            const latest = articlesData
                 .filter(a => a.featured)
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .slice(0, 5);
+                .slice(0, 3);
 
-            featured.forEach(article => {
-                const item = document.createElement('div');
-                item.className = 'article-item';
-
-                // Date Format
-                const dateStr = article.date.replace(/-/g, '.');
-
-                item.innerHTML = `
-                    <div class="article-meta">${dateStr}</div>
-                    <div class="article-content">
-                        <span class="article-category">${article.mainCategory}</span>
-                        <a href="${article.link}" target="_blank" class="article-title">${article.title}</a>
-                        <p class="article-summary">${article.summary}</p>
-                    </div>
+            latest.forEach(post => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4 mb-4';
+                col.innerHTML = `
+                    <a href="${post.link}" target="_blank" class="preview-card">
+                        <div class="small font-mono text-secondary mb-2">${post.date.replace(/-/g, '.')}</div>
+                        <h5 class="font-serif text-dark mb-3" style="line-height: 1.4">${post.title}</h5>
+                        <div class="small text-secondary text-truncate-2 mb-3">${post.summary}</div>
+                        <div class="small fw-bold" style="color: var(--accent-color)">${post.platform.toUpperCase()} ↗</div>
+                    </a>
                 `;
-                listContainer.appendChild(item);
+                grid.appendChild(col);
             });
         }
     });
