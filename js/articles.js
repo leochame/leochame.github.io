@@ -13,7 +13,6 @@ const articlesData = [
         date: "2025-02-20",
         mainCategory: "Database",
         subCategory: "MySQL Series",
-        isResearch: true,
         isSeries: true,
         children: [
             { title: "MySQL - Storage Engines & System Architecture", link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/yxqxpt0858ngqpe9" },
@@ -34,7 +33,6 @@ const articlesData = [
         date: "2025-07-30",
         mainCategory: "Java",
         subCategory: "JVM Internals",
-        isResearch: false,
         isSeries: false
     },
     {
@@ -46,7 +44,6 @@ const articlesData = [
         date: "2025-07-30",
         mainCategory: "人工智能",
         subCategory: "Agentic Systems",
-        isResearch: false,
         isSeries: false
     },
     {
@@ -58,7 +55,6 @@ const articlesData = [
         date: "2025-05-05",
         mainCategory: "Infrastructure",
         subCategory: "Distributed Systems",
-        isResearch: true,
         isSeries: true,
         children: [
             { title: "GFS (Part I) - Architecture Overview", link: "https://www.yuque.com/yuqueyonghu6p3x1u/lagatg/gx2szi2mss9pkbps" },
@@ -75,7 +71,6 @@ const articlesData = [
         date: "2025-03-03",
         mainCategory: "操作系统",
         subCategory: "MIT6.1810",
-        isResearch: false,
         isSeries: false
     }
 ];
