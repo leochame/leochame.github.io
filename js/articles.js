@@ -7,7 +7,7 @@ const articlesData = [
     {
         id: 301,
         title: "AI Paper Cuts",
-        summary: "",
+        summary: "This series systematically analyzes cutting-edge research papers in the field of Artificial Intelligence, translating their core contributions, methodologies, and potential impacts into concise and accessible summaries.",
         link: "#",
         platform: "Dev.to",
         date: "2025-01-07",
@@ -38,6 +38,22 @@ const articlesData = [
             { title: "MySQL - Locking Strategies & Deadlock Prevention", link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/frd4zmhhvz6mzmqz" },
             { title: "MySQL - Logging: Redo, Undo, and Binlog Internals", link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/xbdexw8q18ugtll8" },
             { title: "MySQL - Query Execution & Optimizer Logic", link: "https://www.yuque.com/yuqueyonghu6p3x1u/lau566/cwcgubokz1hblvw5" }
+        ]
+    },
+    {
+        id: 25,
+        title: "GC Deep Dive: Implementing Zero-STW Relocation",
+        summary: "A comprehensive deep dive into MySQL internals. Topics cover MVCC, Indexing strategies (B+Tree), Buffer Pool management, and Locking mechanisms.",
+        link: "#",
+        platform: "WeChat",
+        date: "2025-07-30",
+        mainCategory: "Java",
+        subCategory: "MySQL Series",
+        isSeries: true,
+        children: [
+            { title: "GC Deep Dive (I): Implementing Zero-STW Relocation", link: "https://mp.weixin.qq.com/s/iOdbzOu9aKdR62LPtROEkg" },
+            { title: "GC Deep Dive (II): Implementing Zero-STW Relocation", link: "https://mp.weixin.qq.com/s/hHZseg7QYVk4iNeuvkbOhg" },
+
         ]
     },
     {
