@@ -5,6 +5,22 @@
  */
 const articlesData = [
     {
+        id: 301,
+        title: "AI Paper Cuts",
+        summary: "",
+        link: "#",
+        platform: "Dev.to",
+        date: "2025-01-07",
+        mainCategory: "AI",
+        subCategory: "AI",
+        isSeries: true,
+        children: [
+            { title: "260107-mHC [Paper Cuts]", link: "https://dev.to/leochame/mhc-paper-quick-reading-4p1" },
+            { title: "251024-DeepSeek OCR [Paper Cuts - CN]", link: "https://mp.weixin.qq.com/s/DZiS26gMiqKxgLXarBLp5Q" }
+
+        ]
+    },
+    {
         id: 300,
         title: "MySQL Architecture & Performance Engineering",
         summary: "A comprehensive deep dive into MySQL internals. Topics cover MVCC, Indexing strategies (B+Tree), Buffer Pool management, and Locking mechanisms.",
@@ -42,7 +58,7 @@ const articlesData = [
         link: "https://mp.weixin.qq.com/s/xfidMN73XnurT0O-OrpWPg",
         platform: "WeChat",
         date: "2025-07-30",
-        mainCategory: "人工智能",
+        mainCategory: "AI",
         subCategory: "Agentic Systems",
         isSeries: false
     },
@@ -69,7 +85,7 @@ const articlesData = [
         link: "https://juejin.cn/post/7477228933638373391",
         platform: "Juejin",
         date: "2025-03-03",
-        mainCategory: "操作系统",
+        mainCategory: "Operation System",
         subCategory: "MIT6.1810",
         isSeries: false
     }
