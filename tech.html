@@ -97,6 +97,7 @@
         .article-entry.visible { opacity: 1; transform: translateY(0); }
         .article-entry:hover { transform: translateX(12px); background: rgba(0,0,0,0.01); }
         .article-entry.is-series { border-left: 4px solid var(--accent-color); padding-left: 30px; background: rgba(192, 88, 56, 0.02); }
+        .article-entry.has-video { border-left: 4px solid #4CAF50; padding-left: 30px; background: rgba(76, 175, 80, 0.02); cursor: pointer; }
 
         .meta-line { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem; }
         .tag-pill { padding: 2px 8px; border-radius: 2px; font-weight: 600; font-size: 0.65rem; }
@@ -125,6 +126,57 @@
         .step-item:hover { color: var(--accent-color); padding-left: 15px; }
         .step-num { font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.3; margin-right: 25px; }
 
+        /* --- Project Detail Overlay --- */
+        .project-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(243, 241, 232, 0.98); z-index: 2000;
+            display: none; align-items: center; justify-content: center; padding: 20px;
+            overflow-y: auto;
+        }
+        .project-overlay.active { display: flex; animation: fadeIn 0.4s ease; }
+        .project-content {
+            max-width: 1000px; width: 100%; background: #fff; padding: 50px;
+            border: 1px solid var(--border-color); box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+            margin: 40px 0;
+        }
+        .project-header { margin-bottom: 30px; }
+        .project-title { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 10px; }
+        .project-meta { display: flex; gap: 15px; align-items: center; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; }
+        .video-container {
+            position: relative; width: 100%; padding-bottom: 56.25%; margin: 30px 0;
+            background: #000; border-radius: 8px; overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .project-links { display: flex; gap: 15px; margin: 30px 0; }
+        .project-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 24px; background: var(--text-primary); color: #fff;
+            text-decoration: none; border-radius: 6px; font-family: var(--font-mono);
+            font-size: 0.9rem; transition: 0.3s;
+        }
+        .project-link:hover { background: var(--accent-color); transform: translateY(-2px); }
+        .project-features { margin: 30px 0; }
+        .features-title { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 20px; }
+        .features-list { list-style: none; padding: 0; }
+        .feature-item {
+            padding: 12px 0; border-bottom: 1px solid var(--border-color);
+            font-size: 1rem; color: var(--text-secondary);
+        }
+        .feature-item:last-child { border-bottom: none; }
+        .feature-item::before {
+            content: "→"; color: var(--accent-color); margin-right: 12px;
+            font-weight: bold;
+        }
+        .tech-stack { margin: 30px 0; }
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .tech-tag {
+            padding: 6px 14px; background: rgba(192, 88, 56, 0.1);
+            color: var(--accent-color); border-radius: 4px;
+            font-family: var(--font-mono); font-size: 0.85rem;
+        }
+
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         @media (max-width: 991px) { .sidebar-col { display: none; } .overlay-content { padding: 30px; } .hero-section { padding-top: 150px; } }
     </style>
@@ -140,6 +192,29 @@
             <button class="btn-close" onclick="closeOverlay()"></button>
         </div>
         <div id="overlayList"></div>
+    </div>
+</div>
+
+<div class="project-overlay" id="projectOverlay">
+    <div class="project-content">
+        <div class="project-header">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <h2 class="project-title" id="projectTitle"></h2>
+                <button class="btn-close" onclick="closeProjectOverlay()"></button>
+            </div>
+            <div class="project-meta" id="projectMeta"></div>
+            <p class="entry-summary" id="projectSummary"></p>
+        </div>
+        <div class="video-container" id="projectVideo" style="display: none;"></div>
+        <div class="project-links" id="projectLinks"></div>
+        <div class="project-features" id="projectFeatures" style="display: none;">
+            <h3 class="features-title">核心特性</h3>
+            <ul class="features-list" id="featuresList"></ul>
+        </div>
+        <div class="tech-stack" id="techStack" style="display: none;">
+            <h3 class="features-title">技术栈</h3>
+            <div class="tech-tags" id="techTags"></div>
+        </div>
     </div>
 </div>
 
@@ -211,12 +286,99 @@
         document.body.style.overflow = 'auto';
     }
 
+    // --- Project Overlay Control ---
+    function openProjectOverlay(id) {
+        const p = articlesData.find(a => a.id === id);
+        if (!p) return;
+
+        document.getElementById('projectTitle').innerText = p.title;
+        document.getElementById('projectMeta').innerHTML = `
+            <span class="tag-pill tag-platform">${p.platform}</span>
+            <span style="font-variant-numeric: tabular-nums;">${p.date.replace(/-/g,'.')}</span>
+            <span>// ${p.subCategory}</span>
+        `;
+        document.getElementById('projectSummary').innerText = p.summary;
+
+        // Video
+        const videoContainer = document.getElementById('projectVideo');
+        if (p.hasVideo && p.videoId) {
+            videoContainer.style.display = 'block';
+            videoContainer.innerHTML = `
+                <iframe 
+                    src="https://www.youtube.com/embed/${p.videoId}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            `;
+        } else {
+            videoContainer.style.display = 'none';
+        }
+
+        // Links
+        const linksContainer = document.getElementById('projectLinks');
+        linksContainer.innerHTML = '';
+        if (p.githubUrl) {
+            linksContainer.innerHTML += `
+                <a href="${p.githubUrl}" target="_blank" class="project-link">
+                    <i class="bi bi-github"></i> GitHub 仓库
+                </a>
+            `;
+        }
+        if (p.link && p.link !== '#' && p.link !== p.githubUrl) {
+            linksContainer.innerHTML += `
+                <a href="${p.link}" target="_blank" class="project-link">
+                    <i class="bi bi-box-arrow-up-right"></i> 查看详情
+                </a>
+            `;
+        }
+
+        // Features
+        const featuresContainer = document.getElementById('projectFeatures');
+        const featuresList = document.getElementById('featuresList');
+        if (p.features && p.features.length > 0) {
+            featuresContainer.style.display = 'block';
+            featuresList.innerHTML = p.features.map(f => `
+                <li class="feature-item">${f}</li>
+            `).join('');
+        } else {
+            featuresContainer.style.display = 'none';
+        }
+
+        // Tech Stack
+        const techStackContainer = document.getElementById('techStack');
+        const techTags = document.getElementById('techTags');
+        if (p.techStack && p.techStack.length > 0) {
+            techStackContainer.style.display = 'block';
+            techTags.innerHTML = p.techStack.map(t => `
+                <span class="tech-tag">${t}</span>
+            `).join('');
+        } else {
+            techStackContainer.style.display = 'none';
+        }
+
+        document.getElementById('projectOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeProjectOverlay() {
+        document.getElementById('projectOverlay').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
     // --- Core Rendering ---
     function render() {
         const container = document.getElementById('feed-container');
         container.innerHTML = '';
         const filtered = articlesData.filter(a => {
-            const cMatch = state.cat === 'all' || a.mainCategory === state.cat;
+            let cMatch = false;
+            if (state.cat === 'all') {
+                cMatch = true;
+            } else if (state.cat === 'video') {
+                cMatch = a.hasVideo === true;
+            } else {
+                cMatch = a.mainCategory === state.cat;
+            }
             const qMatch = a.title.toLowerCase().includes(state.q.toLowerCase());
             return cMatch && qMatch;
         }).sort((a,b) => new Date(b.date) - new Date(a.date));
@@ -225,13 +387,23 @@
 
         filtered.forEach((a, i) => {
             const entry = document.createElement('div');
-            entry.className = `article-entry ${a.isSeries ? 'is-series' : ''}`;
-            entry.onclick = a.isSeries ? () => openOverlay(a.id) : () => window.open(a.link, '_blank');
+            entry.className = `article-entry ${a.isSeries ? 'is-series' : ''} ${a.hasVideo ? 'has-video' : ''}`;
+            
+            // Determine click handler
+            if (a.hasVideo) {
+                entry.onclick = () => openProjectOverlay(a.id);
+            } else if (a.isSeries) {
+                entry.onclick = () => openOverlay(a.id);
+            } else {
+                entry.onclick = () => window.open(a.link, '_blank');
+            }
+            
             entry.innerHTML = `
                 <div class="meta-line">
                     <span class="tag-pill tag-platform">${a.platform}</span>
                     <span style="font-variant-numeric: tabular-nums;">${a.date.replace(/-/g,'.')}</span>
                     ${a.isSeries ? `<span class="tag-pill tag-series">${a.children.length} PARTS</span>` : ''}
+                    ${a.hasVideo ? `<span class="tag-pill tag-series" style="background: #4CAF50;">VIDEO</span>` : ''}
                     <span>// ${a.subCategory}</span>
                 </div>
                 <h2 class="entry-title">${a.title}</h2>
@@ -244,6 +416,23 @@
     // --- Sidebar & Filter Logic ---
     const initFilters = () => {
         document.getElementById('total-count').innerText = articlesData.length;
+        
+        // Add Video category first
+        const videoCount = articlesData.filter(a => a.hasVideo === true).length;
+        if (videoCount > 0) {
+            const videoLi = document.createElement('li');
+            videoLi.className = 'filter-item';
+            videoLi.innerHTML = `<span>Video</span><span class="item-count">${videoCount}</span>`;
+            videoLi.onclick = () => {
+                document.querySelectorAll('.filter-item').forEach(el=>el.classList.remove('active'));
+                videoLi.classList.add('active');
+                state.cat = 'video';
+                render();
+            };
+            document.getElementById('category-filters').appendChild(videoLi);
+        }
+        
+        // Add other categories
         const cats = [...new Set(articlesData.map(a => a.mainCategory))].sort();
         cats.forEach(c => {
             const count = articlesData.filter(a => a.mainCategory === c).length;
@@ -291,6 +480,24 @@
     window.onresize = initCanvas; initCanvas(); draw();
     document.getElementById('searchInput').oninput = (e) => { state.q = e.target.value; render(); };
     initFilters(); render();
+
+    // --- URL Parameter Handler ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('project');
+    if (projectId) {
+        const id = parseInt(projectId);
+        // Wait for render to complete, then open overlay
+        setTimeout(() => {
+            const project = articlesData.find(a => a.id === id);
+            if (project) {
+                if (project.hasVideo) {
+                    openProjectOverlay(id);
+                } else if (project.isSeries) {
+                    openOverlay(id);
+                }
+            }
+        }, 300);
+    }
 </script>
 </body>
 </html>

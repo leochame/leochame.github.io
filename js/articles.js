@@ -5,6 +5,28 @@
  */
 const articlesData = [
     {
+        id: 302,
+        title: "Lavis - macOS System-level Multimodal AI Agent",
+        summary: "A macOS desktop AI agent that perceives your screen, controls mouse & keyboard, and supports voice interaction. Built with Spring Boot, React, and Electron. Features include visual perception, autonomous actions, reflection loop, system integration, and voice interaction.",
+        link: "https://github.com/leochame/lavis",
+        platform: "GitHub",
+        date: "2025-01-15",
+        mainCategory: "AI",
+        subCategory: "AI Agent",
+        isSeries: false,
+        hasVideo: true,
+        videoId: "yzBsI8MrM4Q",
+        githubUrl: "https://github.com/leochame/lavis",
+        features: [
+            "Visual Perception: Real-time screenshot analysis with Retina support",
+            "Autonomous Actions: Mouse, keyboard, and system shortcut control",
+            "Reflection Loop: Closed loop for self-correction",
+            "Voice Interaction: Wake word, ASR, TTS",
+            "Context Engineering: Intelligent compression, reducing visual tokens by 95%+"
+        ],
+        techStack: ["Spring Boot", "React", "Electron", "Java", "TypeScript"]
+    },
+    {
         id: 301,
         title: "AI Paper Cuts",
         summary: "This series systematically analyzes cutting-edge research papers in the field of Artificial Intelligence, translating their core contributions, methodologies, and potential impacts into concise and accessible summaries.",
