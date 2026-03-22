@@ -1,503 +1,957 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Archive — Leochame</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Archive | Longchang Liu</title>
+  <meta name="description" content="Longchang Liu's technical archive and project library.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght,SOFT@9..144,500,0&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --bg: #f7f3ea;
+      --surface: #fffdf8;
+      --ink: #1f2a37;
+      --muted: #526273;
+      --line: rgba(31, 42, 55, 0.14);
+      --accent: #ff6f3c;
+      --accent-soft: rgba(255, 111, 60, 0.15);
+      --highlight: #0e7490;
+      --mono: "IBM Plex Mono", monospace;
+      --sans: "Space Grotesk", sans-serif;
+      --serif: "Fraunces", serif;
+      --shadow: 0 18px 45px rgba(27, 42, 53, 0.12);
+      --radius: 18px;
+    }
 
-    <style>
-        :root {
-            --bg-color: #F3F1E8;
-            --text-primary: #191919;
-            --text-secondary: #6E6D69;
-            --accent-color: #C05838;
-            --border-color: rgba(25, 25, 25, 0.1);
-            --font-serif: "Noto Serif", serif;
-            --font-sans: "Inter", sans-serif;
-            --font-mono: "JetBrains Mono", monospace;
-        }
+    * { box-sizing: border-box; }
 
-        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-sans); line-height: 1.6; margin: 0; overflow-x: hidden; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      line-height: 1.65;
+      background: radial-gradient(circle at 85% 10%, rgba(14, 116, 144, 0.1), transparent 45%),
+                  radial-gradient(circle at 15% 20%, rgba(255, 111, 60, 0.11), transparent 36%),
+                  var(--bg);
+      overflow-x: hidden;
+    }
 
-        /* --- Background --- */
-        #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.35; }
+    .grain,
+    .halo {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+    }
 
-        .page-container { max-width: 1140px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 10; }
+    .grain {
+      background-image: radial-gradient(rgba(31, 42, 55, 0.07) 0.3px, transparent 0.3px);
+      background-size: 4px 4px;
+      opacity: 0.35;
+    }
 
-        /* --- Unified Navigation Bar --- */
-        .navbar {
-            padding: 1.2rem 0;
-            background: rgba(243, 241, 232, 0.7);
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            border-bottom: 1px solid var(--border-color);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-        }
-        .navbar.scrolled {
-            padding: 0.8rem 0;
-            background: rgba(243, 241, 232, 0.95);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-        }
-        .navbar-brand {
-            font-family: var(--font-serif); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px;
-            color: var(--text-primary) !important; display: flex; align-items: center;
-        }
-        .navbar-brand::after {
-            content: ""; display: inline-block; width: 6px; height: 6px;
-            background-color: var(--accent-color); border-radius: 50%; margin-left: 8px;
-            animation: blink 2s infinite;
-        }
-        @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+    .halo {
+      z-index: -1;
+      background: radial-gradient(circle at 78% 16%, rgba(14, 116, 144, 0.22), transparent 48%),
+                  radial-gradient(circle at 12% 78%, rgba(255, 111, 60, 0.14), transparent 43%);
+      animation: drift 13s ease-in-out infinite alternate;
+    }
 
-        .nav-link-custom {
-            font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;
-            letter-spacing: 0.1em; color: var(--text-secondary) !important; font-weight: 500;
-            padding: 0.5rem 0; position: relative; transition: color 0.3s ease;
-        }
-        .nav-link-custom:hover, .nav-link-custom.active { color: var(--text-primary) !important; }
-        .nav-link-custom::after {
-            content: ""; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
-            background-color: var(--accent-color); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-link-custom:hover::after, .nav-link-custom.active::after { width: 100%; }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(10px, -16px) scale(1.04); }
+    }
 
-        /* --- Layout --- */
-        .page-header { padding: 140px 0 60px; }
-        .page-title { font-family: var(--font-serif); font-size: clamp(2.5rem, 7vw, 4.5rem); letter-spacing: -0.04em; }
+    .wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 22px;
+      position: relative;
+      z-index: 3;
+    }
 
-        /* --- Sidebar Card Style --- */
-        .sidebar-sticky { position: sticky; top: 120px; padding-right: 20px; }
-        .filter-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent-color); margin-bottom: 1.5rem; display: block; }
-        .filter-list { list-style: none; padding: 0; }
-        .filter-item {
-            position: relative; display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 16px; margin-bottom: 6px; font-size: 0.95rem; color: var(--text-secondary);
-            cursor: pointer; border-radius: 8px; transition: 0.3s;
-        }
-        .filter-item:hover { background: rgba(0, 0, 0, 0.04); color: var(--text-primary); transform: translateX(5px); }
-        .filter-item.active { background: #fff; color: var(--text-primary); font-weight: 600; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); }
-        .filter-item.active::before { content: ""; position: absolute; left: 0; top: 20%; height: 60%; width: 4px; background: var(--accent-color); border-radius: 0 4px 4px 0; }
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px) saturate(140%);
+      background: rgba(247, 243, 234, 0.86);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease, background .3s ease;
+    }
 
-        .item-count { font-family: var(--font-mono); font-size: 0.75rem; background: rgba(0, 0, 0, 0.05); padding: 2px 10px; border-radius: 12px; opacity: 0.6; }
-        .filter-item.active .item-count { background: var(--accent-color); color: #fff; opacity: 1; }
+    .site-nav.scrolled {
+      border-color: var(--line);
+      background: rgba(247, 243, 234, 0.97);
+    }
 
-        /* --- Search Bar --- */
-        .search-wrap { border-bottom: 2px solid var(--text-primary); margin-bottom: 4rem; position: relative; }
-        .search-input { width: 100%; background: transparent; border: none; padding: 15px 0; font-family: var(--font-serif); font-size: 1.8rem; outline: none; }
+    .nav-row {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-        /* --- Article Entries --- */
-        .article-entry {
-            display: block; text-decoration: none; color: inherit; padding: 3rem 0; border-bottom: 1px solid var(--border-color);
-            opacity: 0; transform: translateY(20px); transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1); cursor: pointer;
-        }
-        .article-entry.visible { opacity: 1; transform: translateY(0); }
-        .article-entry:hover { transform: translateX(12px); background: rgba(0,0,0,0.01); }
-        .article-entry.is-series { border-left: 4px solid var(--accent-color); padding-left: 30px; background: rgba(192, 88, 56, 0.02); }
-        .article-entry.has-video { border-left: 4px solid #4CAF50; padding-left: 30px; background: rgba(76, 175, 80, 0.02); cursor: pointer; }
+    .brand {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .meta-line { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem; }
-        .tag-pill { padding: 2px 8px; border-radius: 2px; font-weight: 600; font-size: 0.65rem; }
-        .tag-platform { background: var(--text-primary); color: white; }
-        .tag-series { background: var(--accent-color); color: white; }
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 7px var(--accent-soft);
+      animation: pulse 2s infinite;
+    }
 
-        .entry-title { font-family: var(--font-serif); font-size: 1.9rem; font-weight: 400; margin-bottom: 1rem; }
-        .entry-summary { font-size: 1.05rem; color: var(--text-secondary); max-width: 850px; }
+    @keyframes pulse {
+      50% { transform: scale(0.78); }
+    }
 
-        /* --- Overlay Drawer --- */
-        .series-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(243, 241, 232, 0.98); z-index: 2000;
-            display: none; align-items: center; justify-content: center; padding: 20px;
-        }
-        .series-overlay.active { display: flex; animation: fadeIn 0.4s ease; }
-        .overlay-content {
-            max-width: 700px; width: 100%; max-height: 80vh; overflow-y: auto;
-            background: #fff; padding: 50px; border: 1px solid var(--border-color);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
-        }
-        .step-item {
-            display: flex; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--border-color);
-            text-decoration: none; color: var(--text-primary); transition: 0.3s;
-        }
-        .step-item:hover { color: var(--accent-color); padding-left: 15px; }
-        .step-num { font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.3; margin-right: 25px; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
 
-        /* --- Project Detail Overlay --- */
-        .project-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(243, 241, 232, 0.98); z-index: 2000;
-            display: none; align-items: center; justify-content: center; padding: 20px;
-            overflow-y: auto;
-        }
-        .project-overlay.active { display: flex; animation: fadeIn 0.4s ease; }
-        .project-content {
-            max-width: 1000px; width: 100%; background: #fff; padding: 50px;
-            border: 1px solid var(--border-color); box-shadow: 0 40px 100px rgba(0,0,0,0.1);
-            margin: 40px 0;
-        }
-        .project-header { margin-bottom: 30px; }
-        .project-title { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 10px; }
-        .project-meta { display: flex; gap: 15px; align-items: center; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; }
-        .video-container {
-            position: relative; width: 100%; padding-bottom: 56.25%; margin: 30px 0;
-            background: #000; border-radius: 8px; overflow: hidden;
-        }
-        .video-container iframe {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        }
-        .project-links { display: flex; gap: 15px; margin: 30px 0; }
-        .project-link {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 24px; background: var(--text-primary); color: #fff;
-            text-decoration: none; border-radius: 6px; font-family: var(--font-mono);
-            font-size: 0.9rem; transition: 0.3s;
-        }
-        .project-link:hover { background: var(--accent-color); transform: translateY(-2px); }
-        .project-features { margin: 30px 0; }
-        .features-title { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 20px; }
-        .features-list { list-style: none; padding: 0; }
-        .feature-item {
-            padding: 12px 0; border-bottom: 1px solid var(--border-color);
-            font-size: 1rem; color: var(--text-secondary);
-        }
-        .feature-item:last-child { border-bottom: none; }
-        .feature-item::before {
-            content: "→"; color: var(--accent-color); margin-right: 12px;
-            font-weight: bold;
-        }
-        .tech-stack { margin: 30px 0; }
-        .tech-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-        .tech-tag {
-            padding: 6px 14px; background: rgba(192, 88, 56, 0.1);
-            color: var(--accent-color); border-radius: 4px;
-            font-family: var(--font-mono); font-size: 0.85rem;
-        }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font: 500 0.78rem/1 var(--mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: 5px;
+    }
 
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        @media (max-width: 991px) { .sidebar-col { display: none; } .overlay-content { padding: 30px; } .hero-section { padding-top: 150px; } }
-    </style>
+    .nav-links a.active { color: var(--ink); }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      transition: width .24s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+
+    .page-head {
+      padding: 64px 0 26px;
+    }
+
+    .kicker {
+      font: 500 0.73rem/1 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--highlight);
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 16px;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5.4vw, 3.9rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .head-desc {
+      margin-top: 14px;
+      color: var(--muted);
+      max-width: 72ch;
+    }
+
+    .head-meta {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      color: var(--muted);
+      padding: 6px 11px;
+      font: 500 0.72rem/1 var(--mono);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      gap: 24px;
+      padding-bottom: 60px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 98px;
+      align-self: start;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 30px rgba(31, 42, 55, 0.08);
+      padding: 16px;
+    }
+
+    .side-title {
+      margin: 0 0 12px;
+      font: 500 0.76rem/1 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--highlight);
+    }
+
+    .filter-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .filter-item {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s ease;
+      background: transparent;
+      font-size: 0.92rem;
+    }
+
+    .filter-item:hover {
+      border-color: var(--line);
+      color: var(--ink);
+      background: #fff;
+      transform: translateX(2px);
+    }
+
+    .filter-item.active {
+      border-color: rgba(255, 111, 60, 0.35);
+      color: var(--ink);
+      background: linear-gradient(120deg, rgba(255, 111, 60, 0.14), rgba(255, 255, 255, 0.9));
+      font-weight: 500;
+    }
+
+    .count {
+      min-width: 24px;
+      text-align: center;
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: rgba(31, 42, 55, 0.08);
+      font: 500 0.7rem/1 var(--mono);
+    }
+
+    .filter-item.active .count {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .main-pane {
+      min-width: 0;
+    }
+
+    .search {
+      margin-bottom: 20px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 15px;
+      background: rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      box-shadow: 0 8px 24px rgba(31, 42, 55, 0.06);
+    }
+
+    .search i { color: var(--muted); }
+
+    .search input {
+      border: none;
+      background: transparent;
+      width: 100%;
+      font: 500 1rem/1.2 var(--sans);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .search input::placeholder { color: #748497; }
+
+    .feed {
+      display: grid;
+      gap: 14px;
+    }
+
+    .article-entry {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 18px;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(31, 42, 55, 0.07);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease, opacity .45s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-entry::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 4px;
+      background: transparent;
+      transition: background .2s ease;
+    }
+
+    .article-entry.is-series::before { background: var(--accent); }
+    .article-entry.has-video::before { background: var(--highlight); }
+
+    .article-entry.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .article-entry:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(31, 42, 55, 0.12);
+      border-color: rgba(14, 116, 144, 0.25);
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      font: 500 0.72rem/1 var(--mono);
+      letter-spacing: 0.02em;
+      color: var(--muted);
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .tag.platform {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .tag.series {
+      border-color: rgba(255, 111, 60, 0.45);
+      color: #8f3d21;
+      background: rgba(255, 111, 60, 0.12);
+    }
+
+    .tag.video {
+      border-color: rgba(14, 116, 144, 0.4);
+      color: #0e5670;
+      background: rgba(14, 116, 144, 0.12);
+    }
+
+    .entry-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(1.35rem, 3.4vw, 1.9rem);
+      line-height: 1.17;
+    }
+
+    .entry-summary {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(247, 243, 234, 0.96);
+      z-index: 90;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .overlay.active {
+      display: flex;
+      animation: fadeIn .24s ease;
+    }
+
+    .overlay-card {
+      width: min(940px, 100%);
+      max-height: 86vh;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 24px 60px rgba(31, 42, 55, 0.2);
+      padding: 24px;
+    }
+
+    .overlay-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .overlay-head h2,
+    .overlay-head h3 {
+      margin: 0;
+      font-family: var(--serif);
+      line-height: 1.2;
+    }
+
+    .close {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .step-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      transition: border-color .2s ease, transform .2s ease;
+    }
+
+    .step-item:hover {
+      border-color: rgba(255, 111, 60, 0.45);
+      transform: translateX(3px);
+    }
+
+    .step-num {
+      font: 500 0.72rem/1 var(--mono);
+      color: var(--muted);
+      min-width: 32px;
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 12px 0;
+      font: 500 0.72rem/1 var(--mono);
+      color: var(--muted);
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #000;
+      margin: 18px 0;
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .overlay-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .overlay-link {
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--ink);
+      font: 500 0.78rem/1 var(--mono);
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .overlay-link.primary {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .feature-title {
+      margin: 16px 0 8px;
+      font: 500 0.84rem/1 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--highlight);
+    }
+
+    .feature-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .feature-list li {
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 9px 11px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.8);
+    }
+
+    .tech-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tech-tag {
+      border-radius: 999px;
+      border: 1px solid rgba(14, 116, 144, 0.35);
+      background: rgba(14, 116, 144, 0.1);
+      color: #0f5f77;
+      padding: 5px 10px;
+      font: 500 0.73rem/1 var(--mono);
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    footer {
+      padding: 30px 0 42px;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font: 500 0.76rem/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-row {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 14px 0;
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+
+      .page-head {
+        padding-top: 46px;
+      }
+
+      .overlay-card {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="grain"></div>
+  <div class="halo"></div>
 
-<canvas id="canvas-bg"></canvas>
-
-<div class="series-overlay" id="seriesOverlay">
-    <div class="overlay-content">
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <h3 class="font-serif mb-0" id="overlayTitle">Series Index</h3>
-            <button class="btn-close" onclick="closeOverlay()"></button>
-        </div>
-        <div id="overlayList"></div>
+  <div class="overlay" id="seriesOverlay">
+    <div class="overlay-card">
+      <div class="overlay-head">
+        <h3 id="overlayTitle">Series Index</h3>
+        <button class="close" onclick="closeOverlay()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div id="overlayList" class="step-list"></div>
     </div>
-</div>
+  </div>
 
-<div class="project-overlay" id="projectOverlay">
-    <div class="project-content">
-        <div class="project-header">
-            <div class="d-flex justify-content-between align-items-start mb-3">
-                <h2 class="project-title" id="projectTitle"></h2>
-                <button class="btn-close" onclick="closeProjectOverlay()"></button>
-            </div>
-            <div class="project-meta" id="projectMeta"></div>
-            <p class="entry-summary" id="projectSummary"></p>
-        </div>
-        <div class="video-container" id="projectVideo" style="display: none;"></div>
-        <div class="project-links" id="projectLinks"></div>
-        <div class="project-features" id="projectFeatures" style="display: none;">
-            <h3 class="features-title">核心特性</h3>
-            <ul class="features-list" id="featuresList"></ul>
-        </div>
-        <div class="tech-stack" id="techStack" style="display: none;">
-            <h3 class="features-title">技术栈</h3>
-            <div class="tech-tags" id="techTags"></div>
-        </div>
+  <div class="overlay" id="projectOverlay">
+    <div class="overlay-card">
+      <div class="overlay-head">
+        <h2 id="projectTitle"></h2>
+        <button class="close" onclick="closeProjectOverlay()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div id="projectMeta" class="project-meta"></div>
+      <p id="projectSummary" class="entry-summary"></p>
+      <div class="video-wrap" id="projectVideo" style="display:none;"></div>
+      <div class="overlay-links" id="projectLinks"></div>
+      <div id="projectFeatures" style="display:none;">
+        <h4 class="feature-title">Core Features</h4>
+        <ul class="feature-list" id="featuresList"></ul>
+      </div>
+      <div id="techStack" style="display:none;">
+        <h4 class="feature-title">Tech Stack</h4>
+        <div class="tech-tags" id="techTags"></div>
+      </div>
     </div>
-</div>
+  </div>
 
-<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
-    <div class="page-container d-flex justify-content-between align-items-center w-100">
-        <a class="navbar-brand" href="index.html">Leochame.</a>
-        <div class="d-flex gap-5">
-            <a href="index.html" class="nav-link-custom text-decoration-none">/ Index</a>
-            <a href="tech.html" class="nav-link-custom text-decoration-none active">/ Library</a>
-        </div>
+  <nav class="site-nav" id="siteNav">
+    <div class="wrap nav-row">
+      <a class="brand" href="index.html">Leochame <span class="dot" aria-hidden="true"></span></a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="tech.html" class="active">Archive</a>
+        <a href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer">X / Twitter</a>
+      </div>
     </div>
-</nav>
+  </nav>
 
-<div class="page-container">
-    <header class="page-header">
-        <h1 class="page-title">The Archive</h1>
-        <p class="page-desc text-secondary">A unified repository of <span id="article-count" class="text-accent fw-bold font-mono">0</span> technical records.</p>
+  <main class="wrap">
+    <header class="page-head">
+      <span class="kicker">Knowledge Base</span>
+      <h1>The Engineering Archive</h1>
+      <p class="head-desc">
+        A structured index of my technical records, including AI systems, JVM internals, database engineering, and infrastructure work.
+      </p>
+      <div class="head-meta">
+        <span class="pill"><span id="article-count">0</span> records</span>
+        <span class="pill">search + category filter</span>
+        <span class="pill">series + video support</span>
+      </div>
     </header>
 
-    <div class="row">
-        <aside class="col-lg-3 sidebar-col">
-            <div class="sidebar-sticky">
-                <span class="filter-label">Explore Topics</span>
-                <ul class="filter-list" id="category-filters">
-                    <li class="filter-item active" data-cat="all">
-                        <span>All Systems</span>
-                        <span class="item-count" id="total-count">0</span>
-                    </li>
-                </ul>
-            </div>
-        </aside>
+    <section class="layout">
+      <aside class="sidebar">
+        <h2 class="side-title">Explore Topics</h2>
+        <ul class="filter-list" id="category-filters">
+          <li class="filter-item active" data-cat="all">
+            <span>All Systems</span>
+            <span class="count" id="total-count">0</span>
+          </li>
+        </ul>
+      </aside>
 
-        <main class="col-lg-9">
-            <div class="search-wrap">
-                <input type="text" id="searchInput" class="search-input" placeholder="Query archives...">
-                <i class="bi bi-search" style="position:absolute; right:0; bottom:20px; opacity:0.2;"></i>
-            </div>
-            <div id="feed-container"></div>
-        </main>
-    </div>
-</div>
+      <div class="main-pane">
+        <div class="search">
+          <i class="bi bi-search"></i>
+          <input type="text" id="searchInput" placeholder="Search by title...">
+        </div>
+        <div class="feed" id="feed-container"></div>
+      </div>
+    </section>
+  </main>
 
-<footer class="py-5 mt-5 border-top">
-    <div class="page-container text-center text-secondary small font-mono opacity-50">
-        [ KERNEL_ARCHIVE: READY ] — © 2025 LIU LONGCHANG
-    </div>
-</footer>
+  <footer>
+    © 2026 Longchang Liu · archive protocol online · <a href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer" style="color:inherit;">X / Twitter</a>
+  </footer>
 
-<script src="js/articles.js"></script>
-<script>
-    const state = { cat: 'all', q: '' };
+  <script src="js/articles.js"></script>
+  <script>
+    const state = { cat: "all", q: "" };
 
-    // --- Overlay Control ---
+    const nav = document.getElementById("siteNav");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 16) nav.classList.add("scrolled");
+      else nav.classList.remove("scrolled");
+    });
+
     function openOverlay(id) {
-        const s = articlesData.find(a => a.id === id);
-        document.getElementById('overlayTitle').innerText = s.title;
-        document.getElementById('overlayList').innerHTML = s.children.map((c, i) => `
-            <a href="${c.link}" target="_blank" class="step-item">
-                <span class="step-num">${(i+1).toString().padStart(2,'0')}</span>
-                <span class="flex-grow-1">${c.title}</span>
-                <i class="bi bi-arrow-up-right small opacity-50"></i>
-            </a>`).join('');
-        document.getElementById('seriesOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
+      const series = articlesData.find((a) => a.id === id);
+      if (!series || !series.children) return;
+      document.getElementById("overlayTitle").innerText = series.title;
+      document.getElementById("overlayList").innerHTML = series.children
+        .map((c, i) => `
+          <a href="${c.link}" target="_blank" rel="noopener noreferrer" class="step-item">
+            <span class="step-num">${String(i + 1).padStart(2, "0")}</span>
+            <span>${c.title}</span>
+            <i class="bi bi-arrow-up-right" style="margin-left:auto;color:var(--muted);"></i>
+          </a>
+        `)
+        .join("");
+      document.getElementById("seriesOverlay").classList.add("active");
+      document.body.style.overflow = "hidden";
     }
 
     function closeOverlay() {
-        document.getElementById('seriesOverlay').classList.remove('active');
-        document.body.style.overflow = 'auto';
+      document.getElementById("seriesOverlay").classList.remove("active");
+      document.body.style.overflow = "auto";
     }
 
-    // --- Project Overlay Control ---
     function openProjectOverlay(id) {
-        const p = articlesData.find(a => a.id === id);
-        if (!p) return;
+      const p = articlesData.find((a) => a.id === id);
+      if (!p) return;
 
-        document.getElementById('projectTitle').innerText = p.title;
-        document.getElementById('projectMeta').innerHTML = `
-            <span class="tag-pill tag-platform">${p.platform}</span>
-            <span style="font-variant-numeric: tabular-nums;">${p.date.replace(/-/g,'.')}</span>
-            <span>// ${p.subCategory}</span>
+      document.getElementById("projectTitle").innerText = p.title;
+      document.getElementById("projectMeta").innerHTML = `
+        <span class="tag platform">${p.platform}</span>
+        <span>${p.date.replace(/-/g, ".")}</span>
+        <span>// ${p.subCategory}</span>
+      `;
+      document.getElementById("projectSummary").innerText = p.summary;
+
+      const videoContainer = document.getElementById("projectVideo");
+      if (p.hasVideo && p.videoId) {
+        videoContainer.style.display = "block";
+        videoContainer.innerHTML = `
+          <iframe src="https://www.youtube.com/embed/${p.videoId}" title="Project video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         `;
-        document.getElementById('projectSummary').innerText = p.summary;
+      } else {
+        videoContainer.style.display = "none";
+        videoContainer.innerHTML = "";
+      }
 
-        // Video
-        const videoContainer = document.getElementById('projectVideo');
-        if (p.hasVideo && p.videoId) {
-            videoContainer.style.display = 'block';
-            videoContainer.innerHTML = `
-                <iframe 
-                    src="https://www.youtube.com/embed/${p.videoId}" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            `;
-        } else {
-            videoContainer.style.display = 'none';
-        }
+      const linksContainer = document.getElementById("projectLinks");
+      linksContainer.innerHTML = "";
+      if (p.githubUrl) {
+        linksContainer.innerHTML += `
+          <a href="${p.githubUrl}" target="_blank" rel="noopener noreferrer" class="overlay-link primary">
+            <i class="bi bi-github"></i> GitHub Repo
+          </a>
+        `;
+      }
+      if (p.link && p.link !== "#" && p.link !== p.githubUrl) {
+        linksContainer.innerHTML += `
+          <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="overlay-link">
+            <i class="bi bi-box-arrow-up-right"></i> Open Detail
+          </a>
+        `;
+      }
 
-        // Links
-        const linksContainer = document.getElementById('projectLinks');
-        linksContainer.innerHTML = '';
-        if (p.githubUrl) {
-            linksContainer.innerHTML += `
-                <a href="${p.githubUrl}" target="_blank" class="project-link">
-                    <i class="bi bi-github"></i> GitHub 仓库
-                </a>
-            `;
-        }
-        if (p.link && p.link !== '#' && p.link !== p.githubUrl) {
-            linksContainer.innerHTML += `
-                <a href="${p.link}" target="_blank" class="project-link">
-                    <i class="bi bi-box-arrow-up-right"></i> 查看详情
-                </a>
-            `;
-        }
+      const featuresContainer = document.getElementById("projectFeatures");
+      const featuresList = document.getElementById("featuresList");
+      if (p.features && p.features.length > 0) {
+        featuresContainer.style.display = "block";
+        featuresList.innerHTML = p.features.map((f) => `<li>${f}</li>`).join("");
+      } else {
+        featuresContainer.style.display = "none";
+        featuresList.innerHTML = "";
+      }
 
-        // Features
-        const featuresContainer = document.getElementById('projectFeatures');
-        const featuresList = document.getElementById('featuresList');
-        if (p.features && p.features.length > 0) {
-            featuresContainer.style.display = 'block';
-            featuresList.innerHTML = p.features.map(f => `
-                <li class="feature-item">${f}</li>
-            `).join('');
-        } else {
-            featuresContainer.style.display = 'none';
-        }
+      const techStackContainer = document.getElementById("techStack");
+      const techTags = document.getElementById("techTags");
+      if (p.techStack && p.techStack.length > 0) {
+        techStackContainer.style.display = "block";
+        techTags.innerHTML = p.techStack.map((t) => `<span class="tech-tag">${t}</span>`).join("");
+      } else {
+        techStackContainer.style.display = "none";
+        techTags.innerHTML = "";
+      }
 
-        // Tech Stack
-        const techStackContainer = document.getElementById('techStack');
-        const techTags = document.getElementById('techTags');
-        if (p.techStack && p.techStack.length > 0) {
-            techStackContainer.style.display = 'block';
-            techTags.innerHTML = p.techStack.map(t => `
-                <span class="tech-tag">${t}</span>
-            `).join('');
-        } else {
-            techStackContainer.style.display = 'none';
-        }
-
-        document.getElementById('projectOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
+      document.getElementById("projectOverlay").classList.add("active");
+      document.body.style.overflow = "hidden";
     }
 
     function closeProjectOverlay() {
-        document.getElementById('projectOverlay').classList.remove('active');
-        document.body.style.overflow = 'auto';
+      document.getElementById("projectOverlay").classList.remove("active");
+      document.body.style.overflow = "auto";
+      document.getElementById("projectVideo").innerHTML = "";
     }
 
-    // --- Core Rendering ---
     function render() {
-        const container = document.getElementById('feed-container');
-        container.innerHTML = '';
-        const filtered = articlesData.filter(a => {
-            let cMatch = false;
-            if (state.cat === 'all') {
-                cMatch = true;
-            } else if (state.cat === 'video') {
-                cMatch = a.hasVideo === true;
-            } else {
-                cMatch = a.mainCategory === state.cat;
-            }
-            const qMatch = a.title.toLowerCase().includes(state.q.toLowerCase());
-            return cMatch && qMatch;
-        }).sort((a,b) => new Date(b.date) - new Date(a.date));
+      const container = document.getElementById("feed-container");
+      container.innerHTML = "";
 
-        document.getElementById('article-count').innerText = filtered.length;
+      const filtered = articlesData
+        .filter((a) => {
+          let categoryMatch = false;
+          if (state.cat === "all") categoryMatch = true;
+          else if (state.cat === "video") categoryMatch = a.hasVideo === true;
+          else categoryMatch = a.mainCategory === state.cat;
 
-        filtered.forEach((a, i) => {
-            const entry = document.createElement('div');
-            entry.className = `article-entry ${a.isSeries ? 'is-series' : ''} ${a.hasVideo ? 'has-video' : ''}`;
-            
-            // Determine click handler
-            if (a.hasVideo) {
-                entry.onclick = () => openProjectOverlay(a.id);
-            } else if (a.isSeries) {
-                entry.onclick = () => openOverlay(a.id);
-            } else {
-                entry.onclick = () => window.open(a.link, '_blank');
-            }
-            
-            entry.innerHTML = `
-                <div class="meta-line">
-                    <span class="tag-pill tag-platform">${a.platform}</span>
-                    <span style="font-variant-numeric: tabular-nums;">${a.date.replace(/-/g,'.')}</span>
-                    ${a.isSeries ? `<span class="tag-pill tag-series">${a.children.length} PARTS</span>` : ''}
-                    ${a.hasVideo ? `<span class="tag-pill tag-series" style="background: #4CAF50;">VIDEO</span>` : ''}
-                    <span>// ${a.subCategory}</span>
-                </div>
-                <h2 class="entry-title">${a.title}</h2>
-                <p class="entry-summary text-secondary">${a.summary}</p>`;
-            container.appendChild(entry);
-            setTimeout(() => entry.classList.add('visible'), i * 60);
-        });
+          const qMatch = a.title.toLowerCase().includes(state.q.toLowerCase());
+          return categoryMatch && qMatch;
+        })
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      document.getElementById("article-count").innerText = filtered.length;
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty">No records matched this filter.</div>';
+        return;
+      }
+
+      filtered.forEach((a, i) => {
+        const entry = document.createElement("article");
+        entry.className = `article-entry ${a.isSeries ? "is-series" : ""} ${a.hasVideo ? "has-video" : ""}`;
+
+        if (a.hasVideo) {
+          entry.onclick = () => openProjectOverlay(a.id);
+        } else if (a.isSeries) {
+          entry.onclick = () => openOverlay(a.id);
+        } else if (a.link && a.link !== "#") {
+          entry.onclick = () => window.open(a.link, "_blank", "noopener,noreferrer");
+        }
+
+        entry.innerHTML = `
+          <div class="meta">
+            <span class="tag platform">${a.platform}</span>
+            <span>${a.date.replace(/-/g, ".")}</span>
+            ${a.isSeries ? `<span class="tag series">${a.children.length} PARTS</span>` : ""}
+            ${a.hasVideo ? `<span class="tag video">VIDEO</span>` : ""}
+            <span>// ${a.subCategory}</span>
+          </div>
+          <h2 class="entry-title">${a.title}</h2>
+          <p class="entry-summary">${a.summary}</p>
+        `;
+        container.appendChild(entry);
+
+        setTimeout(() => entry.classList.add("visible"), i * 55);
+      });
     }
 
-    // --- Sidebar & Filter Logic ---
-    const initFilters = () => {
-        document.getElementById('total-count').innerText = articlesData.length;
-        
-        // Add Video category first
-        const videoCount = articlesData.filter(a => a.hasVideo === true).length;
-        if (videoCount > 0) {
-            const videoLi = document.createElement('li');
-            videoLi.className = 'filter-item';
-            videoLi.innerHTML = `<span>Video</span><span class="item-count">${videoCount}</span>`;
-            videoLi.onclick = () => {
-                document.querySelectorAll('.filter-item').forEach(el=>el.classList.remove('active'));
-                videoLi.classList.add('active');
-                state.cat = 'video';
-                render();
-            };
-            document.getElementById('category-filters').appendChild(videoLi);
-        }
-        
-        // Add other categories
-        const cats = [...new Set(articlesData.map(a => a.mainCategory))].sort();
-        cats.forEach(c => {
-            const count = articlesData.filter(a => a.mainCategory === c).length;
-            const li = document.createElement('li');
-            li.className = 'filter-item';
-            li.innerHTML = `<span>${c}</span><span class="item-count">${count}</span>`;
-            li.onclick = () => {
-                document.querySelectorAll('.filter-item').forEach(el=>el.classList.remove('active'));
-                li.classList.add('active');
-                state.cat = c;
-                render();
-            };
-            document.getElementById('category-filters').appendChild(li);
-        });
+    function initFilters() {
+      const filterWrap = document.getElementById("category-filters");
+      document.getElementById("total-count").innerText = articlesData.length;
+
+      const allFilter = filterWrap.querySelector('[data-cat="all"]');
+      allFilter.onclick = () => {
+        document.querySelectorAll(".filter-item").forEach((el) => el.classList.remove("active"));
+        allFilter.classList.add("active");
+        state.cat = "all";
+        render();
+      };
+
+      const videoCount = articlesData.filter((a) => a.hasVideo === true).length;
+      if (videoCount > 0) {
+        const videoLi = document.createElement("li");
+        videoLi.className = "filter-item";
+        videoLi.innerHTML = `<span>Video</span><span class="count">${videoCount}</span>`;
+        videoLi.onclick = () => {
+          document.querySelectorAll(".filter-item").forEach((el) => el.classList.remove("active"));
+          videoLi.classList.add("active");
+          state.cat = "video";
+          render();
+        };
+        filterWrap.appendChild(videoLi);
+      }
+
+      const categories = [...new Set(articlesData.map((a) => a.mainCategory))].sort();
+      categories.forEach((c) => {
+        const count = articlesData.filter((a) => a.mainCategory === c).length;
+        const li = document.createElement("li");
+        li.className = "filter-item";
+        li.innerHTML = `<span>${c}</span><span class="count">${count}</span>`;
+        li.onclick = () => {
+          document.querySelectorAll(".filter-item").forEach((el) => el.classList.remove("active"));
+          li.classList.add("active");
+          state.cat = c;
+          render();
+        };
+        filterWrap.appendChild(li);
+      });
     }
 
-    // --- Unified Navbar Scroll Handler ---
-    window.addEventListener('scroll', function() {
-        const nav = document.getElementById('mainNav');
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      state.q = e.target.value;
+      render();
     });
 
-    // --- Canvas Background ---
-    const canvas = document.getElementById('canvas-bg'); const ctx = canvas.getContext('2d');
-    let pts = [];
-    const initCanvas = () => {
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        pts = []; for(let i=0; i<45; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.2, vy:(Math.random()-0.5)*0.2});
-    };
-    const draw = () => {
-        ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(192,88,56,0.3)"; ctx.strokeStyle="rgba(192,88,56,0.08)";
-        pts.forEach((p, i) => {
-            p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
-            ctx.beginPath(); ctx.arc(p.x,p.y,1.5,0,Math.PI*2); ctx.fill();
-            for(let j=i+1; j<pts.length; j++) {
-                let d = Math.hypot(p.x-pts[j].x, p.y-pts[j].y); if(d<200) { ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); }
-            }
-        }); requestAnimationFrame(draw);
-    };
+    initFilters();
+    render();
 
-    window.onresize = initCanvas; initCanvas(); draw();
-    document.getElementById('searchInput').oninput = (e) => { state.q = e.target.value; render(); };
-    initFilters(); render();
-
-    // --- URL Parameter Handler ---
     const urlParams = new URLSearchParams(window.location.search);
-    const projectId = urlParams.get('project');
+    const projectId = urlParams.get("project");
     if (projectId) {
-        const id = parseInt(projectId);
-        // Wait for render to complete, then open overlay
-        setTimeout(() => {
-            const project = articlesData.find(a => a.id === id);
-            if (project) {
-                if (project.hasVideo) {
-                    openProjectOverlay(id);
-                } else if (project.isSeries) {
-                    openOverlay(id);
-                }
-            }
-        }, 300);
+      const id = parseInt(projectId, 10);
+      setTimeout(() => {
+        const project = articlesData.find((a) => a.id === id);
+        if (!project) return;
+        if (project.hasVideo) openProjectOverlay(id);
+        else if (project.isSeries) openOverlay(id);
+      }, 280);
     }
-</script>
+
+    document.getElementById("seriesOverlay").addEventListener("click", (e) => {
+      if (e.target.id === "seriesOverlay") closeOverlay();
+    });
+
+    document.getElementById("projectOverlay").addEventListener("click", (e) => {
+      if (e.target.id === "projectOverlay") closeProjectOverlay();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeOverlay();
+        closeProjectOverlay();
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1,445 +1,691 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Longchang Liu — Backend Systems & AI Infrastructure</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Longchang Liu | Backend Systems & Agent Infrastructure</title>
+  <meta name="description" content="Longchang Liu's personal website: backend systems, AI infrastructure, and engineering projects.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght,SOFT@9..144,500,0&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --bg: #f7f3ea;
+      --surface: #fffdf8;
+      --ink: #1f2a37;
+      --muted: #526273;
+      --line: rgba(31, 42, 55, 0.14);
+      --accent: #ff6f3c;
+      --accent-soft: rgba(255, 111, 60, 0.15);
+      --highlight: #0e7490;
+      --mono: "IBM Plex Mono", monospace;
+      --sans: "Space Grotesk", sans-serif;
+      --serif: "Fraunces", serif;
+      --shadow: 0 18px 45px rgba(27, 42, 53, 0.12);
+      --radius: 18px;
+    }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    * { box-sizing: border-box; }
 
-    <style>
-        :root {
-            --bg-color: #F3F1E8;
-            --text-primary: #191919;
-            --text-secondary: #5E5D59;
-            --accent-color: #D96C46;
-            --border-color: rgba(25, 25, 25, 0.1);
-            --font-serif: "Noto Serif", serif;
-            --font-sans: "Inter", sans-serif;
-            --font-mono: "JetBrains Mono", monospace;
-        }
+    html { scroll-behavior: smooth; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            line-height: 1.7;
-            margin: 0;
-            overflow-x: hidden;
-        }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: radial-gradient(circle at 80% 12%, rgba(14, 116, 144, 0.09), transparent 42%),
+                  radial-gradient(circle at 12% 28%, rgba(255, 111, 60, 0.12), transparent 35%),
+                  var(--bg);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
 
-        /* --- Background Animation --- */
-        #canvas-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.5;
-        }
+    .grain,
+    .halo {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+    }
 
-        .page-container {
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 10;
-        }
+    .grain {
+      background-image: radial-gradient(rgba(31, 42, 55, 0.07) 0.3px, transparent 0.3px);
+      background-size: 4px 4px;
+      opacity: 0.35;
+    }
 
-        section { padding: 80px 0; clear: both; }
+    .halo {
+      z-index: -1;
+      background: radial-gradient(circle at 82% 18%, rgba(14, 116, 144, 0.22), transparent 48%),
+                  radial-gradient(circle at 16% 78%, rgba(255, 111, 60, 0.16), transparent 42%);
+      animation: drift 14s ease-in-out infinite alternate;
+    }
 
-        /* --- Unified Header Navigation --- */
-        .navbar {
-            padding: 1.2rem 0;
-            background: rgba(243, 241, 232, 0.7);
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            border-bottom: 1px solid var(--border-color);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-        }
+    @keyframes drift {
+      from { transform: translateY(0) translateX(0) scale(1); }
+      to { transform: translateY(-18px) translateX(12px) scale(1.04); }
+    }
 
-        .navbar.scrolled {
-            padding: 0.8rem 0;
-            background: rgba(243, 241, 232, 0.95);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-        }
+    .wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 22px;
+      position: relative;
+      z-index: 3;
+    }
 
-        .navbar-brand {
-            font-family: var(--font-serif);
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--text-primary) !important;
-            display: flex;
-            align-items: center;
-        }
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px) saturate(140%);
+      background: rgba(247, 243, 234, 0.83);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease, background .3s ease;
+    }
 
-        .navbar-brand::after {
-            content: "";
-            display: inline-block;
-            width: 6px; height: 6px;
-            background-color: var(--accent-color);
-            border-radius: 50%;
-            margin-left: 8px;
-            animation: blink 2s infinite;
-        }
+    .site-nav.scrolled {
+      border-color: var(--line);
+      background: rgba(247, 243, 234, 0.96);
+    }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.8); }
-        }
+    .nav-row {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-        .nav-link-custom {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-secondary) !important;
-            font-weight: 500;
-            padding: 0.5rem 0;
-            position: relative;
-        }
+    .brand {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .nav-link-custom::after {
-            content: "";
-            position: absolute;
-            bottom: 0; left: 0; width: 0; height: 2px;
-            background-color: var(--accent-color);
-            transition: width 0.3s ease;
-        }
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 7px var(--accent-soft);
+      animation: pulse 2s infinite;
+    }
 
-        .nav-link-custom:hover::after { width: 100%; }
+    @keyframes pulse {
+      50% { transform: scale(0.78); }
+    }
 
-        /* --- Hero Section --- */
-        .hero-section {
-            padding-top: 140px;
-            min-height: auto;
-            display: flex;
-            align-items: flex-start;
-        }
-        .hero-name {
-            font-family: var(--font-serif);
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin-bottom: 1rem;
-        }
-        .hero-bio {
-            font-family: var(--font-serif);
-            font-size: 1.15rem;
-            line-height: 1.7;
-            color: var(--text-primary);
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-            text-align: justify;
-        }
-        .hero-bio strong { border-bottom: 1px solid var(--accent-color); font-weight: 700; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
 
-        /* --- Terminal --- */
-        .terminal-box {
-            background: #1e1e1e; border-radius: 12px; padding: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            font-family: var(--font-mono); font-size: 0.8rem; color: #d4d4d4;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font: 500 0.78rem/1 var(--mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: 5px;
+    }
 
-        /* --- CV / Timeline --- */
-        .cv-grid { display: grid; grid-template-columns: 280px 1fr; gap: 60px; border-top: 1px solid var(--border-color); padding-top: 60px; }
-        .cv-sidebar { position: sticky; top: 100px; height: fit-content; }
-        .timeline { border-left: 1px solid var(--text-primary); padding-left: 30px; }
-        .timeline-item { position: relative; margin-bottom: 3.5rem; }
-        .timeline-item::before {
-            content: ""; position: absolute; left: -35px; top: 8px;
-            width: 10px; height: 10px; background: var(--bg-color);
-            border: 2px solid var(--text-primary); border-radius: 50%;
-        }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      transition: width .24s ease;
+    }
 
-        .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-color); margin-bottom: 1rem; display: block; }
+    .nav-links a:hover::after,
+    .nav-links a:focus-visible::after { width: 100%; }
 
-        /* --- Featured Project Video --- */
-        .featured-project {
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 50px;
-            margin: 60px 0;
-        }
-        .project-video-wrapper {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-        .project-video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .project-info {
-            max-width: 800px;
-        }
-        .project-title {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-        .project-description {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 25px;
-        }
-        .project-links-home {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        .project-link-home {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--text-primary);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-        .project-link-home:hover {
-            background: var(--accent-color);
-            transform: translateY(-2px);
-            color: #fff;
-        }
-        .project-link-home.secondary {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-        .project-link-home.secondary:hover {
-            background: var(--bg-color);
-            border-color: var(--accent-color);
-        }
+    .hero {
+      padding: 76px 0 40px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 26px;
+      align-items: start;
+    }
 
-        @media (max-width: 991px) {
-            .cv-grid { grid-template-columns: 1fr; gap: 40px; }
-            .cv-sidebar { position: static; }
-            .hero-section { padding-top: 120px; }
-            .terminal-box { margin-top: 2rem; }
-            .featured-project { padding: 30px 20px; margin: 40px 0; }
-            .project-title { font-size: 1.5rem; }
-        }
-    </style>
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font: 500 0.74rem/1 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--highlight);
+      margin-bottom: 18px;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(2.15rem, 5.8vw, 4.35rem);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin-top: 20px;
+      font-size: 1.07rem;
+      max-width: 60ch;
+      color: var(--muted);
+    }
+
+    .lead strong {
+      color: var(--ink);
+      border-bottom: 2px solid var(--accent-soft);
+    }
+
+    .cta-row {
+      margin-top: 28px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 11px 19px;
+      font: 500 0.9rem/1 var(--mono);
+      letter-spacing: 0.02em;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .btn.ghost {
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--ink);
+      border-color: var(--line);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .hero-side {
+      display: grid;
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .metrics {
+      display: grid;
+      gap: 9px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .metric {
+      padding: 12px;
+      border-radius: 13px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .metric b {
+      font: 700 1.1rem/1 var(--mono);
+      color: var(--highlight);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .terminal {
+      margin: 0;
+      background: #12171f;
+      border-radius: 13px;
+      padding: 16px;
+      color: #dce7ff;
+      font: 400 0.8rem/1.6 var(--mono);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow-x: auto;
+    }
+
+    .section {
+      padding: 58px 0;
+    }
+
+    .section-head {
+      margin-bottom: 22px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(1.65rem, 3.3vw, 2.6rem);
+      line-height: 1.15;
+    }
+
+    .section-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .project {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1.07fr 0.93fr;
+      align-items: start;
+    }
+
+    .video-box {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      position: relative;
+      padding-top: 56.25%;
+      background: #000;
+    }
+
+    .video-box iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin: 12px 0;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font: 500 0.74rem/1 var(--mono);
+      color: var(--muted);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(31, 42, 55, 0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(var(--highlight), var(--accent));
+    }
+
+    .timeline-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .timeline-top h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .date {
+      font: 500 0.75rem/1 var(--mono);
+      color: var(--muted);
+    }
+
+    .role {
+      color: var(--highlight);
+      font: 500 0.82rem/1 var(--mono);
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+
+    .skill-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .skill {
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      padding: 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .skill b {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .contact {
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.48));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .socials a {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 13px;
+      font: 500 0.8rem/1 var(--mono);
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .socials a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 30px 0 42px;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font: 500 0.76rem/1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1020px) {
+      .hero,
+      .project {
+        grid-template-columns: 1fr;
+      }
+
+      .skill-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-row {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 14px 0;
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .skill-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="grain"></div>
+  <div class="halo"></div>
 
-<canvas id="canvas-bg"></canvas>
-
-<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
-    <div class="page-container d-flex justify-content-between align-items-center w-100">
-        <a class="navbar-brand" href="index.html">Leochame.</a>
-        <div class="d-flex gap-5">
-            <a href="tech.html" class="nav-link-custom text-decoration-none">/ Library</a>
-            <a href="#profile" class="nav-link-custom text-decoration-none">/ Profile</a>
-        </div>
+  <nav class="site-nav" id="siteNav">
+    <div class="wrap nav-row">
+      <a class="brand" href="index.html">Leochame <span class="dot" aria-hidden="true"></span></a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="tech.html">Archive</a>
+        <a href="#journey">Journey</a>
+        <a href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer">X / Twitter</a>
+      </div>
     </div>
-</nav>
+  </nav>
 
-<div class="page-container">
-
-    <section class="hero-section">
-        <div class="row w-100 g-5">
-            <div class="col-lg-7">
-                <span class="section-label">Software Engineer / System Architect</span>
-                <h1 class="hero-name">Longchang Liu</h1>
-                <div class="hero-bio">
-                    Currently a Backend Engineer Intern at <strong>Alibaba (Amap)</strong>, traversing the stack from <strong>Java JVM internals</strong> to <strong>OS kernels</strong>. I am passionate about building deterministic, resilient infrastructures for the next generation of <strong>AI Agentic Workflows</strong>.
-                    <br><br>
-                    With prior experience at <strong>Tencent</strong> and <strong>iMile</strong>, I specialize in solving high-concurrency challenges and optimizing RAG pipelines for enterprise-grade performance.
-                </div>
-                <div class="d-flex gap-3">
-                    <a href="mailto:liulch.cn@gmail.com" class="btn btn-dark rounded-0 px-4 py-2">Get in Touch</a>
-                    <a href="tech.html" class="btn btn-outline-dark rounded-0 px-4 py-2">View Library <i class="bi bi-book ms-1"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <div class="terminal-box">
-                    <div style="color: #6a9955">// Engineering Philosophy</div>
-                    <div><span style="color: #569cd6">const</span> mission = {</div>
-                    <div style="padding-left: 20px;">stability: <span style="color: #ce9178">"First Priority"</span>,</div>
-                    <div style="padding-left: 20px;">abstraction: <span style="color: #ce9178">"Leaky but Necessary"</span>,</div>
-                    <div style="padding-left: 20px;">code: <span style="color: #ce9178">"The Ultimate Truth"</span></div>
-                    <div>};</div>
-                    <br>
-                    <div style="color: #dcdcaa">System.out.println</div>(mission.code);
-                </div>
-            </div>
+  <main class="wrap">
+    <section class="hero reveal" id="home">
+      <div>
+        <span class="kicker">Backend Systems / AI Infrastructure</span>
+        <h1>Longchang Liu builds stable systems for agentic software.</h1>
+        <p class="lead">
+          Backend Engineer Intern at <strong>Alibaba (Amap)</strong>, focusing on high-concurrency traffic governance and resilient service architecture. I work across <strong>JVM internals</strong>, <strong>OS fundamentals</strong>, and <strong>production-grade AI workflows</strong> to make advanced capabilities predictable in real deployments.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i> Work Together</a>
+          <a class="btn ghost" href="tech.html"><i class="bi bi-journal-code"></i> View Archive</a>
+          <a class="btn ghost" href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i> Follow on X</a>
         </div>
+      </div>
+      <aside class="hero-side">
+        <div class="card metrics">
+          <div class="metric">
+            <b>AI Agents</b>
+            <span>Deterministic and observable workflows</span>
+          </div>
+          <div class="metric">
+            <b>JVM / GC</b>
+            <span>Runtime behavior and memory mechanics</span>
+          </div>
+          <div class="metric">
+            <b>Data Systems</b>
+            <span>MySQL internals and query performance</span>
+          </div>
+          <div class="metric">
+            <b>Distributed Infra</b>
+            <span>Fault-tolerant service design principles</span>
+          </div>
+        </div>
+        <pre class="terminal"><code>// execution philosophy
+const engineering = {
+  reliability: "non-negotiable",
+  latency: "measured, not guessed",
+  architecture: "simple, then scalable",
+  ownership: "from incident to root cause"
+};
+
+ship(engineering);</code></pre>
+      </aside>
     </section>
 
-    <section class="featured-project">
-        <span class="section-label">Featured Project</span>
-        <div class="project-video-wrapper">
-            <iframe 
-                src="https://www.youtube.com/embed/yzBsI8MrM4Q" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
+    <section class="section reveal">
+      <div class="section-head">
+        <h2>Featured Project</h2>
+        <p>From idea to system-level implementation.</p>
+      </div>
+      <div class="project">
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/yzBsI8MrM4Q" title="Lavis demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-        <div class="project-info">
-            <h2 class="project-title">Lavis - macOS System-level Multimodal AI Agent</h2>
-            <p class="project-description">
-                A macOS desktop AI agent that perceives your screen, controls mouse & keyboard, and supports voice interaction. 
-                Built with Spring Boot, React, and Electron. Features include visual perception, autonomous actions, 
-                reflection loop, system integration, and voice interaction.
-            </p>
-            <div class="project-links-home">
-                <a href="tech.html?project=302" class="project-link-home">
-                    <i class="bi bi-play-circle"></i> View Details
-                </a>
-                <a href="https://github.com/leochame/lavis" target="_blank" class="project-link-home secondary">
-                    <i class="bi bi-github"></i> GitHub
-                </a>
-                <a href="tech.html" class="project-link-home secondary">
-                    <i class="bi bi-grid"></i> All Projects
-                </a>
-            </div>
+        <div class="card">
+          <h3 style="margin-top:0;font-family:var(--serif);font-size:1.45rem;">Lavis: macOS Multimodal AI Agent</h3>
+          <p style="color:var(--muted);margin-bottom:0;">
+            A desktop AI agent that sees the screen, controls mouse and keyboard, and supports voice interaction. Designed as a closed-loop system with reflection and context compression for robust real-world execution.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Spring Boot</span>
+            <span class="tag">React</span>
+            <span class="tag">Electron</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Java</span>
+          </div>
+          <div class="cta-row" style="margin-top:16px;">
+            <a class="btn primary" href="tech.html?project=302"><i class="bi bi-play-circle"></i> Project Detail</a>
+            <a class="btn ghost" href="https://github.com/leochame/lavis" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> GitHub</a>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section id="profile" class="border-top">
-        <div class="cv-grid">
-            <div class="cv-sidebar">
-                <div class="mb-5">
-                    <span class="section-label">Education</span>
-                    <h5 class="fw-bold mb-1">Hangzhou Dianzi University</h5>
-                    <p class="text-secondary small">B.S. in Computer Science<br>Expected 2026</p>
-                </div>
-
-                <div class="mb-5">
-                    <span class="section-label">Core Tech</span>
-                    <div class="d-flex flex-wrap gap-2">
-                        <span class="badge border text-dark font-mono fw-normal">Java / JVM</span>
-                        <span class="badge border text-dark font-mono fw-normal">OS / xv6</span>
-                        <span class="badge border text-dark font-mono fw-normal">RAG Architecture</span>
-                        <span class="badge border text-dark font-mono fw-normal">MySQL Tuning</span>
-                    </div>
-                </div>
-
-                <div>
-                    <span class="section-label">Connect</span>
-                    <div class="d-flex gap-3 fs-5">
-                        <a href="https://www.linkedin.com/in/longchang-liu-770211387/" target="_blank" class="text-dark"><i class="bi bi-linkedin"></i></a>
-                        <a href="https://github.com/leochame" target="_blank" class="text-dark"><i class="bi bi-github"></i></a>
-                        <a href="mailto:liulch.cn@gmail.com" class="text-dark"><i class="bi bi-envelope"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cv-content">
-                <h3 class="font-serif h2 mb-5">Professional Journey</h3>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h4 class="fw-bold mb-0">Alibaba Group (Amap)</h4>
-                            <span class="text-secondary small font-mono">Oct 2025 — Present</span>
-                        </div>
-                        <div class="text-dark small fw-600 mb-3">Backend Engineer Intern</div>
-                        <p class="text-secondary small">
-                            Driving service resilience and high-concurrency traffic governance for map-based ecosystems. Actively architecting <strong>deterministic Agentic Workflows</strong> to bridge LLM capabilities with production-grade reliability.
-                        </p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h4 class="fw-bold mb-0">Tencent</h4>
-                            <span class="text-secondary small font-mono">Apr 2025 — Sep 2025</span>
-                        </div>
-                        <div class="text-dark small fw-600 mb-3">Data Engineer Intern (Ads Marketing)</div>
-                        <p class="text-secondary small">
-                            Optimized data pipelines for advertising intelligence. Leveraged <strong>RAG (Retrieval-Augmented Generation)</strong> to ensure that creative AI outputs are grounded in verifiable performance metrics.
-                        </p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h4 class="fw-bold mb-0">iMile Logistics</h4>
-                            <span class="text-secondary small font-mono">Sep 2024 — Feb 2025</span>
-                        </div>
-                        <div class="text-dark small fw-600 mb-3">R&D Engineer Intern</div>
-                        <p class="text-secondary small">
-                            Deep-dived into large-scale logistics systems, focusing on MySQL database tuning and high-concurrency order processing for cross-border e-commerce scenarios.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="section reveal" id="journey">
+      <div class="section-head">
+        <h2>Professional Journey</h2>
+        <p>Hands-on engineering in high-scale and AI-native environments.</p>
+      </div>
+      <div class="timeline">
+        <article class="timeline-item">
+          <div class="timeline-top">
+            <h3>Alibaba Group (Amap)</h3>
+            <span class="date">Oct 2025 - Present</span>
+          </div>
+          <span class="role">Backend Engineer Intern</span>
+          <p style="margin:0;color:var(--muted);">Improving service resilience and traffic governance for map ecosystems, while architecting deterministic agentic workflows that can be trusted in production.</p>
+        </article>
+        <article class="timeline-item">
+          <div class="timeline-top">
+            <h3>Tencent</h3>
+            <span class="date">Apr 2025 - Sep 2025</span>
+          </div>
+          <span class="role">Data Engineer Intern</span>
+          <p style="margin:0;color:var(--muted);">Optimized advertising data pipelines and built RAG-supported flows that grounded model outputs in verified performance signals.</p>
+        </article>
+        <article class="timeline-item">
+          <div class="timeline-top">
+            <h3>iMile Logistics</h3>
+            <span class="date">Sep 2024 - Feb 2025</span>
+          </div>
+          <span class="role">R&D Engineer Intern</span>
+          <p style="margin:0;color:var(--muted);">Focused on order-system concurrency and MySQL tuning for cross-border logistics, balancing throughput with operational stability.</p>
+        </article>
+      </div>
     </section>
 
-</div>
+    <section class="section reveal">
+      <div class="section-head">
+        <h2>Core Capabilities</h2>
+        <p>Systems thinking, measurable engineering, and practical AI architecture.</p>
+      </div>
+      <div class="skill-grid">
+        <div class="skill"><b>Java & JVM</b>Runtime behavior, GC mechanisms, and performance diagnosis.</div>
+        <div class="skill"><b>OS / xv6</b>Memory, process isolation, and low-level execution fundamentals.</div>
+        <div class="skill"><b>RAG Engineering</b>Grounded retrieval and controllable enterprise generation pipelines.</div>
+        <div class="skill"><b>MySQL Internals</b>Index, transaction, and query-path optimizations under load.</div>
+        <div class="skill"><b>Distributed Infra</b>Consistency, fault tolerance, and traffic-aware system design.</div>
+        <div class="skill"><b>Agent Workflow</b>Planning, acting, reflection, and guardrails for automation.</div>
+      </div>
+    </section>
 
-<footer class="py-5 border-top">
-    <div class="page-container text-center">
-        <p class="text-secondary small mb-0">© 2025 Longchang Liu. Crafted for clarity and engineering excellence.</p>
-    </div>
-</footer>
+    <section class="section reveal" id="contact">
+      <div class="contact">
+        <div class="section-head" style="margin:0;">
+          <h2>Let&apos;s Build Useful Systems</h2>
+          <p>If you are building resilient backend infrastructure or real agentic products, I&apos;d love to connect.</p>
+        </div>
+        <div class="socials">
+          <a href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i> Email</a>
+          <a href="https://github.com/leochame" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> GitHub</a>
+          <a href="https://www.linkedin.com/in/longchang-liu-770211387/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i> LinkedIn</a>
+          <a href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i> X / Twitter</a>
+          <a href="tech.html"><i class="bi bi-book-half"></i> Archive</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-<script>
-    // --- Scroll Handler ---
-    window.addEventListener('scroll', function() {
-        const nav = document.getElementById('mainNav');
-        if (window.scrollY > 50) nav.classList.add('scrolled');
-        else nav.classList.remove('scrolled');
+  <footer>
+    © 2026 Longchang Liu · crafted with system thinking.
+  </footer>
+
+  <script>
+    const nav = document.getElementById("siteNav");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 16) nav.classList.add("scrolled");
+      else nav.classList.remove("scrolled");
     });
 
-    // --- Canvas ---
-    const canvas = document.getElementById('canvas-bg');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    function init() {
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        particles = [];
-        for (let i = 0; i < 50; i++) {
-            particles.push({
-                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, r: Math.random() * 2
-            });
-        }
-    }
-    function draw() {
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        ctx.fillStyle = "rgba(217, 108, 70, 0.4)";
-        ctx.strokeStyle = "rgba(217, 108, 70, 0.1)";
-        particles.forEach((p, i) => {
-            p.x += p.vx; p.y += p.vy;
-            if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-            if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
-            for(let j=i+1; j<particles.length; j++) {
-                let p2 = particles[j];
-                let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                if(dist < 200) {
-                    ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
-                }
-            }
-        });
-        requestAnimationFrame(draw);
-    }
-    window.addEventListener('resize', init);
-    init(); draw();
-</script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    }, { threshold: 0.12 });
 
+    document.querySelectorAll(".reveal").forEach((el, index) => {
+      el.style.transitionDelay = `${index * 0.08}s`;
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
