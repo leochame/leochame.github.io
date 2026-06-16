@@ -150,9 +150,13 @@
     .hero {
       padding: 88px 0 34px;
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 18px;
+      grid-template-columns: minmax(0, 0.98fr) minmax(320px, 0.78fr);
+      gap: 28px;
       align-items: start;
+    }
+
+    .hero-copy {
+      min-width: 0;
     }
 
     .kicker {
@@ -200,11 +204,134 @@
       display: block;
     }
 
-    .cta-row {
-      margin-top: 22px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+    .hero-intro {
+      max-width: 34ch;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .hero-side {
+      min-width: 0;
+      padding-top: 18px;
+    }
+
+    .hero-panel {
+      background: rgba(255, 253, 248, 0.84);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 20px;
+    }
+
+    .panel-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font: 500 0.72rem/1 var(--mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--highlight);
+    }
+
+    .panel-kicker::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+    }
+
+    .hero-panel h2 {
+      margin: 12px 0 8px;
+      font-family: var(--serif);
+      font-size: clamp(1.45rem, 2.2vw, 2rem);
+      line-height: 1.08;
+    }
+
+    .panel-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .link-rail {
+      list-style: none;
+      margin: 22px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0;
+    }
+
+    .link-item {
+      border-top: 1px solid var(--line);
+    }
+
+    .link-item:first-child {
+      border-top: none;
+    }
+
+    .link-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .link-copy {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .link-label {
+      font: 500 0.72rem/1 var(--mono);
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--highlight);
+    }
+
+    .link-value {
+      color: var(--ink);
+      font-size: 1.02rem;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .link-icon {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--ink);
+      font-size: 1.05rem;
+      transition: transform .2s ease, border-color .2s ease, color .2s ease, background .2s ease;
+    }
+
+    .link-card:hover .link-icon,
+    .link-card:focus-visible .link-icon {
+      transform: translate(2px, -2px);
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #fff;
+    }
+
+    .link-card:hover .link-value,
+    .link-card:focus-visible .link-value {
+      color: var(--accent);
+    }
+
+    .link-note {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font: 500 0.76rem/1.7 var(--mono);
+      letter-spacing: 0.03em;
     }
 
     .btn {
@@ -359,6 +486,14 @@
     }
 
     @media (max-width: 1020px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-side {
+        padding-top: 0;
+      }
+
       .project {
         grid-template-columns: 1fr;
       }
@@ -388,6 +523,18 @@
         white-space: normal;
       }
 
+      .hero-intro {
+        max-width: 100%;
+      }
+
+      .hero-panel {
+        padding: 16px;
+      }
+
+      .link-card {
+        grid-template-columns: minmax(0, 1fr) 40px;
+      }
+
     }
   </style>
 </head>
@@ -408,7 +555,7 @@
 
   <main class="wrap">
     <section class="hero reveal" id="home">
-      <div>
+      <div class="hero-copy">
         <span class="kicker">Backend Systems / AI Infrastructure</span>
         <h1>
           <span class="hero-title-line">Longchang Liu,</span>
@@ -418,13 +565,65 @@
           <span class="hero-title-line hero-word-stack">building.</span>
           <span class="hero-title-line hero-word-stack">creating.</span>
         </h1>
-        <div class="cta-row">
-          <a class="btn primary" href="mailto:liulch.cn@gmail.com"><i class="bi bi-envelope"></i> Work Together</a>
-          <a class="btn ghost" href="tech.html"><i class="bi bi-journal-code"></i> View Archive</a>
-          <a class="btn ghost" href="https://github.com/leochame" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> GitHub</a>
-          <a class="btn ghost" href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i> Follow on X</a>
-        </div>
+        <p class="hero-intro">
+          I design backend systems, AI workflows, and developer tools with a bias toward clarity, resilience, and sharp product taste.
+        </p>
       </div>
+      <aside class="hero-side reveal">
+        <div class="hero-panel">
+          <span class="panel-kicker">Connect / Explore</span>
+          <h2>Five direct ways to reach my work.</h2>
+          <p class="panel-copy">A lighter right-hand rail keeps the hero balanced while making the key destinations easier to scan.</p>
+          <ul class="link-rail">
+            <li class="link-item">
+              <a class="link-card" href="resources/resume/Software%20Development%20Engineer%20-%20LiuLongchang.pdf" target="_blank" rel="noopener noreferrer">
+                <span class="link-copy">
+                  <span class="link-label">Resume</span>
+                  <span class="link-value">Open the latest PDF version.</span>
+                </span>
+                <span class="link-icon" aria-hidden="true"><i class="bi bi-file-earmark-person"></i></span>
+              </a>
+            </li>
+            <li class="link-item">
+              <a class="link-card" href="mailto:liulch.cn@gmail.com">
+                <span class="link-copy">
+                  <span class="link-label">Email</span>
+                  <span class="link-value">liulch.cn@gmail.com</span>
+                </span>
+                <span class="link-icon" aria-hidden="true"><i class="bi bi-envelope"></i></span>
+              </a>
+            </li>
+            <li class="link-item">
+              <a class="link-card" href="tech.html">
+                <span class="link-copy">
+                  <span class="link-label">Articles</span>
+                  <span class="link-value">Browse technical writing and project notes.</span>
+                </span>
+                <span class="link-icon" aria-hidden="true"><i class="bi bi-journal-code"></i></span>
+              </a>
+            </li>
+            <li class="link-item">
+              <a class="link-card" href="https://github.com/leochame" target="_blank" rel="noopener noreferrer">
+                <span class="link-copy">
+                  <span class="link-label">GitHub</span>
+                  <span class="link-value">@leochame</span>
+                </span>
+                <span class="link-icon" aria-hidden="true"><i class="bi bi-github"></i></span>
+              </a>
+            </li>
+            <li class="link-item">
+              <a class="link-card" href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer">
+                <span class="link-copy">
+                  <span class="link-label">Twitter / X</span>
+                  <span class="link-value">@LongchangL70053</span>
+                </span>
+                <span class="link-icon" aria-hidden="true"><i class="bi bi-twitter-x"></i></span>
+              </a>
+            </li>
+          </ul>
+          <div class="link-note">For collaboration, writing, and ongoing experiments in systems and AI tooling.</div>
+        </div>
+      </aside>
     </section>
 
     <section class="section reveal">

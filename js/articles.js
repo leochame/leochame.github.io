@@ -65,29 +65,18 @@ const articlesData = [
     {
         id: 25,
         title: "GC Deep Dive: Implementing Zero-STW Relocation",
-        summary: "A comprehensive deep dive into MySQL internals. Topics cover MVCC, Indexing strategies (B+Tree), Buffer Pool management, and Locking mechanisms.",
+        summary: "A JVM internals series unpacking ZGC's concurrent relocation design, colored pointers, and the engineering tradeoffs behind near-zero stop-the-world pauses.",
         link: "#",
         platform: "WeChat",
         date: "2025-07-30",
         mainCategory: "Java",
-        subCategory: "MySQL Series",
+        subCategory: "JVM Internals",
         isSeries: true,
         children: [
             { title: "GC Deep Dive (I): Implementing Zero-STW Relocation", link: "https://mp.weixin.qq.com/s/iOdbzOu9aKdR62LPtROEkg" },
             { title: "GC Deep Dive (II): Implementing Zero-STW Relocation", link: "https://mp.weixin.qq.com/s/hHZseg7QYVk4iNeuvkbOhg" },
 
         ]
-    },
-    {
-        id: 25,
-        title: "GC Deep Dive (II): Implementing Zero-STW Relocation",
-        summary: "Detailed analysis of ZGC's concurrent relocation mechanism. Solving the core challenge: maintaining object accessibility during Region migration.",
-        link: "https://mp.weixin.qq.com/s/hHZseg7QYVk4iNeuvkbOhg",
-        platform: "WeChat",
-        date: "2025-07-30",
-        mainCategory: "Java",
-        subCategory: "JVM Internals",
-        isSeries: false
     },
     {
         id: 23,
