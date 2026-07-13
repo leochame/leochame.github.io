@@ -16,6 +16,8 @@ const articlesData = [
         isSeries: false,
         hasVideo: true,
         videoId: "yzBsI8MrM4Q",
+        videoUrl: "https://www.youtube.com/watch?v=yzBsI8MrM4Q",
+        poster: "images/lavis-project.jpg",
         githubUrl: "https://github.com/leochame/lavis",
         features: [
             "Visual Perception: Real-time screenshot analysis with Retina support",
@@ -32,7 +34,7 @@ const articlesData = [
         summary: "This series systematically analyzes cutting-edge research papers in the field of Artificial Intelligence, translating their core contributions, methodologies, and potential impacts into concise and accessible summaries.",
         link: "#",
         platform: "Dev.to",
-        date: "2025-01-07",
+        date: "2026-01-07",
         mainCategory: "AI",
         subCategory: "AI",
         isSeries: true,

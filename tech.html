@@ -1,951 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech Archive | Longchang Liu</title>
-  <meta name="description" content="Longchang Liu's technical archive and project library.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Engineering Archive | Longchang Liu</title>
+  <meta name="description" content="Longchang Liu's engineering archive: AI agents, backend systems, JVM internals, databases, and infrastructure.">
+  <meta name="theme-color" content="#151b23">
+  <link rel="icon" href="images/avatar.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght,SOFT@9..144,500,0&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <style>
-    :root {
-      --bg: #f4efe6;
-      --surface: #fffdf8;
-      --ink: #1d2738;
-      --muted: #536072;
-      --line: rgba(29, 39, 56, 0.16);
-      --accent: #0f7aa8;
-      --accent-soft: rgba(15, 122, 168, 0.14);
-      --highlight: #0f5f77;
-      --mono: "IBM Plex Mono", monospace;
-      --sans: "Space Grotesk", sans-serif;
-      --serif: "Fraunces", serif;
-      --shadow: 0 14px 30px rgba(27, 42, 53, 0.08);
-      --radius: 2px;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: var(--sans);
-      color: var(--ink);
-      line-height: 1.65;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0)),
-        repeating-linear-gradient(90deg, rgba(29, 39, 56, 0.025) 0, rgba(29, 39, 56, 0.025) 1px, transparent 1px, transparent 88px),
-        linear-gradient(180deg, #f7f2ea 0%, var(--bg) 100%);
-      overflow-x: hidden;
-    }
-
-    .grain,
-    .halo {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -2;
-    }
-
-    .grain {
-      background-image: linear-gradient(rgba(29, 39, 56, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(29, 39, 56, 0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-      opacity: 0.45;
-    }
-
-    .halo {
-      z-index: -1;
-      background: linear-gradient(135deg, rgba(15, 122, 168, 0.08), transparent 42%),
-                  linear-gradient(315deg, rgba(15, 95, 119, 0.08), transparent 40%);
-      animation: none;
-    }
-
-    .wrap {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 0 22px;
-      position: relative;
-      z-index: 3;
-    }
-
-    .site-nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px) saturate(140%);
-      background: rgba(247, 242, 234, 0.9);
-      border-bottom: 1px solid var(--line);
-      transition: border-color .3s ease, background .3s ease;
-    }
-
-    .site-nav.scrolled {
-      border-color: var(--line);
-      background: rgba(247, 242, 234, 0.98);
-    }
-
-    .nav-row {
-      min-height: 74px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .brand {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      color: var(--ink);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 1px;
-      background: var(--accent);
-      box-shadow: none;
-      animation: none;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--muted);
-      font: 500 0.78rem/1 var(--mono);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      position: relative;
-      padding-bottom: 5px;
-    }
-
-    .nav-links a.active { color: var(--ink); }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 2px;
-      width: 0;
-      background: var(--accent);
-      transition: width .24s ease;
-    }
-
-    .nav-links a:hover::after,
-    .nav-links a.active::after { width: 100%; }
-
-    .page-head {
-      padding: 88px 0 28px;
-    }
-
-    .kicker {
-      font: 500 0.73rem/1 var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--highlight);
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 16px;
-    }
-
-    .kicker::before {
-      content: "";
-      width: 54px;
-      height: 2px;
-      background: currentColor;
-    }
-
-    h1 {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: clamp(2.6rem, 6.6vw, 5.3rem);
-      line-height: 0.96;
-      letter-spacing: -0.03em;
-      max-width: 10ch;
-    }
-
-    .head-desc {
-      margin-top: 14px;
-      color: var(--muted);
-      max-width: 72ch;
-    }
-
-    .head-meta {
-      margin-top: 14px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .pill {
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      background: rgba(255,255,255,0.78);
-      color: var(--muted);
-      padding: 6px 11px;
-      font: 500 0.72rem/1 var(--mono);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 270px minmax(0, 1fr);
-      gap: 24px;
-      padding-bottom: 60px;
-    }
-
-    .sidebar {
-      position: sticky;
-      top: 98px;
-      align-self: start;
-      background: rgba(255, 255, 255, 0.84);
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      box-shadow: none;
-      padding: 16px;
-    }
-
-    .side-title {
-      margin: 0 0 12px;
-      font: 500 0.76rem/1 var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.11em;
-      color: var(--highlight);
-    }
-
-    .filter-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: 8px;
-    }
-
-    .filter-item {
-      border: 1px solid transparent;
-      border-radius: 2px;
-      padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all .2s ease;
-      background: transparent;
-      font-size: 0.92rem;
-    }
-
-    .filter-item:hover {
-      border-color: var(--line);
-      color: var(--ink);
-      background: #fff;
-      transform: translateX(2px);
-    }
-
-    .filter-item.active {
-      border-color: var(--line);
-      color: var(--ink);
-      background: rgba(255, 255, 255, 0.96);
-      font-weight: 500;
-    }
-
-    .count {
-      min-width: 24px;
-      text-align: center;
-      border-radius: 2px;
-      padding: 3px 8px;
-      background: rgba(15, 23, 42, 0.08);
-      font: 500 0.7rem/1 var(--mono);
-    }
-
-    .filter-item.active .count {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .main-pane {
-      min-width: 0;
-    }
-
-    .search {
-      margin-bottom: 20px;
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      padding: 12px 15px;
-      background: rgba(255,255,255,0.88);
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      box-shadow: none;
-    }
-
-    .search i { color: var(--muted); }
-
-    .search input {
-      border: none;
-      background: transparent;
-      width: 100%;
-      font: 500 1rem/1.2 var(--sans);
-      color: var(--ink);
-      outline: none;
-    }
-
-    .search input::placeholder { color: #748497; }
-
-    .feed {
-      display: grid;
-      gap: 14px;
-    }
-
-    .article-entry {
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      background: var(--surface);
-      padding: 18px;
-      cursor: pointer;
-      box-shadow: none;
-      opacity: 0;
-      transform: translateY(16px);
-      transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease, opacity .45s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .article-entry::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 4px;
-      background: transparent;
-      transition: background .2s ease;
-    }
-
-    .article-entry.is-series::before { background: var(--accent); }
-    .article-entry.has-video::before { background: var(--highlight); }
-
-    .article-entry.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .article-entry:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 22px rgba(27, 42, 53, 0.08);
-      border-color: rgba(15, 95, 119, 0.24);
-    }
-
-    .meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-      font: 500 0.72rem/1 var(--mono);
-      letter-spacing: 0.02em;
-      color: var(--muted);
-    }
-
-    .tag {
-      border-radius: 2px;
-      padding: 4px 8px;
-      border: 1px solid var(--line);
-      background: #fff;
-    }
-
-    .tag.platform {
-      background: var(--ink);
-      color: #fff;
-      border-color: var(--ink);
-    }
-
-    .tag.series {
-      border-color: rgba(15, 95, 119, 0.26);
-      color: #0f5f77;
-      background: rgba(15, 95, 119, 0.08);
-    }
-
-    .tag.video {
-      border-color: rgba(15, 122, 168, 0.24);
-      color: #0f7aa8;
-      background: rgba(15, 122, 168, 0.08);
-    }
-
-    .entry-title {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: clamp(1.35rem, 3.4vw, 1.9rem);
-      line-height: 1.17;
-    }
-
-    .entry-summary {
-      margin: 9px 0 0;
-      color: var(--muted);
-      font-size: 0.97rem;
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(247, 242, 234, 0.96);
-      z-index: 90;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .overlay.active {
-      display: flex;
-      animation: fadeIn .24s ease;
-    }
-
-    .overlay-card {
-      width: min(940px, 100%);
-      max-height: 86vh;
-      overflow: auto;
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      background: #fff;
-      box-shadow: var(--shadow);
-      padding: 24px;
-    }
-
-    .overlay-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .overlay-head h2,
-    .overlay-head h3 {
-      margin: 0;
-      font-family: var(--serif);
-      line-height: 1.2;
-    }
-
-    .close {
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
-      background: #fff;
-      cursor: pointer;
-      color: var(--muted);
-      font-size: 1rem;
-    }
-
-    .step-list {
-      display: grid;
-      gap: 9px;
-    }
-
-    .step-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--ink);
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      padding: 10px 12px;
-      transition: border-color .2s ease, transform .2s ease;
-    }
-
-    .step-item:hover {
-      border-color: rgba(15, 95, 119, 0.28);
-      transform: translateX(3px);
-    }
-
-    .step-num {
-      font: 500 0.72rem/1 var(--mono);
-      color: var(--muted);
-      min-width: 32px;
-    }
-
-    .project-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 12px 0;
-      font: 500 0.72rem/1 var(--mono);
-      color: var(--muted);
-    }
-
-    .video-wrap {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      border-radius: 2px;
-      overflow: hidden;
-      background: #000;
-      margin: 18px 0;
-    }
-
-    .video-wrap iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .overlay-links {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    .overlay-link {
-      text-decoration: none;
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      padding: 8px 12px;
-      color: var(--ink);
-      font: 500 0.78rem/1 var(--mono);
-      background: #fff;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .overlay-link.primary {
-      background: var(--ink);
-      color: #fff;
-      border-color: var(--ink);
-    }
-
-    .feature-title {
-      margin: 16px 0 8px;
-      font: 500 0.84rem/1 var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--highlight);
-    }
-
-    .feature-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: 8px;
-    }
-
-    .feature-list li {
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      padding: 9px 11px;
-      color: var(--muted);
-      background: rgba(255,255,255,0.88);
-    }
-
-    .tech-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .tech-tag {
-      border-radius: 2px;
-      border: 1px solid rgba(15, 122, 168, 0.22);
-      background: rgba(15, 122, 168, 0.08);
-      color: #0f7aa8;
-      padding: 5px 10px;
-      font: 500 0.73rem/1 var(--mono);
-    }
-
-    .empty {
-      border: 1px dashed var(--line);
-      border-radius: 2px;
-      padding: 20px;
-      color: var(--muted);
-      text-align: center;
-      background: rgba(255, 255, 255, 0.82);
-    }
-
-    footer {
-      padding: 30px 0 42px;
-      text-align: center;
-      color: var(--muted);
-      border-top: 1px solid var(--line);
-      font: 500 0.76rem/1 var(--mono);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 980px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        position: static;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .nav-row {
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        padding: 14px 0;
-      }
-
-      .nav-links {
-        gap: 15px;
-      }
-
-      .page-head {
-        padding-top: 46px;
-      }
-
-      .overlay-card {
-        padding: 18px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-  <div class="grain"></div>
-  <div class="halo"></div>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <div class="overlay" id="seriesOverlay">
-    <div class="overlay-card">
-      <div class="overlay-head">
-        <h3 id="overlayTitle">Series Index</h3>
-        <button class="close" onclick="closeOverlay()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
-      </div>
-      <div id="overlayList" class="step-list"></div>
-    </div>
-  </div>
-
-  <div class="overlay" id="projectOverlay">
-    <div class="overlay-card">
-      <div class="overlay-head">
-        <h2 id="projectTitle"></h2>
-        <button class="close" onclick="closeProjectOverlay()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
-      </div>
-      <div id="projectMeta" class="project-meta"></div>
-      <p id="projectSummary" class="entry-summary"></p>
-      <div class="video-wrap" id="projectVideo" style="display:none;"></div>
-      <div class="overlay-links" id="projectLinks"></div>
-      <div id="projectFeatures" style="display:none;">
-        <h4 class="feature-title">Core Features</h4>
-        <ul class="feature-list" id="featuresList"></ul>
-      </div>
-      <div id="techStack" style="display:none;">
-        <h4 class="feature-title">Tech Stack</h4>
-        <div class="tech-tags" id="techTags"></div>
-      </div>
-    </div>
-  </div>
-
-  <nav class="site-nav" id="siteNav">
-    <div class="wrap nav-row">
-      <a class="brand" href="index.html">Longchang Liu <span class="dot" aria-hidden="true"></span></a>
+  <header class="site-header">
+    <nav class="wrap nav-row" aria-label="Primary navigation">
+      <a class="brand" href="index.html">
+        <span>Longchang Liu</span>
+        <span class="brand-mark" aria-hidden="true"></span>
+      </a>
       <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="tech.html" class="active">Archive</a>
-        <a href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer">X / Twitter</a>
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="tech.html" aria-current="page">Archive</a>
+        <a class="nav-link resume-link" href="resources/resume/Software%20Development%20Engineer%20-%20LiuLongchang.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+        <a class="nav-icon" href="https://github.com/leochame" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+          <i class="bi bi-github" aria-hidden="true"></i>
+        </a>
+        <a class="nav-icon" href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X / Twitter">
+          <i class="bi bi-twitter-x" aria-hidden="true"></i>
+        </a>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
-  <main class="wrap">
-    <header class="page-head">
-      <span class="kicker">Engineering Archive</span>
-      <h1>Notes, projects, and system records.</h1>
-      <p class="head-desc">
-        A structured index of backend systems, AI agents, JVM internals, database engineering, and infrastructure work.
-      </p>
-      <div class="head-meta">
-        <span class="pill"><span id="article-count">0</span> records</span>
-        <span class="pill">search and filters</span>
-        <span class="pill">series and overlays</span>
+  <main id="main-content">
+    <section class="page-hero" aria-labelledby="page-title">
+      <div class="wrap">
+        <p class="eyebrow">Notes · Projects · System records</p>
+        <h1 id="page-title">Engineering archive.</h1>
+        <p class="page-description">A searchable index of work across AI agents, JVM internals, databases, operating systems, and infrastructure.</p>
       </div>
-    </header>
+    </section>
 
-    <section class="layout">
-      <aside class="sidebar">
-        <h2 class="side-title">Explore Topics</h2>
-        <ul class="filter-list" id="category-filters">
-          <li class="filter-item active" data-cat="all">
-            <span>All Topics</span>
-            <span class="count" id="total-count">0</span>
-          </li>
-        </ul>
-      </aside>
+    <section class="archive-tools" aria-label="Archive controls">
+      <div class="wrap tool-row">
+        <label class="search-field" for="searchInput">
+          <i class="bi bi-search" aria-hidden="true"></i>
+          <span class="sr-only">Search the archive</span>
+          <input id="searchInput" type="search" placeholder="Search titles, summaries, and topics" autocomplete="off">
+        </label>
+        <div class="filter-list" id="category-filters" role="group" aria-label="Filter by topic"></div>
+      </div>
+    </section>
 
-      <div class="main-pane">
-        <div class="search">
-          <i class="bi bi-search"></i>
-          <input type="text" id="searchInput" placeholder="Search by title...">
+    <section class="archive-main">
+      <div class="wrap">
+        <div class="archive-summary" aria-live="polite">
+          <span id="result-label">0 records</span>
+          <span><span id="article-count">0</span> visible</span>
         </div>
         <div class="feed" id="feed-container"></div>
       </div>
     </section>
   </main>
 
-  <footer>
-    © 2026 Longchang Liu · built with systems thinking · <a href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer" style="color:inherit;">X / Twitter</a>
+  <div class="overlay" id="seriesOverlay" role="dialog" aria-modal="true" aria-labelledby="seriesTitle" hidden>
+    <div class="dialog-card">
+      <div class="dialog-head">
+        <h2 id="seriesTitle">Series</h2>
+        <button class="icon-button" id="closeSeries" type="button" aria-label="Close series"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+      </div>
+      <div class="step-list" id="seriesList"></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="projectOverlay" role="dialog" aria-modal="true" aria-labelledby="projectTitle" hidden>
+    <div class="dialog-card">
+      <div class="dialog-head">
+        <h2 id="projectTitle">Project</h2>
+        <button class="icon-button" id="closeProject" type="button" aria-label="Close project"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+      </div>
+      <div class="dialog-meta" id="projectMeta"></div>
+      <p class="entry-summary" id="projectSummary"></p>
+      <div class="dialog-video" id="projectVideo" hidden></div>
+      <div class="dialog-links" id="projectLinks"></div>
+      <section id="projectFeatures" hidden>
+        <h3 class="dialog-section-title">Core features</h3>
+        <ul class="feature-list" id="featuresList"></ul>
+      </section>
+      <section id="techStack" hidden>
+        <h3 class="dialog-section-title">Technology stack</h3>
+        <div class="dialog-tech" id="techTags"></div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>© 2026 Longchang Liu</span>
+      <div class="footer-links">
+        <a href="https://github.com/leochame" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://x.com/LongchangL70053" target="_blank" rel="noopener noreferrer">X / Twitter</a>
+      </div>
+    </div>
   </footer>
 
   <script src="js/articles.js"></script>
-  <script>
-    const state = { cat: "all", q: "" };
-
-    const nav = document.getElementById("siteNav");
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 16) nav.classList.add("scrolled");
-      else nav.classList.remove("scrolled");
-    });
-
-    function openOverlay(id) {
-      const series = articlesData.find((a) => a.id === id);
-      if (!series || !series.children) return;
-      document.getElementById("overlayTitle").innerText = series.title;
-      document.getElementById("overlayList").innerHTML = series.children
-        .map((c, i) => `
-          <a href="${c.link}" target="_blank" rel="noopener noreferrer" class="step-item">
-            <span class="step-num">${String(i + 1).padStart(2, "0")}</span>
-            <span>${c.title}</span>
-            <i class="bi bi-arrow-up-right" style="margin-left:auto;color:var(--muted);"></i>
-          </a>
-        `)
-        .join("");
-      document.getElementById("seriesOverlay").classList.add("active");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeOverlay() {
-      document.getElementById("seriesOverlay").classList.remove("active");
-      document.body.style.overflow = "auto";
-    }
-
-    function openProjectOverlay(id) {
-      const p = articlesData.find((a) => a.id === id);
-      if (!p) return;
-
-      document.getElementById("projectTitle").innerText = p.title;
-      document.getElementById("projectMeta").innerHTML = `
-        <span class="tag platform">${p.platform}</span>
-        <span>${p.date.replace(/-/g, ".")}</span>
-        <span>// ${p.subCategory}</span>
-      `;
-      document.getElementById("projectSummary").innerText = p.summary;
-
-      const videoContainer = document.getElementById("projectVideo");
-      if (p.hasVideo && p.videoId) {
-        videoContainer.style.display = "block";
-        videoContainer.innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${p.videoId}" title="Project video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        `;
-      } else {
-        videoContainer.style.display = "none";
-        videoContainer.innerHTML = "";
-      }
-
-      const linksContainer = document.getElementById("projectLinks");
-      linksContainer.innerHTML = "";
-      if (p.githubUrl) {
-        linksContainer.innerHTML += `
-          <a href="${p.githubUrl}" target="_blank" rel="noopener noreferrer" class="overlay-link primary">
-            <i class="bi bi-github"></i> GitHub Repo
-          </a>
-        `;
-      }
-      if (p.link && p.link !== "#" && p.link !== p.githubUrl) {
-        linksContainer.innerHTML += `
-          <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="overlay-link">
-            <i class="bi bi-box-arrow-up-right"></i> Open Detail
-          </a>
-        `;
-      }
-
-      const featuresContainer = document.getElementById("projectFeatures");
-      const featuresList = document.getElementById("featuresList");
-      if (p.features && p.features.length > 0) {
-        featuresContainer.style.display = "block";
-        featuresList.innerHTML = p.features.map((f) => `<li>${f}</li>`).join("");
-      } else {
-        featuresContainer.style.display = "none";
-        featuresList.innerHTML = "";
-      }
-
-      const techStackContainer = document.getElementById("techStack");
-      const techTags = document.getElementById("techTags");
-      if (p.techStack && p.techStack.length > 0) {
-        techStackContainer.style.display = "block";
-        techTags.innerHTML = p.techStack.map((t) => `<span class="tech-tag">${t}</span>`).join("");
-      } else {
-        techStackContainer.style.display = "none";
-        techTags.innerHTML = "";
-      }
-
-      document.getElementById("projectOverlay").classList.add("active");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeProjectOverlay() {
-      document.getElementById("projectOverlay").classList.remove("active");
-      document.body.style.overflow = "auto";
-      document.getElementById("projectVideo").innerHTML = "";
-    }
-
-    function render() {
-      const container = document.getElementById("feed-container");
-      container.innerHTML = "";
-
-      const filtered = articlesData
-        .filter((a) => {
-          let categoryMatch = false;
-          if (state.cat === "all") categoryMatch = true;
-          else if (state.cat === "video") categoryMatch = a.hasVideo === true;
-          else categoryMatch = a.mainCategory === state.cat;
-
-          const qMatch = a.title.toLowerCase().includes(state.q.toLowerCase());
-          return categoryMatch && qMatch;
-        })
-        .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-      document.getElementById("article-count").innerText = filtered.length;
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div class="empty">No entries matched this filter.</div>';
-        return;
-      }
-
-      filtered.forEach((a, i) => {
-        const entry = document.createElement("article");
-        entry.className = `article-entry ${a.isSeries ? "is-series" : ""} ${a.hasVideo ? "has-video" : ""}`;
-
-        if (a.hasVideo) {
-          entry.onclick = () => openProjectOverlay(a.id);
-        } else if (a.isSeries) {
-          entry.onclick = () => openOverlay(a.id);
-        } else if (a.link && a.link !== "#") {
-          entry.onclick = () => window.open(a.link, "_blank", "noopener,noreferrer");
-        }
-
-        entry.innerHTML = `
-          <div class="meta">
-            <span class="tag platform">${a.platform}</span>
-            <span>${a.date.replace(/-/g, ".")}</span>
-            ${a.isSeries ? `<span class="tag series">${a.children.length} PARTS</span>` : ""}
-            ${a.hasVideo ? `<span class="tag video">VIDEO</span>` : ""}
-            <span>// ${a.subCategory}</span>
-          </div>
-          <h2 class="entry-title">${a.title}</h2>
-          <p class="entry-summary">${a.summary}</p>
-        `;
-        container.appendChild(entry);
-
-        setTimeout(() => entry.classList.add("visible"), i * 55);
-      });
-    }
-
-    function initFilters() {
-      const filterWrap = document.getElementById("category-filters");
-      document.getElementById("total-count").innerText = articlesData.length;
-
-      const allFilter = filterWrap.querySelector('[data-cat="all"]');
-      allFilter.onclick = () => {
-        document.querySelectorAll(".filter-item").forEach((el) => el.classList.remove("active"));
-        allFilter.classList.add("active");
-        state.cat = "all";
-        render();
-      };
-
-      const videoCount = articlesData.filter((a) => a.hasVideo === true).length;
-      if (videoCount > 0) {
-        const videoLi = document.createElement("li");
-        videoLi.className = "filter-item";
-        videoLi.innerHTML = `<span>Video</span><span class="count">${videoCount}</span>`;
-        videoLi.onclick = () => {
-          document.querySelectorAll(".filter-item").forEach((el) => el.classList.remove("active"));
-          videoLi.classList.add("active");
-          state.cat = "video";
-          render();
-        };
-        filterWrap.appendChild(videoLi);
-      }
-
-      const categories = [...new Set(articlesData.map((a) => a.mainCategory))].sort();
-      categories.forEach((c) => {
-        const count = articlesData.filter((a) => a.mainCategory === c).length;
-        const li = document.createElement("li");
-        li.className = "filter-item";
-        li.innerHTML = `<span>${c}</span><span class="count">${count}</span>`;
-        li.onclick = () => {
-          document.querySelectorAll(".filter-item").forEach((el) => el.classList.remove("active"));
-          li.classList.add("active");
-          state.cat = c;
-          render();
-        };
-        filterWrap.appendChild(li);
-      });
-    }
-
-    document.getElementById("searchInput").addEventListener("input", (e) => {
-      state.q = e.target.value;
-      render();
-    });
-
-    initFilters();
-    render();
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId = urlParams.get("project");
-    if (projectId) {
-      const id = parseInt(projectId, 10);
-      setTimeout(() => {
-        const project = articlesData.find((a) => a.id === id);
-        if (!project) return;
-        if (project.hasVideo) openProjectOverlay(id);
-        else if (project.isSeries) openOverlay(id);
-      }, 280);
-    }
-
-    document.getElementById("seriesOverlay").addEventListener("click", (e) => {
-      if (e.target.id === "seriesOverlay") closeOverlay();
-    });
-
-    document.getElementById("projectOverlay").addEventListener("click", (e) => {
-      if (e.target.id === "projectOverlay") closeProjectOverlay();
-    });
-
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        closeOverlay();
-        closeProjectOverlay();
-      }
-    });
-  </script>
+  <script src="js/archive.js"></script>
 </body>
 </html>
