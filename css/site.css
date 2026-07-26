@@ -204,6 +204,11 @@ a {
 
 .hero-media {
   z-index: -2;
+}
+
+.hero-media img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center 35%;
 }
@@ -1039,7 +1044,7 @@ a {
     min-height: 560px;
   }
 
-  .hero-media {
+  .hero-media img {
     object-position: 54% 34%;
   }
 

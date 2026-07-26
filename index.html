@@ -38,7 +38,11 @@
 
   <main id="main-content">
     <section class="hero" aria-labelledby="hero-title">
-      <img class="hero-media" src="images/walter-mitty-4k.jpg" alt="Walter Mitty leaping across the New York skyline with a briefcase" width="3840" height="2160" fetchpriority="high">
+      <picture class="hero-media">
+        <source media="(max-width: 720px)" srcset="images/walter-mitty-mobile.webp" type="image/webp">
+        <source srcset="images/walter-mitty-4k.webp" type="image/webp">
+        <img src="images/walter-mitty-4k.jpg" alt="Walter Mitty leaping across the New York skyline with a briefcase" width="3840" height="2160" fetchpriority="high">
+      </picture>
       <div class="hero-shade" aria-hidden="true"></div>
       <div class="wrap hero-content">
         <p class="eyebrow">Software Engineer · AI Agents & Backend Systems</p>

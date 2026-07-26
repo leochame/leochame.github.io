@@ -1,10 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <defs>
-    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#6366f1" />
-      <stop offset="100%" stop-color="#8b5cf6" />
-    </linearGradient>
-  </defs>
-  <rect width="200" height="200" fill="url(#gradient)" rx="100" ry="100" />
-  <text x="100" y="125" font-family="Arial" font-size="80" font-weight="bold" text-anchor="middle" fill="white">LC</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#151b23" />
+  <path d="M16 16v32h20" fill="none" stroke="#39b9b2" stroke-width="6" stroke-linecap="square" />
+  <path d="M47 16v32M47 16H35M47 32H37" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="square" />
 </svg>
